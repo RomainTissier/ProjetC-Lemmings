@@ -1,0 +1,28 @@
+##################################
+######## Bibliographie ###########
+##################################
+
+-------------------------------
+-- Inspirations / Jouabilité --
+-------------------------------
+	* Monsieur Quinson ! 
+	* Jeux original des Lemmings
+	* Pingus : clone GNU des Lemmings   
+	* Reproduction jeux en DHTML(javascript) : elizium.nu/scripts/lemmings
+	* Précisions sur le jeux : wikipedia.org/wiki/Lemmings
+	* Lemmings sur PS VITA : jeuxvideoz.net/les-lemmings-s%E2%80%99offrent-une-sortie-sur-vita
+	* Jeux original Lemmings Revolution : http://www.old-games.com/download/6569/lemmings-revolution
+----------------------
+-- Bibliothèques C  --
+----------------------
+	* Utilisation de la SDL 2.0, site officiel libsdl.org
+	* Tutorat SDL 2.0 sur willusher.io/pages/sdl2 et sdltutorials.com
+	* Tutoriel installation Fedora : fedora-fr.org
+----------------
+-- Graphismes --
+----------------
+	* Lemmings : users.tpg.com.au/wagnerbe/lemdoom/lemsprite.html 
+-----------------------
+-- Autres références --
+-----------------------
+	* Tutoriel utilisation Git : doc.ubuntu-fr.org/git	
