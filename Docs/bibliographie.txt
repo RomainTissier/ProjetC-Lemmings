@@ -17,7 +17,8 @@
 ----------------------
 	* Utilisation de la SDL 2.0, site officiel libsdl.org
 	* Tutorat SDL 2.0 sur willusher.io/pages/sdl2 et sdltutorials.com
-	* Tutoriel installation Fedora : fedora-fr.org
+	* Tutoriel installation SDL Fedora : fedora-fr.org
+	* Tutoriel SDL en francais : http://alexandre-laurent.developpez.com/tutoriels/sdl-2/creer-premieres-fenetres/
 ----------------
 -- Graphismes --
 ----------------
