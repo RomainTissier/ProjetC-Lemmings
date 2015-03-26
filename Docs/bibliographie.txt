@@ -12,6 +12,11 @@
 	* Précisions sur le jeux : wikipedia.org/wiki/Lemmings
 	* Lemmings sur PS VITA : jeuxvideoz.net/les-lemmings-s%E2%80%99offrent-une-sortie-sur-vita
 	* Jeux original Lemmings Revolution : http://www.old-games.com/download/6569/lemmings-revolution
+-----------------------
+-- Gestion du projet --
+-----------------------
+	* Tutoriel rédaction cahier des charges : openclassroom.fr
+	* Note sur le cahier des charges : mémothèque
 ----------------------
 -- Bibliothèques C  --
 ----------------------
