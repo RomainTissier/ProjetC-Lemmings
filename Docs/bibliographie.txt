@@ -27,7 +27,8 @@
 ----------------
 -- Graphismes --
 ----------------
-	* Lemmings : users.tpg.com.au/wagnerbe/lemdoom/lemsprite.html 
+	* Lemmings : users.tpg.com.au/wagnerbe/lemdoom/lemsprite.html
+	* Liste éléments graphiques/sonore libres: http://jeux.developpez.com/medias/ 
 -----------------------
 -- Autres références --
 -----------------------
