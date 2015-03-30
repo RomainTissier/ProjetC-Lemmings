@@ -1,0 +1,6 @@
+- ajouter vthomas aux sources
+- adresse du git
+- vérifier open source pinguin
+- revoir code avec valgrin
+
+
