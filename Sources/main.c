@@ -1,8 +1,5 @@
 #include <SDL2/SDL.h>
-<<<<<<< Updated upstream
 #include <SDL2/SDL_image.h>
-=======
->>>>>>> Stashed changes
 
 int main(){
 	if (SDL_Init(SDL_INIT_VIDEO) != 0 ){	// Initialisation/Test de la SDL
@@ -15,7 +12,6 @@ int main(){
         	SDL_WINDOWPOS_UNDEFINED,
 		640,				// Largeur de la fenêtre
                 480,				// Hauteur de la fenêtre
-<<<<<<< Updated upstream
                 SDL_WINDOW_SHOWN		// Flag indiquant qu'on ne spécifie pas de comportement en particulier
 	);
         if(fenetre){				// On vérifie que la fenêtre s'instancie bien
@@ -31,11 +27,11 @@ int main(){
 		
 		SDL_Texture *monPNG = IMG_LoadTexture(renderer, "img/de.png");
 		if (monPNG == NULL){
-			printf("Erreur chargement PNG");
+			printf("Ereur chargemetn PNG");
 		}
 		SDL_Texture *monPNG2 = IMG_LoadTexture(renderer, "img/walker.png");
 		if (monPNG2 == NULL){
-			printf("Erreur chargement PNG");
+			printf("Ereur chargemetn PNG");
 		}
 
 		SDL_Rect dst2;
@@ -83,7 +79,7 @@ int main(){
         SDL_Flip(ecran);
     }
 		
-		SDL_Delay(3000);  		// On crée une temporisation de 3 secondes 
+		SDL_Delay(3000);  		// On créer une temporisation de 3 secondes 
 
 		SDL_DestroyTexture(bitmapTex);
     		SDL_DestroyRenderer(renderer);
@@ -94,15 +90,4 @@ int main(){
             printf("Erreur SDL: %s\n",SDL_GetError());
     	SDL_Quit();				// On ferme la librairie SDL
     	return EXIT_SUCCESS;	
-=======
-                SDL_WINDOW_SHOWN
-	);
-        if(fenetre){				// On vérifie que la fenêtre s'instancie bien
-        	SDL_Delay(3000);  
-        	SDL_DestroyWindow(fenetre);
-        }else
-            printf("Erreur SDL: %s\n",SDL_GetError());
-    	SDL_Quit();
-    	return EXIT_SUCCESS;
->>>>>>> Stashed changes
 }
