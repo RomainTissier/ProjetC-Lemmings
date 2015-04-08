@@ -19,5 +19,6 @@ Pinguin* pinguin_create(SDL_Renderer *rendu);
 /*Fonction permettant d'actualiser l'affichage d'un pinguin*/
 void pinguin_actualiser(Pinguin *pinguin);
 
+/*Fonction permettant de faire changer de sens au pinguin*/
 void pinguin_changerSens(Pinguin *pinguin);
 #endif

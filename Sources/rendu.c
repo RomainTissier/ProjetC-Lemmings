@@ -2,15 +2,17 @@
 
 /*Fonction exécutant la boucle de rendu*/
 void boucleRendu(SDL_Renderer* rendu){
-	Pinguin *pinguin=pinguin_create(rendu);
-	pinguin_changerSens(pinguin);
+	Plateau *plateau=plateau_creer(rendu);
+	pinguin_changerSens(plateau->pinguin);
 	int continuer=1;
 	SDL_Event event;
 	while (continuer){	
 		continuer=gererEvenement(&event);
- 		rafraichirAffichage(rendu,pinguin);
+ 		rafraichirAffichage(rendu,plateau);
 	}
 }
+
+/*Fonction gérant les événements*/
 static int gererEvenement(SDL_Event *event){
 	while(SDL_PollEvent(event)){
 		switch(event->type){
@@ -21,11 +23,12 @@ static int gererEvenement(SDL_Event *event){
 	}
 	return 1;
 }
-static void rafraichirAffichage(SDL_Renderer *rendu,Pinguin *pinguin){
+
+/*Fonction permettant de mettre à jour l'affichage*/
+static void rafraichirAffichage(SDL_Renderer *rendu, Plateau *plateau){
 	SDL_RenderClear(rendu);
-	SDL_RenderCopy(rendu, pinguin->texture, &(pinguin->spriteCourant), &(pinguin->position));
+	SDL_RenderCopy(rendu, plateau->pinguin->texture, &(plateau->pinguin->spriteCourant), &(plateau->pinguin->position));
        	SDL_RenderPresent(rendu);
-	pinguin_actualiser(pinguin);
+	pinguin_actualiser(plateau->pinguin);
 	SDL_Delay(200);
 }
-
