@@ -31,5 +31,8 @@ void pinguin_actualiser(Pinguin* pinguin){
 	pinguin->spriteCourant.x+=32;
 	if(pinguin->spriteCourant.x==256)
 		pinguin->spriteCourant.x=0;
-	pinguin->position.x+=4;
+	if(pinguin->spriteCourant.y==0)
+		pinguin->position.x-=4;
+	else
+		pinguin->position.x+=4;
 }
