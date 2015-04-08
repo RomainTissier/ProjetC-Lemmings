@@ -16,7 +16,7 @@ Pinguin* pinguin_create(SDL_Renderer* r){
 	return pinguin;
 }
 
-/*Permet au sprite du pinguin de changer le sens*/
+/*Permet au sprite du pinguin de changer de sens*/
 void pinguin_changerSens(Pinguin* pinguin){
 	if(pinguin->spriteCourant.y==0)
 		pinguin->spriteCourant.y=32;
