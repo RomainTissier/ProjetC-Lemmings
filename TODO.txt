@@ -3,4 +3,4 @@
 - vérifier open source pinguin
 - revoir code avec valgrin
 -test
-
+- voir enum/union pour element graphique
