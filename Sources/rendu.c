@@ -27,8 +27,7 @@ static int gererEvenement(SDL_Event *event){
 /*Fonction permettant de mettre à jour l'affichage*/
 static void rafraichirAffichage(SDL_Renderer *rendu, Plateau *plateau){
 	SDL_RenderClear(rendu);
-	SDL_RenderCopy(rendu, plateau->pinguin->texture, &(plateau->pinguin->spriteCourant), &(plateau->pinguin->position));
-       	SDL_RenderPresent(rendu);
-	pinguin_actualiser(plateau->pinguin);
+	plateau_rafraichir(plateau);
+	SDL_RenderPresent(rendu);
 	SDL_Delay(200);
 }

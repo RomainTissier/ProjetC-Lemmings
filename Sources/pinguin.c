@@ -5,7 +5,7 @@ Pinguin* pinguin_create(SDL_Renderer* r){
 	Pinguin *pinguin=malloc(sizeof(Pinguin));
 	pinguin->rendu=r;
 	pinguin->texture=IMG_LoadTexture(r, "img/walker.png");
-	pinguin->spriteCourant.x=0;
+	pinguin->spriteCourant.x=50;
 	pinguin->spriteCourant.y=0;
 	pinguin->spriteCourant.h=32;
 	pinguin->spriteCourant.w=32;
