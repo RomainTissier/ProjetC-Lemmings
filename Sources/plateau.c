@@ -13,7 +13,16 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
 	return plateau;
 }
+//TODO: boucle de destruction pinguin par pinguin
+void plateau_detruire(Plateau * plateau){
+	free(pinguins);
+	free(elementGraphiques);
+	free(plateau);
+}
 
+
+/*Fonction permettant de rafraichier l'affichage du plateau*/
+//TODO: faire un système automatique qui parcours les tableaux
 void plateau_rafraichir(Plateau *plateau){
 	pinguin_actualiser(plateau->pinguin);
 	//plateau_detecterColision(plateau);

@@ -9,7 +9,7 @@ void boucleRendu(SDL_Renderer* rendu){
 		continuer=gererEvenement(&event);
  		rafraichirAffichage(rendu,plateau);
 	}
-
+	
 }
 
 /*Fonction gérant les événements*/

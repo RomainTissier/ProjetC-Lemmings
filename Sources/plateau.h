@@ -17,7 +17,10 @@ typedef struct plateau{
 /*Fonction permettant de créer un plateau*/
 Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]);
 
+void plateau_detruire(Plateau * plateau);
+/*Fonction permettant de rafraichir l'affichage du plateau*/
 void plateau_rafraichir(Plateau *plateau);
 
+/*Fonction permettant de gérer les colisions*/
 static void plateau_detecterColision(Plateau *plateau);
 #endif
