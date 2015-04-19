@@ -15,6 +15,6 @@ typedef struct elementgraphique{
 	TypeElement type;
 }ElementGraphique;
 
-static ElementGraphique* creerPicGlace(SDL_Renderer* rendu);
+static ElementGraphique* creerPicGlace(SDL_Renderer* rendu,int x,int y,int w, int h);
 
-ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type);
+ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type, int x, int y, int w, int h);

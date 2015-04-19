@@ -2,14 +2,14 @@
 
 /*Fonction exécutant la boucle de rendu*/
 void boucleRendu(SDL_Renderer* rendu){
-	Plateau *plateau=plateau_creer(rendu);
-	pinguin_changerSens(plateau->pinguin);
+	Plateau *plateau=plateau_creer(rendu,"niveau");
 	int continuer=1;
 	SDL_Event event;
 	while (continuer){	
 		continuer=gererEvenement(&event);
  		rafraichirAffichage(rendu,plateau);
 	}
+	
 }
 
 /*Fonction gérant les événements*/
