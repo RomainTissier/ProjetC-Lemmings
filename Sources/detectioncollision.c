@@ -8,7 +8,7 @@ Collision detecterCollisionCurseurRect(int curseur_x,int curseur_y,SDL_Rect zone
 	if (curseur_x >= zone.x && curseur_x < zone.x + zone.w && curseur_y >= zone.y && curseur_y < zone.y + zone.h)
 		return POINT;
    	else
-       		return AUCUNE; 
+       		return AUCUNE;
 }
 
 Collision detecterCollisionElementGraphiqueElementGraphique(ElementGraphique *e1,ElementGraphique *e2){
@@ -20,11 +20,11 @@ Collision detecterCollisionRectRect(SDL_Rect *zone1,SDL_Rect *zone2){
 	printf("On cherche à détecter:\n");
 	printf("\tx:%d y:%d w:%d h:%d\n",zone1->x,zone1->y,zone1->w,zone1->h);
 	printf("\tx:%d y:%d w:%d h:%d\n",zone2->x,zone2->y,zone2->w,zone2->h);
-	if((zone2->x >= zone1->x + zone1->w)|| (zone2->x + zone2->w <= zone1->x)|| (zone2->y >= zone1->y + zone1->h)|| (zone2->y + zone2->h <= zone1->y)) 
+	if((zone2->x >= zone1->x + zone1->w)|| (zone2->x + zone2->w <= zone1->x)|| (zone2->y >= zone1->y + zone1->h)|| (zone2->y + zone2->h <= zone1->y))
         	{printf("Aucune  colision détectée!\n");return AUCUNE;}
    	else
-        	if((zone2->x < zone1->x + zone1->w) && (zone2->x + zone2->w > zone1->x) && ((zone2->y == zone1->y + zone1->h -1) || (zone2->y + zone2->h == zone1->y +1)))
-            		{printf("Colision Horizontale! détectée\n");return HORIZONTALE;} 
-        	else if((zone2->y < zone1->y + zone1->h) && (zone2->y + zone2->h > zone1->y) && (zone2->x == zone1->x + zone1->w -1) || (zone2->x + zone2->w == zone1->x +1))
+        	if((zone2->x < zone1->x + zone1->w) && (zone2->x + zone2->w > zone1->x) && (zone2->y <= zone1->y + zone1->h -1) && (zone2->y + zone2->h >= zone1->y))
+            		{printf("Colision Horizontale! détectée\n");return HORIZONTALE;}
+        	else if((zone2->y < zone1->y + zone1->h) && (zone2->y + zone2->h > zone1->y) && (zone2->x <= zone1->x + zone1->w -1) && (zone2->x + zone2->w >= zone1->x))
         		{printf("Colision verticale détectée\n");return VERTICALE;}
 }
