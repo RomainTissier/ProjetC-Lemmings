@@ -1,3 +1,6 @@
+#ifndef ELEMENTGRAPHIQUE_H
+#define ELEMENTGRAPHIQUE_H
+
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 typedef enum{
@@ -18,3 +21,5 @@ typedef struct elementgraphique{
 static ElementGraphique* creerPicGlace(SDL_Renderer* rendu,int x,int y,int w, int h);
 
 ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type, int x, int y, int w, int h);
+
+#endif

@@ -22,5 +22,5 @@ void plateau_detruire(Plateau * plateau);
 void plateau_rafraichir(Plateau *plateau);
 
 /*Fonction permettant de gérer les colisions*/
-static void plateau_detecterColision(Plateau *plateau);
+void plateau_detecterColision(Plateau *plateau);
 #endif

@@ -8,6 +8,7 @@ void boucleRendu(SDL_Renderer* rendu){
 	while (continuer){	
 		continuer=gererEvenement(&event);
  		rafraichirAffichage(rendu,plateau);
+		plateau_detecterColision(plateau);
 	}
 	
 }
