@@ -39,4 +39,9 @@ void pinguin_actualiser(Pinguin* pinguin){
 	}else{
 		pinguin->position.y+=4;
 	}
+	//Controle des positions: 
+	if(pinguin->position.x<0){
+		pinguin->position.x=0;
+		pinguin_changerSens(pinguin);
+	}
 }
