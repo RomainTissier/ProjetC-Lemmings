@@ -8,7 +8,7 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	plateau->pinguin=pinguin_create(rendu);
 	plateau->pinguin->position.x=50;
 	plateau->elementGraphiques=malloc(3*sizeof(ElementGraphique*));
-	plateau->elementGraphiques[0]=elementgraphique_create(rendu, PIC_GLACE,10, 0, 10, 32);
+	plateau->elementGraphiques[0]=elementgraphique_create(rendu, PIC_GLACE,6, 0, 10, 32);
 	plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
 	plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 0,50,100,10);
 	return plateau;
@@ -24,7 +24,6 @@ void plateau_detruire(Plateau * plateau){
 /*Fonction permettant de rafraichier l'affichage du plateau*/
 //TODO: faire un système automatique qui parcours les tableaux
 void plateau_rafraichir(Plateau *plateau){
-	pinguin_actualiser(plateau->pinguin);
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[0]->texture, NULL,&(plateau->elementGraphiques[0]->position));
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[1]->texture, NULL,&(plateau->elementGraphiques[1]->position));
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[2]->texture, NULL,&(plateau->elementGraphiques[2]->position));
@@ -33,6 +32,7 @@ void plateau_rafraichir(Plateau *plateau){
 
 /*Fonction permettant de gérer les collision*/
 void plateau_gererCollision(Plateau *plateau){
+	pinguin_actualiser(plateau->pinguin);
 	int test=0;
 	int changementSens=0;
 	int i=0;
