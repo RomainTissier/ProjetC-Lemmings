@@ -1,5 +1,6 @@
 #include "elementgraphique.h"
 
+/* Fonction permettant de créer un élément graphique */
 ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type, int x, int y, int w, int h){
 	if(type==PIC_GLACE){
 		return creerPicGlace(rendu, x, y, w, h);
@@ -7,6 +8,7 @@ ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type,
 	return NULL;
 }
 
+/* Fonction permettant de créer un pic de glace */
 static ElementGraphique* creerPicGlace(SDL_Renderer* rendu, int x,int y,int w,int h){
 	ElementGraphique *picGlace= malloc(sizeof(ElementGraphique));	
 	picGlace->rendu=rendu;

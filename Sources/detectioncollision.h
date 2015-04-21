@@ -3,6 +3,7 @@
 
 #include "elementgraphique.h"
 
+/* Enumération déterminant le type de collision*/
 typedef enum{
 	AUCUNE,
 	POINT,
@@ -10,10 +11,10 @@ typedef enum{
 	VERTICALE
 }Collision;
 
+/* Fonction permettant de détecter une collision entre un curseur et un rectangle */
 Collision detecterCollisionCurseurRect(int curseur_x,int curseur_y,SDL_Rect zone);
 
-Collision detecterCollisionCurseurElementGraphique(int curseur_x,int curseur_y, ElementGraphique elementGraphique);
-
-Collision detecterCollisionRectRect(SDL_Rect *zone1,SDL_Rect * zone2);
+/* Fonction permettant de détecter une collision entre deux boites*/
+Collision detecterCollisionRectRect(SDL_Rect zone1,SDL_Rect zone2);
 
 #endif
