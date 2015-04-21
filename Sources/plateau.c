@@ -34,15 +34,19 @@ void plateau_rafraichir(Plateau *plateau){
 /*Fonction permettant de gérer les collision*/
 void plateau_gererCollision(Plateau *plateau){
 	int test=0;
+	int changementSens=0;
 	int i=0;
-	for(i;i<2;i++){
-		plateau->pinguin->chute=1;
+	plateau->pinguin->chute=1;
+	for(i;i<3;i++){
 		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==HORIZONTALE){
-			pinguin_changerSens(plateau->pinguin);
+			changementSens=1;
 		}
 		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==VERTICALE){
 			printf("Sol détecté\n");
 			plateau->pinguin->chute=0;
 		}
+	}
+	if(plateau->pinguin->chute==0 && changementSens){
+		pinguin_changerSens(plateau->pinguin);
 	}
 }
