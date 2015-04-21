@@ -4,8 +4,6 @@
 ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type, int x, int y, int w, int h){
 	if(type==PIC_GLACE){
 		return creerPicGlace(rendu, x, y, w, h);
-	}else if(type==SOL){
-		return creerSol(rendu,x,y,w,h);
 	}
 	return NULL;
 }
@@ -21,15 +19,4 @@ static ElementGraphique* creerPicGlace(SDL_Renderer* rendu, int x,int y,int w,in
 	picGlace->position.w=w;
 	picGlace->position.h=h;
 	return picGlace;
-}
-static ElementGraphique* creerSol(SDL_Renderer* rendu, int x, int y, int w, int h){
-	ElementGraphique *sol= malloc(sizeof(ElementGraphique));	
-	sol->rendu=rendu;
-	sol->type=SOL;
-	sol->texture=IMG_LoadTexture(rendu, "img/sol.png");
-	sol->position.x=x;
-	sol->position.y=y;
-	sol->position.w=w;
-	sol->position.h=h;
-	return sol;
 }

@@ -6,7 +6,7 @@
 
 /* Enumération déterminant les différents types d'éléments graphiques*/
 typedef enum{
-	SOL,
+	TERRE,
 	EAU,
 	PIC_GLACE
 }TypeElement;
@@ -21,11 +21,6 @@ typedef struct elementgraphique{
 	TypeElement type;
 }ElementGraphique;
 
-<<<<<<< HEAD
-=======
-static ElementGraphique* creerSol(SDL_Renderer* rendu, int x, int y, int w, int h);
-
->>>>>>> master
 /*Fonction privée permettant de créer un pic de glace*/
 static ElementGraphique* creerPicGlace(SDL_Renderer* rendu,int x,int y,int w, int h);
 

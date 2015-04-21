@@ -10,8 +10,7 @@ typedef struct pinguin{
 	SDL_Texture *texture;
 	SDL_Rect spriteCourant;
 	SDL_Rect position;
-	unsigned char sens;
-	unsigned char chute;
+	unsigned char sens; 
 } Pinguin;
 
 /*Fonction permettant de créer un pinguin*/
