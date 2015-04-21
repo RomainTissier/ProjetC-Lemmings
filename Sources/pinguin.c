@@ -13,6 +13,7 @@ Pinguin* pinguin_create(SDL_Renderer* r){
 	pinguin->position.y=0;
 	pinguin->position.w=32;
 	pinguin->position.h=32;
+	pinguin->chute=0;
 	return pinguin;
 }
 
@@ -27,11 +28,20 @@ void pinguin_changerSens(Pinguin* pinguin){
 
 /*Actualise la position et le sprite du pinguin*/
 void pinguin_actualiser(Pinguin* pinguin){
-	pinguin->spriteCourant.x+=32;
-	if(pinguin->spriteCourant.x==256)
-		pinguin->spriteCourant.x=0;
-	if(pinguin->spriteCourant.y==0)
-		pinguin->position.x-=4;
-	else
-		pinguin->position.x+=4;
+	if(pinguin->chute==0){
+		pinguin->spriteCourant.x+=32;
+		if(pinguin->spriteCourant.x==256)
+			pinguin->spriteCourant.x=0;
+		if(pinguin->spriteCourant.y==0)
+			pinguin->position.x-=2;
+		else
+			pinguin->position.x+=2;
+	}else{
+		pinguin->position.y+=2;
+	}
+	//Controle des positions: 
+	if(pinguin->position.x<0){
+		pinguin->position.x=0;
+		pinguin_changerSens(pinguin);
+	}
 }

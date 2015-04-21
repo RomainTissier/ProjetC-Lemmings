@@ -7,9 +7,15 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	plateau->rendu=rendu;
 	plateau->pinguin=pinguin_create(rendu);
 	plateau->pinguin->position.x=50;
+<<<<<<< HEAD
 	plateau->elementGraphiques=malloc(2*sizeof(ElementGraphique*));
 	plateau->elementGraphiques[0]=elementgraphique_create(rendu, PIC_GLACE,0, 0, 10, 32);
+=======
+	plateau->elementGraphiques=malloc(3*sizeof(ElementGraphique*));
+	plateau->elementGraphiques[0]=elementgraphique_create(rendu, PIC_GLACE,6, 0, 10, 32);
+>>>>>>> master
 	plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
+	plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 0,50,100,10);
 	return plateau;
 }
 //TODO: boucle de destruction pinguin par pinguin
@@ -23,14 +29,19 @@ void plateau_detruire(Plateau * plateau){
 /*Fonction permettant de rafraichier l'affichage du plateau*/
 //TODO: faire un système automatique qui parcours les tableaux
 void plateau_rafraichir(Plateau *plateau){
+<<<<<<< HEAD
 	pinguin_actualiser(plateau->pinguin);
+=======
+>>>>>>> master
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[0]->texture, NULL,&(plateau->elementGraphiques[0]->position));
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[1]->texture, NULL,&(plateau->elementGraphiques[1]->position));
+	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[2]->texture, NULL,&(plateau->elementGraphiques[2]->position));
 	SDL_RenderCopy(plateau->rendu, plateau->pinguin->texture, &(plateau->pinguin->spriteCourant), &(plateau->pinguin->position));
 }
 
 /*Fonction permettant de gérer les collision*/
 void plateau_gererCollision(Plateau *plateau){
+<<<<<<< HEAD
 	int test=0;
 	int i=0;
 	for(i;i<2;i++){
@@ -40,4 +51,20 @@ void plateau_gererCollision(Plateau *plateau){
 	}
 	if(test==1)
 		pinguin_changerSens(plateau->pinguin);	
+=======
+	pinguin_actualiser(plateau->pinguin);
+	int test=0;
+	int changementSens=0;
+	int i=0;
+	plateau->pinguin->chute=1;
+	for(i;i<3;i++){
+		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==VERTICALE){
+			pinguin_changerSens(plateau->pinguin);
+		}
+		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==HORIZONTALE){
+			printf("Sol détecté\n");
+			plateau->pinguin->chute=0;
+		}
+	}
+>>>>>>> master
 }

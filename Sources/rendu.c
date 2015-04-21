@@ -8,7 +8,11 @@ void boucleRendu(SDL_Renderer* rendu){
 	while (continuer){	
 		continuer=gererEvenement(&event);
  		rafraichirAffichage(rendu,plateau);
+<<<<<<< HEAD
 		plateau_gererCollision(plateau);
+=======
+		//plateau_gererCollision(plateau);
+>>>>>>> master
 	}	
 }
 
@@ -28,6 +32,7 @@ static int gererEvenement(SDL_Event *event){
 static void rafraichirAffichage(SDL_Renderer *rendu, Plateau *plateau){
 	SDL_RenderClear(rendu);
 	plateau_rafraichir(plateau);
+	plateau_gererCollision(plateau);
 	SDL_RenderPresent(rendu);
-	SDL_Delay(200);
+	SDL_Delay(100);
 }

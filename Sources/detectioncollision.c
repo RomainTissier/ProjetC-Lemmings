@@ -18,10 +18,17 @@ Collision detecterCollisionRectRect(SDL_Rect zone1,SDL_Rect zone2){
         	{printf("aucune collision\n");return AUCUNE;}
    	else
 		//Collision verticale droite
+<<<<<<< HEAD
 		if (zone2.x + zone2.w > zone1.x + zone1.w + zone1.h)
  			{printf("verticale droite\n");return VERTICALE;}
 		//Collision verticale gauche
 		else if (zone2.x < zone1.x)
+=======
+		if (zone2.x + zone2.w >= zone1.x + zone1.w + zone1.h)
+ 			{printf("verticale droite\n");return VERTICALE;}
+		//Collision verticale gauche
+		else if (zone2.x <= zone1.x)
+>>>>>>> master
 			{printf("verticale gauche\n");return VERTICALE;}
 		//Collision horizontale bas
  		else if (zone2.y + zone2.h > zone1.y + zone1.h + zone1.w)
@@ -29,4 +36,11 @@ Collision detecterCollisionRectRect(SDL_Rect zone1,SDL_Rect zone2){
 		//Collision horizontale haut
 		else if (zone2.y < zone1.y)
 			{printf("horizontale haut\n");return HORIZONTALE;}
+<<<<<<< HEAD
 }
+=======
+ 	
+	}
+	
+
+>>>>>>> master
