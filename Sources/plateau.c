@@ -8,9 +8,9 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	plateau->pinguin=pinguin_create(rendu);
 	plateau->pinguin->position.x=50;
 	plateau->elementGraphiques=malloc(3*sizeof(ElementGraphique*));
-	plateau->elementGraphiques[0]=elementgraphique_create(rendu, PIC_GLACE,6, 0, 10, 32);
+	plateau->elementGraphiques[0]=elementgraphique_create(rendu, SOL,0, 100, 100, 32);
 	plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
-	plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 0,50,100,10);
+	plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 32,50,100,10);
 	return plateau;
 }
 //TODO: boucle de destruction pinguin par pinguin
@@ -41,7 +41,7 @@ void plateau_gererCollision(Plateau *plateau){
 		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==VERTICALE){
 			pinguin_changerSens(plateau->pinguin);
 		}
-		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==HORIZONTALE){
+		else if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==HORIZONTALE){
 			printf("Sol détecté\n");
 			plateau->pinguin->chute=0;
 		}

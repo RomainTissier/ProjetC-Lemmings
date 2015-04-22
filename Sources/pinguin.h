@@ -12,6 +12,7 @@ typedef struct pinguin{
 	SDL_Rect position;
 	unsigned char sens;
 	unsigned char chute;
+	unsigned char hauteur;
 } Pinguin;
 
 /*Fonction permettant de créer un pinguin*/
