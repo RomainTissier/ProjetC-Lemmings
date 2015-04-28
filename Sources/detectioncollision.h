@@ -7,8 +7,8 @@
 typedef enum{
 	AUCUNE,
 	POINT,
-	HORIZONTALE,
-	VERTICALE
+	HAUTBAS,
+	GAUCHEDROITE
 }Collision;
 
 /* Fonction permettant de détecter une collision entre un curseur et un rectangle */
