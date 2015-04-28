@@ -6,16 +6,11 @@ int decal=5;
 Pinguin* pinguin_create(SDL_Renderer* r){
 	Pinguin *pinguin=malloc(sizeof(Pinguin));
 	pinguin->rendu=r;
-	pinguin->texture=IMG_LoadTexture(r, "img/walker.png");
-	pinguin->spriteCourant.x=0+decal;
-	pinguin->spriteCourant.y=32;
-	pinguin->spriteCourant.h=32;
-	pinguin->spriteCourant.w=32-decal*2;
 	pinguin->position.x=0;
 	pinguin->position.y=0;
 	pinguin->position.w=32-decal*2;
 	pinguin->position.h=32;
-	pinguin->chute=0;
+	pinguin->etat=AUCUN;
 	pinguin->hauteur=0;
 	return pinguin;
 }
@@ -30,8 +25,15 @@ void pinguin_changerSens(Pinguin* pinguin){
 }
 
 /*Actualise la position et le sprite du pinguin*/
-void pinguin_actualiser(Pinguin* pinguin){
-	if(pinguin->chute==0){
+void pinguin_actualiser(Pinguin* pinguin, int idanim){
+	if(pinguin->etat==MARCHE && idanim==1){
+		if(pinguin->etatPrecedent!=MARCHE){
+				pinguin->texture=IMG_LoadTexture(pinguin->rendu, "img/walker.png");
+			pinguin->spriteCourant.x=0+decal;
+			pinguin->spriteCourant.y=32;
+			pinguin->spriteCourant.h=32;
+			pinguin->spriteCourant.w=32-decal*2;		
+		}
 		if(pinguin->hauteur>=50)
 			pinguin->spriteCourant.h=0;
 		else{
@@ -44,8 +46,19 @@ void pinguin_actualiser(Pinguin* pinguin){
 		else
 			pinguin->position.x+=2;
 			}
-	}else{
+	}else if(pinguin->etat==CHUTE){
+		if(pinguin->etatPrecedent!=CHUTE){
+			pinguin->texture=IMG_LoadTexture(pinguin->rendu, "img/faller.png");
+			pinguin->spriteCourant.x=0+decal;
+			pinguin->spriteCourant.y=0;
+			pinguin->spriteCourant.h=32;
+			pinguin->spriteCourant.w=32-decal*2;
+		}
+		pinguin->spriteCourant.x+=32;
+		if(pinguin->spriteCourant.x>=256)
+			pinguin->spriteCourant.x=0+decal;
 		pinguin->position.y+=2;
 		pinguin->hauteur+=1;
 	}
+	pinguin->etatPrecedent=pinguin->etat;
 }

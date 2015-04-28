@@ -30,5 +30,9 @@ static void rafraichirAffichage(SDL_Renderer *rendu, Plateau *plateau){
 	plateau_rafraichir(plateau);
 	plateau_gererCollision(plateau);
 	SDL_RenderPresent(rendu);
-	SDL_Delay(100);
+	SDL_Delay(50);
+	plateau->indiceRafraichissement+=1;
+	if(plateau->indiceRafraichissement==2)
+		plateau->indiceRafraichissement=0;
 }
+

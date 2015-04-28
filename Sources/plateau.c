@@ -11,6 +11,7 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	plateau->elementGraphiques[0]=elementgraphique_create(rendu, SOL,0, 300, 100, 32);
 	plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
 	plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 32,50,100,10);
+	plateau->indiceRafraichissement=0;
 	return plateau;
 }
 //TODO: boucle de destruction pinguin par pinguin
@@ -32,18 +33,21 @@ void plateau_rafraichir(Plateau *plateau){
 
 /*Fonction permettant de gérer les collision*/
 void plateau_gererCollision(Plateau *plateau){
-	pinguin_actualiser(plateau->pinguin);
-	int test=0;
-	int changementSens=0;
+	pinguin_actualiser(plateau->pinguin,plateau->indiceRafraichissement);
 	int i=0;
-	plateau->pinguin->chute=1;
+	int testChute=1;
 	for(i;i<3;i++){
 		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==GAUCHEDROITE){
 			pinguin_changerSens(plateau->pinguin);
 		}
 		else if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==HAUTBAS){
 			printf("Sol détecté\n");
-			plateau->pinguin->chute=0;
+			testChute=0;
 		}
+	}
+	if(testChute){
+		plateau->pinguin->etat=CHUTE;
+	}else{
+		plateau->pinguin->etat=MARCHE;
 	}
 }

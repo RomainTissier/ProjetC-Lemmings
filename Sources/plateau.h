@@ -11,6 +11,7 @@ typedef struct plateau{
 	Pinguin *pinguin;
 	int nombrePinguin;
 	int nombreElementGraphique;
+	int indiceRafraichissement;
 	ElementGraphique **elementGraphiques;
 }Plateau;
 
