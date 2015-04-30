@@ -25,8 +25,8 @@ void pinguin_changerSens(Pinguin* pinguin){
 }
 
 /*Actualise la position et le sprite du pinguin*/
-void pinguin_actualiser(Pinguin* pinguin, int idanim){
-	if(pinguin->etat==MARCHE && idanim==1){
+void pinguin_actualiser(Pinguin* pinguin){
+	if(pinguin->etat==MARCHE){
 		if(pinguin->etatPrecedent!=MARCHE){
 				pinguin->texture=IMG_LoadTexture(pinguin->rendu, "img/walker.png");
 			pinguin->spriteCourant.x=0+decal;
@@ -57,7 +57,7 @@ void pinguin_actualiser(Pinguin* pinguin, int idanim){
 		pinguin->spriteCourant.x+=32;
 		if(pinguin->spriteCourant.x>=256)
 			pinguin->spriteCourant.x=0+decal;
-		pinguin->position.y+=2;
+		pinguin->position.y+=3;
 		pinguin->hauteur+=1;
 	}
 	pinguin->etatPrecedent=pinguin->etat;

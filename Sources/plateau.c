@@ -11,7 +11,6 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	plateau->elementGraphiques[0]=elementgraphique_create(rendu, SOL,0, 300, 100, 32);
 	plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
 	plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 32,50,100,10);
-	plateau->indiceRafraichissement=0;
 	return plateau;
 }
 //TODO: boucle de destruction pinguin par pinguin
@@ -33,7 +32,7 @@ void plateau_rafraichir(Plateau *plateau){
 
 /*Fonction permettant de gérer les collision*/
 void plateau_gererCollision(Plateau *plateau){
-	pinguin_actualiser(plateau->pinguin,plateau->indiceRafraichissement);
+	pinguin_actualiser(plateau->pinguin);
 	int i=0;
 	int testChute=1;
 	for(i;i<3;i++){
