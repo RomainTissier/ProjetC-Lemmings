@@ -14,20 +14,12 @@ Collision detecterCollisionRectRect(SDL_Rect zone1,SDL_Rect zone2){
 	printf("\tx:%d y:%d w:%d h:%d\n",zone1.x,zone1.y,zone1.w,zone1.h);
 	printf("\tx:%d y:%d w:%d h:%d\n",zone2.x,zone2.y,zone2.w,zone2.h);
 
-	if (zone2.y + zone2.h == zone1.y)
+	if (zone2.y + zone2.h >= zone1.y && zone2.y + zone2.h/2 <= zone1.y)
 	{
 		//Collision avec le sol
 		if ((zone2.x >= zone1.x && zone2.x <= zone1.x + zone1.w) || (zone2.x +zone2.w >= zone1.x && zone2.x + zone2.w <= zone1.x + zone1.w))
 		{
 			printf("collision en bas");
-			return HAUTBAS;
-		}
-	} else if (zone2.y == zone1.y + zone1.h)
-	{
-		//Collision avec le haut
-		if ((zone2.x >= zone1.x && zone2.x <= zone1.x + zone1.w) || (zone2.x +zone2.w >= zone1.x && zone2.x + zone2.w <= zone1.x + zone1.w))
-		{
-			printf("collision en haut");
 			return HAUTBAS;
 		}
 	} else if (zone2.x + zone2.w == zone1.x)
@@ -46,9 +38,18 @@ Collision detecterCollisionRectRect(SDL_Rect zone1,SDL_Rect zone2){
 			printf("collision a gauche");
 			return HAUTBAS;
 		}
+	} else if (zone2.y <= zone1.y + zone1.h && zone2.y >= zone1.y + zone1.h/2)
+	{
+		//Collision avec le haut
+		if ((zone2.x >= zone1.x && zone2.x <= zone1.x + zone1.w) || (zone2.x +zone2.w >= zone1.x && zone2.x + zone2.w <= zone1.x + zone1.w))
+		{
+			printf("collision en haut");
+			return HAUTBAS;
+		}
 	} else
 	{
 		printf("aucune collision");
 		return AUCUNE;
 	}
+
 }
