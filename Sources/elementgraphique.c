@@ -15,7 +15,7 @@ static ElementGraphique* creerPicGlace(SDL_Renderer* rendu, int x,int y,int w,in
 	ElementGraphique *picGlace= malloc(sizeof(ElementGraphique));	
 	picGlace->rendu=rendu;
 	picGlace->type=PIC_GLACE;
-	picGlace->texture=IMG_LoadTexture(rendu, "img/ice3.png");
+	picGlace->texture=IMG_LoadTexture(rendu, "img/icepeak.png");
 	picGlace->position.x=x;
 	picGlace->position.y=y;
 	picGlace->position.w=w;

@@ -1,14 +1,19 @@
 #include "rendu.h"
 
 /*Fonction exécutant la boucle de rendu*/
-void boucleRendu(SDL_Renderer* rendu){
-	Plateau *plateau=plateau_creer(rendu,"niveau");
+void boucleRendu(Plateau *plateau){
 	int continuer=1;
 	SDL_Event event;
-	while (continuer){	
+	while (continuer){
+		/*On gère les évenements*/
 		continuer=gererEvenement(&event);
- 		rafraichirAffichage(rendu,plateau);
-		//plateau_gererCollision(plateau);
+		/*On actualise l'affichage*/
+		SDL_RenderClear(plateau->rendu);
+		plateau_Actualiser(plateau);
+		plateau_gererCollision(plateau);
+		plateau_rafraichir(plateau);
+		SDL_RenderPresent(plateau->rendu);
+		SDL_Delay(100*plateau->vitesse);
 	}	
 }
 
@@ -23,13 +28,3 @@ static int gererEvenement(SDL_Event *event){
 	}
 	return 1;
 }
-
-/*Fonction permettant de mettre à jour l'affichage*/
-static void rafraichirAffichage(SDL_Renderer *rendu, Plateau *plateau){
-	SDL_RenderClear(rendu);
-	plateau_rafraichir(plateau);
-	plateau_gererCollision(plateau);
-	SDL_RenderPresent(rendu);
-	SDL_Delay(100);
-}
-

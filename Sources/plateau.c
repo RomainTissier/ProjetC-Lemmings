@@ -2,12 +2,14 @@
 #include "detectioncollision.h"
 
 /*Fonction créant un plateau*/
-/*Fonction créant un plateau*/
 Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	Plateau *plateau=malloc(sizeof(Plateau));
 	plateau->rendu=rendu;
-	plateau->pinguin=pinguin_create(rendu);
-	plateau->pinguin->position.x=50;
+	
+	plateau->pinguins=malloc(sizeof(Pinguin*));
+	plateau->pinguins[0]=pinguin_create(rendu);
+	plateau->pinguins[0]->position.x=50;
+	
 	int nb_lignes=0;
 	int i=0;
 	char nom[15];
@@ -16,12 +18,10 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 	int nb3;
 	int nb4;
 	char char1[40];
-	char niv[30];
-	strcat(niv,"niveaux/");
-	strcat(niv,niveau);
 	FILE *f;
-	f=fopen(niv, "r");
+	f=fopen(niveau,"r");
 	if (f==NULL){
+		return NULL;
 	}else{
 		while(fgets(char1,100,f)!=NULL){
 			nb_lignes++;
@@ -29,9 +29,9 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 		fclose(f);
 	}
 	plateau->elementGraphiques=malloc(nb_lignes*sizeof(ElementGraphique*));
-	f=fopen("niveaux/niveau1", "r");	
+	f=fopen(niveau, "r");	
 	if (f==NULL){
-		printf("erreur\n");
+		return NULL;
 	}
 	else{
 		printf("hello2\n");
@@ -57,6 +57,7 @@ Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]){
 		fclose(f);
 	}
 	plateau->nombreElementGraphique=nb_lignes;
+	plateau->vitesse=1;
 	//plateau->elementGraphiques[0]=elementgraphique_create(rendu, SOL,0, 300, 100, 32);
 	//plateau->elementGraphiques[1]=elementgraphique_create(rendu, PIC_GLACE,100,0,10,32);
 	//plateau->elementGraphiques[2]=elementgraphique_create(rendu, SOL, 32,50,100,10);
@@ -79,26 +80,30 @@ void plateau_rafraichir(Plateau *plateau){
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[0]->texture, NULL,&(plateau->elementGraphiques[0]->position));
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[1]->texture, NULL,&(plateau->elementGraphiques[1]->position));
 	SDL_RenderCopy(plateau->rendu, plateau->elementGraphiques[2]->texture, NULL,&(plateau->elementGraphiques[2]->position));
-	SDL_RenderCopy(plateau->rendu, plateau->pinguin->texture, &(plateau->pinguin->spriteCourant), &(plateau->pinguin->position));
+	SDL_RenderCopy(plateau->rendu, plateau->pinguins[0]->texture, &(plateau->pinguins[0]->spriteCourant), &(plateau->pinguins[0]->position));
+
+}
+
+void plateau_Actualiser(Plateau *plateau){
+	pinguin_actualiser(plateau->pinguins[0]);
 }
 
 /*Fonction permettant de gérer les collision*/
 void plateau_gererCollision(Plateau *plateau){
-	pinguin_actualiser(plateau->pinguin);
 	int i=0;
 	int testChute=1;
 	for(i;i<3;i++){
-		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==GAUCHEDROITE){
-			pinguin_changerSens(plateau->pinguin);
+		if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguins[0]->position)==GAUCHEDROITE){
+			pinguin_changerSens(plateau->pinguins[0]);
 		}
-		else if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguin->position)==HAUTBAS){
+		else if(detecterCollisionRectRect(plateau->elementGraphiques[i]->position,plateau->pinguins[0]->position)==HAUTBAS){
 			printf("Sol détecté\n");
 			testChute=0;
 		}
 	}
 	if(testChute){
-		plateau->pinguin->etat=CHUTE;
+		plateau->pinguins[0]->etat=CHUTE;
 	}else{
-		plateau->pinguin->etat=MARCHE;
+		plateau->pinguins[0]->etat=MARCHE;
 	}
 }

@@ -8,10 +8,10 @@
 typedef struct plateau{
 	SDL_Renderer *rendu;
 	Pinguin **pinguins;
-	Pinguin *pinguin;
-	int nombrePinguin;
+	int nombrePinguins;
 	int nombreElementGraphique;
 	ElementGraphique **elementGraphiques;
+	unsigned int vitesse;
 }Plateau;
 
 /*Fonction permettant de créer un plateau*/
