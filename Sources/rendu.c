@@ -9,7 +9,7 @@ void boucleRendu(Plateau *plateau){
 		continuer=gererEvenement(&event);
 		/*On actualise l'affichage*/
 		SDL_RenderClear(plateau->rendu);
-		plateau_Actualiser(plateau);
+		plateau_actualiser(plateau);
 		plateau_gererCollision(plateau);
 		plateau_rafraichir(plateau);
 		SDL_RenderPresent(plateau->rendu);

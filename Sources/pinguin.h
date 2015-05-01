@@ -30,4 +30,5 @@ void pinguin_actualiser(Pinguin *pinguin);
 /*Fonction permettant de faire changer de sens au pinguin*/
 void pinguin_changerSens(Pinguin *pinguin);
 
+void pinguin_detruire(Pinguin *pinguin);
 #endif

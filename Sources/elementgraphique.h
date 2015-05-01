@@ -29,4 +29,5 @@ static ElementGraphique* creerPicGlace(SDL_Renderer* rendu,int x,int y,int w, in
 /* Fonction permettant de créer un élément graphique */
 ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type, int x, int y, int w, int h);
 
+void elementgraphique_detruire(ElementGraphique *elementGraphique);
 #endif

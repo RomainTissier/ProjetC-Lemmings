@@ -62,3 +62,6 @@ void pinguin_actualiser(Pinguin* pinguin){
 	}
 	pinguin->etatPrecedent=pinguin->etat;
 }
+void pinguin_detruire(Pinguin *pinguin){
+	
+}

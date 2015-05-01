@@ -20,6 +20,7 @@ int main(){
 			/*On démarre la boucle de rendu*/
 			boucleRendu(plateau);
 			/* On libére la mémoire*/
+			plateau_detruire(plateau);
     			SDL_DestroyRenderer(rendu);
         		SDL_DestroyWindow(fenetre);
 			/*On ferme la SDL*/

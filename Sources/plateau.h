@@ -7,17 +7,23 @@
 /*Structure définissant un plateau*/
 typedef struct plateau{
 	SDL_Renderer *rendu;
+	SDL_Texture *fond;
 	Pinguin **pinguins;
-	int nombrePinguins;
-	int nombreElementGraphique;
+	unsigned char nombrePinguins;
 	ElementGraphique **elementGraphiques;
-	unsigned int vitesse;
+	unsigned char nombreElementGraphique;
+	unsigned char vitesse;
 }Plateau;
 
 /*Fonction permettant de créer un plateau*/
 Plateau* plateau_creer(SDL_Renderer *rendu, char niveau[]);
 
+/*Fonction permettant d'actualiser les éléments du plateau*/
+void plateau_actualiser(Plateau *plateau);
+
+/*Fonction libérant la mémoire*/
 void plateau_detruire(Plateau * plateau);
+
 /*Fonction permettant de rafraichir l'affichage du plateau*/
 void plateau_rafraichir(Plateau *plateau);
 

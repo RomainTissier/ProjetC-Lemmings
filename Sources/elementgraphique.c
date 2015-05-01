@@ -10,6 +10,10 @@ ElementGraphique* elementgraphique_create(SDL_Renderer* rendu, TypeElement type,
 	return NULL;
 }
 
+void elementgraphique_detruire(ElementGraphique *elementGraphique){
+
+}
+
 /* Fonction permettant de créer un pic de glace */
 static ElementGraphique* creerPicGlace(SDL_Renderer* rendu, int x,int y,int w,int h){
 	ElementGraphique *picGlace= malloc(sizeof(ElementGraphique));	
