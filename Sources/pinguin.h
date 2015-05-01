@@ -4,31 +4,34 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+/*Pinguin 's state structure*/
 typedef enum {
-	AUCUN,
-	MARCHE,
-	CHUTE
-}EtatPinguin;
+	INIT,
+	WALKING,
+	FALLING
+}State;
 
-/*Structure définissant un pinguin*/
+/*Structure specifying a pinguin*/
 typedef struct pinguin{
-	SDL_Renderer *rendu;
+	SDL_Renderer *render;
 	SDL_Texture *texture;
-	SDL_Rect spriteCourant;
+	SDL_Rect sprite;
 	SDL_Rect position;
-	EtatPinguin etat;
-	EtatPinguin etatPrecedent;
-	unsigned char hauteur;
+	State state;
+	State previousState;
+	unsigned char height;
 } Pinguin;
 
-/*Fonction permettant de créer un pinguin*/
-Pinguin* pinguin_create(SDL_Renderer *rendu);
+/*Function creating a pinguin*/
+Pinguin* pinguin_create(SDL_Renderer *render);
 
-/*Fonction permettant d'actualiser l'affichage d'un pinguin*/
-void pinguin_actualiser(Pinguin *pinguin);
+/*Function computing a pinguin position*/
+void pinguin_computePosition(Pinguin *pinguin);
 
-/*Fonction permettant de faire changer de sens au pinguin*/
-void pinguin_changerSens(Pinguin *pinguin);
+/*Function switching a pinguin direction*/
+void pinguin_switchDirection(Pinguin *pinguin);
 
-void pinguin_detruire(Pinguin *pinguin);
+/*Function freeing memory*/
+void pinguin_destroy(Pinguin *pinguin);
+
 #endif
