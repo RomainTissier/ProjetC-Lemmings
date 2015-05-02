@@ -4,3 +4,4 @@
 - revoir code avec valgrin
 -test
 - voir enum/union pour element graphique
+- ajouter un "il y a til eu modification du décor" avant de réactuliser l'affichage

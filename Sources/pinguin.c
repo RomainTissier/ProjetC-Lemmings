@@ -1,49 +1,68 @@
 #include "pinguin.h"
 
-/*Permet de créer et d'initialiser un pinguin*/
-Pinguin* pinguin_create(SDL_Renderer* r){
+static const int shift=5;
+
+/*Function creating a pinguin*/
+Pinguin* pinguin_create(SDL_Renderer* render){
 	Pinguin *pinguin=malloc(sizeof(Pinguin));
-	pinguin->rendu=r;
-	pinguin->texture=IMG_LoadTexture(r, "img/walker.png");
-	pinguin->spriteCourant.x=0;
-	pinguin->spriteCourant.y=32;
-	pinguin->spriteCourant.h=32;
-	pinguin->spriteCourant.w=32;
+	pinguin->render=render;
 	pinguin->position.x=0;
 	pinguin->position.y=0;
-	pinguin->position.w=32;
+	pinguin->position.w=32-shift*2;
 	pinguin->position.h=32;
-	pinguin->chute=0;
-	pinguin->hauteur=0;
+	pinguin->state=INIT;
+	pinguin->previousState=INIT;
+	pinguin->height=0;
 	return pinguin;
 }
 
-/*Permet au sprite du pinguin de changer de sens*/
-void pinguin_changerSens(Pinguin* pinguin){
-	if(pinguin->spriteCourant.y==0)
-		pinguin->spriteCourant.y=32;
-	else
-		pinguin->spriteCourant.y=0;
-	pinguin->spriteCourant.x=0;
+/*Function switching a pinguin direction*/
+void pinguin_switchDirection(Pinguin* pinguin){
+	pinguin->sprite.y=(pinguin->sprite.y==0)? 32:0;
+	pinguin->sprite.x=0+shift;
 }
 
-/*Actualise la position et le sprite du pinguin*/
-void pinguin_actualiser(Pinguin* pinguin){
-	if(pinguin->chute==0){
-		if(pinguin->hauteur>=50)
-			pinguin->spriteCourant.h=0;
-		else{
-		pinguin->hauteur=0;
-		pinguin->spriteCourant.x+=32;
-		if(pinguin->spriteCourant.x==256)
-			pinguin->spriteCourant.x=0;
-		if(pinguin->spriteCourant.y==0)
-			pinguin->position.x-=2;
-		else
-			pinguin->position.x+=2;
-			}
-	}else{
-		pinguin->position.y+=2;
-		pinguin->hauteur+=1;
+/*Function actualising position and pinguin sprite*/
+void pinguin_computePosition(Pinguin* pinguin){
+	if(pinguin->state==WALKING){
+		/*Managing the changing of state*/
+		if(pinguin->previousState!=WALKING){
+			pinguin->texture=IMG_LoadTexture(pinguin->render, "img/walker.png");
+			pinguin->sprite.x=0+shift;
+			pinguin->sprite.y=32;
+			pinguin->sprite.h=32;
+			pinguin->sprite.w=32-shift*2;		
+		}
+		/*Test the falling height*/
+		if(pinguin->height>=50){
+			pinguin->sprite.h=0;
+		}else{
+			pinguin->height=0;
+			pinguin->sprite.x+=32;
+			if(pinguin->sprite.x>=256)
+				pinguin->sprite.x=0+shift;
+			pinguin->position.x+=(pinguin->sprite.y==0)?-2:2;
+		}
+	}else if(pinguin->state==FALLING){
+		/*Manage the changing of state*/
+		if(pinguin->previousState!=FALLING){
+			pinguin->texture=IMG_LoadTexture(pinguin->render, "img/faller.png");
+			pinguin->sprite.x=0+shift;
+			pinguin->sprite.y=0;
+			pinguin->sprite.h=32;
+			pinguin->sprite.w=32-shift*2;
+		}
+		pinguin->sprite.x+=32;
+		if(pinguin->sprite.x>=256)
+			pinguin->sprite.x=0+shift;
+		pinguin->position.y+=3;
+		pinguin->height+=1;
 	}
+	pinguin->previousState=pinguin->state;
+}
+
+/*Function freeing memory*/
+void pinguin_destroy(Pinguin *pinguin){
+	SDL_DestroyTexture(pinguin->texture);
+	free(pinguin);
 }
