@@ -11,10 +11,10 @@ typedef enum{
 	LEFTRIGHT
 }CollisionDirection;
 
-/* Function detecting a collision between a cursor and a rectangle */
+/* Function detecting a collision between a cursor and a box */
 CollisionDirection collisionDetectionCursorRect(int cursor_x,int cursor_y, SDL_Rect zone);
 
-/* Function detecting a collision between box*/
+/* Function detecting a collision between two box*/
 CollisionDirection collisionDetectionRectRect(SDL_Rect zone1,SDL_Rect zone2);
 
 #endif

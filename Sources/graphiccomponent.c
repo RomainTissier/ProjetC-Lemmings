@@ -1,6 +1,6 @@
 #include "graphiccomponent.h"
 
-/* Fnction creating a graphic component */
+/* Function creating a graphic component */
 GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x, int y, int w, int h){
 	GraphicComponent *newComp= malloc(sizeof(GraphicComponent));
 	newComp->render=render;
@@ -12,7 +12,7 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 	switch(type){
 		case ICE_PEAK:
 			newComp->destructible=1;
-			newComp->texture=IMG_LoadTexture(render,"img/icepeak.png");	
+			newComp->texture=IMG_LoadTexture(render,"img/icepeak.png");
 			break;
 		case FLOOR:
 			newComp->destructible=1;
@@ -22,8 +22,8 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 	return newComp;
 }
 
-/*Fonction permettant de libérer la mémoire*/
+/*Function freeing memory*/
 void graphicComponent_destroy(GraphicComponent *comp){
-	SDL_DestroyTexture(comp->texture);	
+	SDL_DestroyTexture(comp->texture);
 	free(comp);
 }

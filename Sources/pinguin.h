@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-/*Pinguin 's state structure*/
+/*Pinguin's state structure*/
 typedef enum {
 	INIT,
 	WALKING,

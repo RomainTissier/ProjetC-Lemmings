@@ -1,10 +1,10 @@
-#ifndef ELEMENTGRAPHIQUE_H
-#define ELEMENTGRAPHIQUE_H
+#ifndef GRAPHICCOMPONENT_H
+#define GRAPHICCOMPONENT_H
 
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 
-/* Enumération of the component types*/
+/* Enumeration of the component types*/
 typedef enum{
 	FLOOR,
 	ICE_PEAK
