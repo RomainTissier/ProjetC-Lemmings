@@ -7,16 +7,19 @@
 /* Enumeration of the component types*/
 typedef enum{
 	FLOOR,
-	ICE_PEAK
+	ICE_PEAK,
+	ENTRY,
+	EXIT
 }Type;
 
 /* Graphic component structure */
-typedef struct GraphicComponent{
+typedef struct{
 	SDL_Renderer *render;
 	SDL_Rect position;
 	SDL_Texture *texture;
 	int destructible;
 	Type type;
+	unsigned char collision;
 }GraphicComponent;
 
 /* Function creating a graphic component */

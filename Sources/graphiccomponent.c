@@ -12,11 +12,23 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 	switch(type){
 		case ICE_PEAK:
 			newComp->destructible=1;
+			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render,"img/icepeak.png");
 			break;
 		case FLOOR:
 			newComp->destructible=1;
+			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render,"img/floor.png");
+			break;
+		case ENTRY:
+			newComp->destructible=0;
+			newComp->collision=0;
+			newComp->texture=IMG_LoadTexture(render,"img/entry.png");
+			break;
+		case EXIT:
+			newComp->destructible=0;
+			newComp->collision=0;
+			newComp->texture=IMG_LoadTexture(render, "img/exit.png");
 			break;
 	}
 	return newComp;

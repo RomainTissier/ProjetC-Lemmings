@@ -8,7 +8,9 @@
 typedef enum {
 	INIT,
 	WALKING,
-	FALLING
+	FALLING,
+	EXITING,
+	SAVE
 }State;
 
 /*Structure specifying a pinguin*/
@@ -20,6 +22,7 @@ typedef struct pinguin{
 	State state;
 	State previousState;
 	unsigned char height;
+	unsigned char sens;
 } Pinguin;
 
 /*Function creating a pinguin*/

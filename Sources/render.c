@@ -13,7 +13,7 @@ void renderLoop(Board *board){
 		board_manageCollision(board);
 		board_refresh(board);
 		SDL_RenderPresent(board->render);
-		SDL_Delay(100*board->speed);
+		SDL_Delay(50*board->speed);
 	}	
 }
 

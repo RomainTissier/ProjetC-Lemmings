@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include "pinguin.h"
 #include "graphiccomponent.h"
+#include "button.h"
 
 /*Game board structure*/
 typedef struct board{
@@ -11,9 +12,13 @@ typedef struct board{
 	Pinguin **pinguins;
 	unsigned char nbPinguins;
 	GraphicComponent **graphics;
+	Button **panel;
 	unsigned char nbGraphics;
 	unsigned char speed;
+	int moment;
 }Board;
+
+static void board_createPanel(Board *board);
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
@@ -29,5 +34,7 @@ void board_refresh(Board *board);
 
 /*Function managing collision on a board*/
 void board_manageCollision(Board *board);
+
+
 
 #endif
