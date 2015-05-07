@@ -17,6 +17,7 @@ typedef struct board{
 	unsigned char speed;
 	unsigned char pause;
 	int moment;
+	char idS;
 }Board;
 
 static void board_createPanel(Board *board);

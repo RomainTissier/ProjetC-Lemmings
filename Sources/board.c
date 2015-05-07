@@ -9,6 +9,8 @@ Board* board_create(SDL_Renderer *render, char level[]){
 	board->speed=1;
 	board->moment=10;	
 	board_createPanel(board);	
+	board->idS=-1;
+
 	/*Loading graphic component from a configuration file*/
 	FILE *file=fopen(level, "r");	
 	if (file!=NULL){
@@ -82,7 +84,7 @@ void board_computePosition(Board *board){
 
 /*Function managing board's collision*/
 void board_manageCollision(Board *board){
-	int ig,ip;	
+	int ig,ip;
 	for(ip=0;ip<board->nbPinguins;ip++){
 		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE){
 		int fallingTest=1;
@@ -106,11 +108,20 @@ void board_manageCollision(Board *board){
 static void board_createPanel(Board *board){
 	board->panel=malloc(sizeof(Button*)*2);
 	board->panel[0]=button_create(board->render,PAUSE,10,400,50,70);
-	board->panel[1]=button_create(board->render,FLOOR,60,400,50,70);
+	board->panel[1]=button_create(board->render,FLOATER,60,400,50,70);
 }
 
 void board_manageEvent(Board *board,int x, int y){
 	if(collisionDetectionCursorRect(x,y,board->panel[0]->position)==POINT){
 		board->pause=!board->pause;
+	}else if(collisionDetectionCursorRect(x,y,board->panel[1]->position)==POINT){
+		board->idS=FLOATER;
+	}else if(board->idS!=-1){
+		int test=0,i;
+		for(i=0;i<board->nbPinguins;i++){
+			if(board->pinguins[i]->state!=EXITING && board->pinguins[i]->state!=SAVE && collisionDetectionCursorRect(x,y,board->pinguins[i]->position)==POINT)
+			{ board->pinguins[i]->state=EXITING;}
+		}
+		//idS=-1;
 	}
 }
