@@ -10,7 +10,9 @@ typedef enum {
 	WALKING,
 	FALLING,
 	EXITING,
-	SAVE
+	SAVE,
+	FLOATING,
+	DEAD
 }State;
 
 /*Structure specifying a pinguin*/

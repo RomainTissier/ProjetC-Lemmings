@@ -5,7 +5,12 @@
 #include <SDL2/SDL_image.h>
 
 typedef enum{
-	PAUSE
+	FLOATER,
+	MINER,
+	BASHER,
+	PAUSE,
+	LEVELS,
+	QUIT
 }TypeButton;
 
 typedef struct{
