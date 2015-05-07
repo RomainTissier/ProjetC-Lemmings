@@ -107,3 +107,9 @@ static void board_createPanel(Board *board){
 	board->panel=malloc(sizeof(Button*)*1);
 	board->panel[0]=button_create(board->render,PAUSE,100,400,100,100);
 }
+
+void board_manageEvent(Board *board,int x, int y){
+	if(collisionDetectionCursorRect(x,y,board->panel[0]->position)==POINT){
+		board->pause=!board->pause;
+	}
+}

@@ -11,4 +11,5 @@ Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w
 			button->background=IMG_LoadTexture(render,"img/floor.png");
 		break;
 	}
+	return button;
 }

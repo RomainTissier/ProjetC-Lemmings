@@ -15,6 +15,7 @@ typedef struct board{
 	Button **panel;
 	unsigned char nbGraphics;
 	unsigned char speed;
+	unsigned char pause;
 	int moment;
 }Board;
 
@@ -35,6 +36,6 @@ void board_refresh(Board *board);
 /*Function managing collision on a board*/
 void board_manageCollision(Board *board);
 
-
+void board_manageEvent(Board *board,int x,int y);
 
 #endif
