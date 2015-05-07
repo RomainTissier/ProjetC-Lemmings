@@ -7,8 +7,12 @@ Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w
 	button->position.w=w;
 	button->position.h=h;
 	switch(type){
-		case PAUSE:
-			button->background=IMG_LoadTexture(render,"img/floor.png");
+		case FLOATER:
+			button->background=IMG_LoadTexture(render,"img/floater_button.png");
+		case MINER:
+			button->background=IMG_LoadTexture(render,"img/miner_button.png");
+		case BASHER:
+			button->background=IMG_LoadTexture(render,"img/basher_button.png");
 		break;
 	}
 }
