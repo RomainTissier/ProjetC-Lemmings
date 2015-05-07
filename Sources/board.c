@@ -1,5 +1,6 @@
 #include "board.h"
 #include "collisiondetection.h"
+#include "render.h"
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]){
@@ -19,6 +20,7 @@ Board* board_create(SDL_Renderer *render, char level[]){
 		char typeName[15];
 		fgets(string,100,file);
 		sscanf(string, "%s %d",typeName, &(board->nbPinguins));
+		board->nbPinguinsAlive=board->nbPinguins;
 		while(fgets(string,100,file)!=NULL){
 			int type,arg1,arg2,arg3,arg4;
 			sscanf(string, "%s %d %d %d %d", typeName, &arg1, &arg2, &arg3 , &arg4);
@@ -80,6 +82,16 @@ void board_computePosition(Board *board){
 		pinguin_computePosition(board->pinguins[i]);	
 	if(board->moment/20<board->nbPinguins)
 	board->moment++;
+	int nbS=0,nbM=0;
+	for(i=0;i<board->nbPinguins;i++){
+		if(board->pinguins[i]->state==SAVE)
+			nbS++;
+		else if (board->pinguins[i]->state==DEAD)
+			nbM++;
+	}
+	if(nbS+nbM==board->nbPinguins ){
+		quit=1;
+	}
 }
 
 /*Function managing board's collision*/
@@ -96,7 +108,9 @@ void board_manageCollision(Board *board){
 				}
 			}
 		}
-		board->pinguins[ip]->state=(fallingTest)?FALLING:WALKING;
+		if(board->pinguins[ip]->state!=FLOATING)
+			board->pinguins[ip]->state=(fallingTest)?FALLING:WALKING;
+		else if(fallingTest==0) board->pinguins[ip]->state=WALKING;
 		if(collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2-10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT && collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2+10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT){
 
 			board->pinguins[ip]->state=EXITING;
@@ -119,8 +133,8 @@ void board_manageEvent(Board *board,int x, int y){
 	}else if(board->idS!=-1){
 		int test=0,i;
 		for(i=0;i<board->nbPinguins;i++){
-			if(board->pinguins[i]->state!=EXITING && board->pinguins[i]->state!=SAVE && collisionDetectionCursorRect(x,y,board->pinguins[i]->position)==POINT)
-			{ board->pinguins[i]->state=EXITING;}
+			if(board->pinguins[i]->state==FALLING && collisionDetectionCursorRect(x,y,board->pinguins[i]->position)==POINT)
+			{ board->pinguins[i]->state=FLOATING;}
 		}
 		//idS=-1;
 	}

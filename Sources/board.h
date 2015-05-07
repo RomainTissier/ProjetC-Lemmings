@@ -11,6 +11,7 @@ typedef struct board{
 	SDL_Texture *background;
 	Pinguin **pinguins;
 	unsigned char nbPinguins;
+	unsigned char nbPinguinsAlive;
 	GraphicComponent **graphics;
 	Button **panel;
 	unsigned char nbGraphics;

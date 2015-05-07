@@ -1,8 +1,9 @@
 #include "render.h"
 
+
 /*Function executing the render loop*/
 void renderLoop(Board *board){
-	int quit=0;
+	//int quit=0;
 	SDL_Event event;
 	while (!quit){
 		/*Manage events*/

@@ -11,7 +11,8 @@ typedef enum {
 	FALLING,
 	EXITING,
 	SAVE,
-	FLOATING
+	FLOATING,
+	DEAD
 }State;
 
 /*Structure specifying a pinguin*/
