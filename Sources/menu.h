@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "button.h"
+#include "collisiondetection.h"
 
 typedef enum{
 	STARTMENU,

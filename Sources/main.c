@@ -18,30 +18,39 @@ int main(){
 			SDL_Delay(1000);
 			SDL_Event event;
 			int x,y;
-			SDL_WaitEvent(&event);
-			switch(event.type)
-			{
-				case SDL_QUIT :
-					return 0;
-				break;
-				case SDL_MOUSEBUTTONUP:
-					SDL_GetMouseState(&x,&y);
-				break;
-				default:
-					SDL_Delay(3000);
+			int test=1;
+			while(SDL_WaitEvent(&event) && test && (menu_detection(menu,x,y)!=DEBUT || menu_detection(menu,x,y)!=ARRET)){
+				switch(event.type)
+				{
+					case SDL_QUIT :
+						return 0;
+					break;
+					case SDL_MOUSEBUTTONUP:
+						SDL_GetMouseState(&x,&y);
+						printf("clic\n");
+						test=0;
+					break;
+					default:
+						printf("pas clic\n");
+				}
 			}
-			//free(menu);
-			/*Load the board*/
-			Board *board=board_create(render,"levels/level-1");
-			/*Start the game loop*/
-			renderLoop(board);
-			/*Free memory*/
-			board_destroy(board);
-    			SDL_DestroyRenderer(render);
-        		SDL_DestroyWindow(window);
+			SDL_RenderClear(render);
+			if(menu_detection(menu,x,y)==DEBUT) {
+				printf("debut");
+				/*Load the board*/
+				Board *board=board_create(render,"levels/level-1");
+				/*Start the game loop*/
+				renderLoop(board);
+				board_destroy(board);
+			}else if(menu_detection(menu,x,y)==ARRET) {
+				/*Free memory*/
+				printf("arret\n");
+    		SDL_DestroyRenderer(render);
+    		SDL_DestroyWindow(window);
+			}
 			/*Close SDL*/
- 		   	SDL_Quit();
-    			return EXIT_SUCCESS;
+ 		  SDL_Quit();
+    	return EXIT_SUCCESS;
 		}
 	}
 	/*If error, display it and quit*/

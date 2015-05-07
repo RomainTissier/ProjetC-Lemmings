@@ -26,9 +26,9 @@ Menu *menu_create(SDL_Renderer *render, TypeMenu type) {
 }
 
 MenuDetection menu_detection(Menu *menu, int x, int y) {
-	if (x>=menu->button[0]->position.x && x<=menu->button[0]->position.x+menu->button[0]->position.w && y>=menu->button[0]->position.y && x<=menu->button[0]->position.y+menu->button[0]->position.h) {
+	if (collisionDetectionCursorRect(x, y, menu->button[0]->position)==POINT) {
 		return DEBUT;
-	} else if (x>=menu->button[1]->position.x && x<=menu->button[1]->position.x+menu->button[1]->position.w && y>=menu->button[1]->position.y && x<=menu->button[1]->position.y+menu->button[1]->position.h) {
+	} else if (collisionDetectionCursorRect(x, y, menu->button[1]->position)==POINT) {
 		return ARRET;
 	}
 }
