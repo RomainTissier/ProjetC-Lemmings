@@ -5,6 +5,9 @@
 #include <SDL2/SDL_image.h>
 
 typedef enum{
+	FLOATER,
+	MINER,
+	BASHER,
 	PAUSE
 }TypeButton;
 
