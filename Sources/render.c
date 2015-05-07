@@ -13,8 +13,7 @@ void renderLoop(Board *board){
 			board_computePosition(board);
 			board_manageCollision(board);
 		}
-		board_refresh(board);
-		
+		board_refresh(board);	
 		SDL_RenderPresent(board->render);
 		SDL_Delay(50*board->speed);
 	}	
@@ -34,8 +33,7 @@ static int manageEvent(SDL_Event *event,Board *board){
 				board_manageEvent(board,x,y);
 				// Vérifier colision bouton
 				// Vérifier colision pinguin
-			break;
-				
+			break;		
        		}
 	}
 	return 0;

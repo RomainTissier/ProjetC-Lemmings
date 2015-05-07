@@ -67,7 +67,7 @@ void board_refresh(Board *board){
 		SDL_RenderCopy(board->render, board->graphics[i]->texture, NULL,&(board->graphics[i]->position));
 	for(i=0;i<board->nbPinguins && (i<board->moment/20);i++)
 		SDL_RenderCopy(board->render,board->pinguins[i]->texture, &(board->pinguins[i]->sprite), &(board->pinguins[i]->position));
-	for(i=0;i<1;i++)
+	for(i=0;i<2;i++)
 		SDL_RenderCopy(board->render, board->panel[i]->background, NULL,&(board->panel[i]->position));
 }
 
@@ -104,8 +104,9 @@ void board_manageCollision(Board *board){
 }
 
 static void board_createPanel(Board *board){
-	board->panel=malloc(sizeof(Button*)*1);
-	board->panel[0]=button_create(board->render,PAUSE,100,400,100,100);
+	board->panel=malloc(sizeof(Button*)*2);
+	board->panel[0]=button_create(board->render,PAUSE,10,400,50,70);
+	board->panel[1]=button_create(board->render,FLOOR,60,400,50,70);
 }
 
 void board_manageEvent(Board *board,int x, int y){
