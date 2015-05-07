@@ -13,6 +13,8 @@ Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w
 			button->background=IMG_LoadTexture(render,"img/miner_button.png");
 		case BASHER:
 			button->background=IMG_LoadTexture(render,"img/basher_button.png");
+		case PAUSE:
+			button->background=IMG_LoadTexture(render,"img/pause.png");
 		break;
 	}
 }

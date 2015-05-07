@@ -7,7 +7,8 @@
 typedef enum{
 	FLOATER,
 	MINER,
-	BASHER
+	BASHER,
+	PAUSE
 }TypeButton;
 
 typedef struct{
