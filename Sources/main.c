@@ -9,20 +9,14 @@ int main(){
 	if (SDL_Init(SDL_INIT_VIDEO)==0){
 		/*Create the main window*/
         	SDL_Window *window=SDL_CreateWindow("Pinguins", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
-       		/*Try the window and start the game*/ 
+       		/*Try the window and start the game*/
 		if(window!=NULL){
 			/*Initialising the render*/
 			SDL_Renderer *render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 			/*Start the game*/
-			//Menu *menu=menu_create(render, STARTMENU);
-			//SDL_RenderClear(render);
-			SDL_Texture *background=IMG_LoadTexture(render,"img/background.jpg");
-			SDL_RenderCopy(render, background,NULL,NULL);
-			SDL_RenderPresent(render);
+			Menu *menu=menu_create(render, STARTMENU);
 			SDL_Delay(1000);
-			//SDL_RenderClear(render);
-			//SDL_RenderClear(render);
-			/*SDL_Event event;
+			SDL_Event event;
 			int x,y;
 			SDL_WaitEvent(&event);
 			switch(event.type)
@@ -35,7 +29,7 @@ int main(){
 				break;
 				default:
 					SDL_Delay(3000);
-			}*/
+			}
 			//free(menu);
 			/*Load the board*/
 			Board *board=board_create(render,"levels/level-1");
