@@ -98,7 +98,7 @@ void board_computePosition(Board *board){
 void board_manageCollision(Board *board){
 	int ig,ip;
 	for(ip=0;ip<board->nbPinguins;ip++){
-		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE){
+		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE && board->pinguins[ip]->state!=DEAD && board->pinguins[ip]->state!=KILLING){
 		int fallingTest=1;
 		for(ig=0;ig<board->nbGraphics;ig++){
 			if(board->graphics[ig]->collision){

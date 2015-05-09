@@ -15,10 +15,10 @@ int main(){
 			/*Start the game*/
 				//TODO display menu;
 			SDL_Texture *backg=IMG_LoadTexture(render,"img/background.jpg");
-			SDL_RenderCopy(render,backg,NULL,NULL);
-			SDL_RenderPresent(render);
-			SDL_Delay(3000);
-			SDL_RenderClear(render);
+			//SDL_RenderCopy(render,backg,NULL,NULL);
+			//SDL_RenderPresent(render);
+			//SDL_Delay(3000);
+			//SDL_RenderClear(render);
 			/*Load the board*/
 			Board *board=board_create(render,"levels/level-1");
 			/*Start the game loop*/
