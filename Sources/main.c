@@ -27,16 +27,14 @@ int main(){
 					break;
 					case SDL_MOUSEBUTTONUP:
 						SDL_GetMouseState(&x,&y);
-						printf("clic\n");
 						test=0;
 					break;
-					default:
-						printf("pas clic\n");
 				}
 			}
 			SDL_RenderClear(render);
 			if(menu_detection(menu,x,y)==DEBUT) {
 				printf("debut");
+				free(menu);
 				/*Load the board*/
 				Board *board=board_create(render,"levels/level-1");
 				/*Start the game loop*/
@@ -44,7 +42,7 @@ int main(){
 				board_destroy(board);
 			}else if(menu_detection(menu,x,y)==ARRET) {
 				/*Free memory*/
-				printf("arret\n");
+				free(menu);
     		SDL_DestroyRenderer(render);
     		SDL_DestroyWindow(window);
 			}
