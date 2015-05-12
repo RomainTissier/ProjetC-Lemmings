@@ -13,7 +13,8 @@ typedef enum {
 	SAVE,
 	FLOATING,
 	KILLING,
-	DEAD
+	DEAD,
+	DIGGING
 }State;
 
 /*Structure specifying a pinguin*/
