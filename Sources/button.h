@@ -8,6 +8,11 @@ typedef enum{
 	FLOATER,
 	MINER,
 	BASHER,
+	BLOCKER,
+	BOMBER,
+	BRIDGER,
+	CLIMBER,
+	DIGGER,
 	PAUSE
 }TypeButton;
 
