@@ -1,6 +1,14 @@
 #include "board.h"
 #include "collisiondetection.h"
 #include "render.h"
+<<<<<<< HEAD
+=======
+
+#define NBBTN 2
+
+//static const int nbBtn=2;
+
+>>>>>>> master
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]){
@@ -27,8 +35,18 @@ Board* board_create(SDL_Renderer *render, char level[]){
 			board->graphics=realloc(board->graphics,(board->nbGraphics+1)*sizeof(GraphicComponent*));
 			if(!strcmp(typeName,"ICE_PEAK"))
 				type=ICE_PEAK;
+			else if(!strcmp(typeName, "STONE_FLOOR"))
+				type=STONE_FLOOR;
+			else if(!strcmp(typeName, "STONE_WALL"))
+				type=STONE_WALL;
 			else if(!strcmp(typeName, "FLOOR"))
 				type=FLOOR;
+			else if(!strcmp(typeName, "WALL"))
+				type=WALL;
+			else if(!strcmp(typeName, "WATER"))
+				type=WATER;
+			else if(!strcmp(typeName, "DECO"))
+				type=DECO;
 			else if(!strcmp(typeName, "ENTRY"))
 				type=ENTRY;
 			else if(!strcmp(typeName, "EXIT"))
@@ -71,7 +89,11 @@ void board_refresh(Board *board){
 		SDL_RenderCopy(board->render, board->graphics[i]->texture, NULL,&(board->graphics[i]->position));
 	for(i=0;i<board->nbPinguins && (i<board->moment/20);i++)
 		SDL_RenderCopy(board->render,board->pinguins[i]->texture, &(board->pinguins[i]->sprite), &(board->pinguins[i]->position));
+<<<<<<< HEAD
 	for(i=0;i<2;i++)
+=======
+	for(i=0;i<NBBTN;i++)
+>>>>>>> master
 		SDL_RenderCopy(board->render, board->panel[i]->background, NULL,&(board->panel[i]->position));
 }
 
@@ -98,7 +120,7 @@ void board_computePosition(Board *board){
 void board_manageCollision(Board *board){
 	int ig,ip;
 	for(ip=0;ip<board->nbPinguins;ip++){
-		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE){
+		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE && board->pinguins[ip]->state!=DEAD && board->pinguins[ip]->state!=KILLING){
 		int fallingTest=1;
 		for(ig=0;ig<board->nbGraphics;ig++){
 			if(board->graphics[ig]->collision){
@@ -118,9 +140,12 @@ void board_manageCollision(Board *board){
 		}
 	}
 }
-
 static void board_createPanel(Board *board){
+<<<<<<< HEAD
 	board->panel=malloc(sizeof(Button*)*2);
+=======
+	board->panel=malloc(sizeof(Button*)*NBBTN);
+>>>>>>> master
 	board->panel[0]=button_create(board->render,PAUSE,10,400,50,70);
 	board->panel[1]=button_create(board->render,FLOATER,60,400,50,70);
 }
