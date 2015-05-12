@@ -2,6 +2,11 @@
 #include "collisiondetection.h"
 #include "render.h"
 
+#define NBBTN 2
+
+//static const int nbBtn=2;
+
+
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]){
 	Board *board=malloc(sizeof(Board));
@@ -71,7 +76,7 @@ void board_refresh(Board *board){
 		SDL_RenderCopy(board->render, board->graphics[i]->texture, NULL,&(board->graphics[i]->position));
 	for(i=0;i<board->nbPinguins && (i<board->moment/20);i++)
 		SDL_RenderCopy(board->render,board->pinguins[i]->texture, &(board->pinguins[i]->sprite), &(board->pinguins[i]->position));
-	for(i=0;i<2;i++)
+	for(i=0;i<NBBTN;i++)
 		SDL_RenderCopy(board->render, board->panel[i]->background, NULL,&(board->panel[i]->position));
 }
 
@@ -118,9 +123,8 @@ void board_manageCollision(Board *board){
 		}
 	}
 }
-
 static void board_createPanel(Board *board){
-	board->panel=malloc(sizeof(Button*)*2);
+	board->panel=malloc(sizeof(Button*)*NBBTN);
 	board->panel[0]=button_create(board->render,PAUSE,10,400,50,70);
 	board->panel[1]=button_create(board->render,FLOATER,60,400,50,70);
 }
