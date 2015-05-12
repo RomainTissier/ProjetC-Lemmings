@@ -7,7 +7,11 @@
 /* Enumeration of the component types*/
 typedef enum{
 	FLOOR,
+	STONE_FLOOR,
 	ICE_PEAK,
+	WATER,
+	WALL,
+	STONE_WALL,
 	ENTRY,
 	EXIT
 }Type;
