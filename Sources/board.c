@@ -2,7 +2,7 @@
 #include "collisiondetection.h"
 #include "render.h"
 
-#define NBBTN 2
+#define NBBTN 9
 
 //static const int nbBtn=2;
 
@@ -134,8 +134,15 @@ void board_manageCollision(Board *board){
 }
 static void board_createPanel(Board *board){
 	board->panel=malloc(sizeof(Button*)*NBBTN);
-	board->panel[0]=button_create(board->render,PAUSE,10,400,50,70);
-	board->panel[1]=button_create(board->render,FLOATER,60,400,50,70);
+	board->panel[0]=button_create(board->render,PAUSE,10,520,50,70);
+	board->panel[1]=button_create(board->render,FLOATER,60,520,50,70);
+	board->panel[2]=button_create(board->render,MINER,110,520,50,70);
+	board->panel[3]=button_create(board->render,BASHER,160,520,50,70);
+	board->panel[4]=button_create(board->render,BLOCKER,210,520,50,70);
+	board->panel[5]=button_create(board->render,BOMBER,260,520,50,70);
+	board->panel[6]=button_create(board->render,BRIDGER,310,520,50,70);
+	board->panel[7]=button_create(board->render,CLIMBER,360,520,50,70);
+	board->panel[8]=button_create(board->render,DIGGER,410,520,50,70);
 }
 
 void board_manageEvent(Board *board,int x, int y){
