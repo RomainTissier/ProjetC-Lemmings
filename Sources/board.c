@@ -27,8 +27,16 @@ Board* board_create(SDL_Renderer *render, char level[]){
 			board->graphics=realloc(board->graphics,(board->nbGraphics+1)*sizeof(GraphicComponent*));
 			if(!strcmp(typeName,"ICE_PEAK"))
 				type=ICE_PEAK;
+			else if(!strcmp(typeName, "STONE_FLOOR"))
+				type=STONE_FLOOR;
+			else if(!strcmp(typeName, "STONE_WALL"))
+				type=STONE_WALL;
 			else if(!strcmp(typeName, "FLOOR"))
 				type=FLOOR;
+			else if(!strcmp(typeName, "WALL"))
+				type=WALL;
+			else if(!strcmp(typeName, "WATER"))
+				type=WATER;
 			else if(!strcmp(typeName, "ENTRY"))
 				type=ENTRY;
 			else if(!strcmp(typeName, "EXIT"))
