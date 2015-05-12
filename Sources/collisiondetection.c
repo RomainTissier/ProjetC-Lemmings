@@ -21,10 +21,6 @@ CollisionDirection collisionDetectionRectRect(SDL_Rect zone1,SDL_Rect zone2){
 		if((zone2.y>=zone1.y&&zone2.y<=zone1.y+zone1.h)||(zone2.y+zone2.h>=zone1.y&&zone2.y+zone2.h<=zone1.y+zone1.h)){
 			return LEFTRIGHT;
 		}
-	}else if(zone2.y<=zone1.y+zone1.h&&zone2.y>=zone1.y+zone1.h/2){
-		if((zone2.x>=zone1.x&&zone2.x<=zone1.x+zone1.w)||(zone2.x+zone2.w>=zone1.x&&zone2.x+zone2.w<=zone1.x+zone1.w)){
-			return UPDOWN;
-		}
 	}else{
 		return NONE;
 	}
