@@ -42,6 +42,11 @@ Board* board_create(SDL_Renderer *render, char level[]){
 				type=WALL;
 			else if(!strcmp(typeName, "WATER"))
 				type=WATER;
+<<<<<<< HEAD
+=======
+			else if(!strcmp(typeName, "DECO"))
+				type=DECO;
+>>>>>>> matthieu
 			else if(!strcmp(typeName, "ENTRY"))
 				type=ENTRY;
 			else if(!strcmp(typeName, "EXIT"))
