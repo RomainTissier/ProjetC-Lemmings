@@ -20,7 +20,7 @@ int main(){
 			//SDL_Delay(3000);
 			//SDL_RenderClear(render);
 			/*Load the board*/
-			Board *board=board_create(render,"levels/level-1");
+			Board *board=board_create(render,"levels/level-3");
 			/*Start the game loop*/
 			renderLoop(board);
 			/*Free memory*/
