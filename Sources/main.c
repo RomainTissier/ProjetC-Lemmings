@@ -44,10 +44,7 @@ int main(){
 				printf("arret");
 				/*Free memory*/
 				free(menu);
-<<<<<<< HEAD
 			}
-=======
->>>>>>> 13d239cdefbb4116f419a87aae94f2e492060f76
     		SDL_DestroyRenderer(render);
     		SDL_DestroyWindow(window);
 			/*Close SDL*/
