@@ -8,18 +8,14 @@ typedef enum{
 	FLOATER,
 	MINER,
 	BASHER,
-<<<<<<< HEAD
-	PAUSE,
-	LEVELS,
-	QUIT
-=======
 	BLOCKER,
 	BOMBER,
 	BRIDGER,
 	CLIMBER,
 	DIGGER,
-	PAUSE
->>>>>>> master
+	PAUSE,
+	LEVELS,
+	QUIT
 }TypeButton;
 
 typedef struct{

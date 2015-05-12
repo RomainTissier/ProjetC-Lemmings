@@ -12,10 +12,7 @@ typedef enum {
 	EXITING,
 	SAVE,
 	FLOATING,
-<<<<<<< HEAD
-=======
 	KILLING,
->>>>>>> master
 	DEAD
 }State;
 

@@ -41,12 +41,7 @@ void pinguin_computePosition(Pinguin* pinguin){
 			}
 			/*Test the falling height*/
 			if(pinguin->height>=50){
-<<<<<<< HEAD
-				pinguin->sprite.h=0;
-				pinguin->state=DEAD;
-=======
 				pinguin->state=KILLING;
->>>>>>> master
 			}else{
 				pinguin->height=0;
 				pinguin->sprite.x+=32;
@@ -70,10 +65,7 @@ void pinguin_computePosition(Pinguin* pinguin){
 			pinguin->height+=1;
 		}else if(pinguin->state==FLOATING){
 			if(pinguin->previousState!=FLOATING){
-<<<<<<< HEAD
-=======
 				pinguin->height=0;
->>>>>>> master
 				pinguin->texture=IMG_LoadTexture(pinguin->render, "img/floater.png");
 				pinguin->sprite.x=0+shift;
 				pinguin->sprite.y=0;
@@ -97,8 +89,6 @@ void pinguin_computePosition(Pinguin* pinguin){
 				pinguin->state=SAVE;
 				pinguin->sprite.h=0;
 			}
-<<<<<<< HEAD
-=======
 		}
 		if(pinguin->state==KILLING){
 			if(pinguin->previousState!=KILLING){
@@ -114,7 +104,6 @@ void pinguin_computePosition(Pinguin* pinguin){
 					pinguin->sprite.h=0;
 				}
 			}
->>>>>>> master
 		}
 		pinguin->previousState=pinguin->state;
 	}
