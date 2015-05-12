@@ -12,6 +12,10 @@ typedef enum{
 	WATER,
 	WALL,
 	STONE_WALL,
+<<<<<<< HEAD
+=======
+	DECO,
+>>>>>>> matthieu
 	ENTRY,
 	EXIT
 }Type;
