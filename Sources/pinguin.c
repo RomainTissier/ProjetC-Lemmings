@@ -89,6 +89,19 @@ void pinguin_computePosition(Pinguin* pinguin){
 				pinguin->state=SAVE;
 				pinguin->sprite.h=0;
 			}
+		}else if(pinguin->state==DIGGING){
+			if(pinguin->previousState!=DIGGING){
+				pinguin->texture=IMG_LoadTexture(pinguin->render, "img/digger.png");
+				pinguin->sprite.x=0+shift;
+				pinguin->sprite.y=0;
+				pinguin->sprite.h=32;
+				pinguin->sprite.w=32-shift*2;
+			}
+			pinguin->sprite.x+=32;
+			if(pinguin->sprite.x>=256){
+				pinguin->sprite.x=0+shift;
+			}
+			pinguin->position.y+=2;
 		}
 		if(pinguin->state==KILLING){
 			if(pinguin->previousState!=KILLING){

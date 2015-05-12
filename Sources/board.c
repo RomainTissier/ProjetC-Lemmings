@@ -2,7 +2,7 @@
 #include "collisiondetection.h"
 #include "render.h"
 
-#define NBBTN 2
+#define NBBTN 3
 
 //static const int nbBtn=2;
 
@@ -113,9 +113,11 @@ void board_manageCollision(Board *board){
 				}
 			}
 		}
-		if(board->pinguins[ip]->state!=FLOATING)
-			board->pinguins[ip]->state=(fallingTest)?FALLING:WALKING;
-		else if(fallingTest==0) board->pinguins[ip]->state=WALKING;
+		if(board->pinguins[ip]->state!=FLOATING && board->pinguins[ip]->state!=DIGGING){
+			board->pinguins[ip]->state=(fallingTest)?FALLING:WALKING;	
+		}else if(fallingTest==0 && board->pinguins[ip]->state!=DIGGING) board->pinguins[ip]->state=WALKING;
+		else if(board->pinguins[ip]->state==DIGGING && fallingTest==1)
+			board->pinguins[ip]->state=FALLING;
 		if(collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2-10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT && collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2+10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT){
 
 			board->pinguins[ip]->state=EXITING;
@@ -127,6 +129,7 @@ static void board_createPanel(Board *board){
 	board->panel=malloc(sizeof(Button*)*NBBTN);
 	board->panel[0]=button_create(board->render,PAUSE,10,400,50,70);
 	board->panel[1]=button_create(board->render,FLOATER,60,400,50,70);
+	board->panel[2]=button_create(board->render,DIGGER,200,400,50,70);
 }
 
 void board_manageEvent(Board *board,int x, int y){
@@ -134,11 +137,15 @@ void board_manageEvent(Board *board,int x, int y){
 		board->pause=!board->pause;
 	}else if(collisionDetectionCursorRect(x,y,board->panel[1]->position)==POINT){
 		board->idS=FLOATER;
+	}else if(collisionDetectionCursorRect(x,y,board->panel[2]->position)==POINT){
+		board->idS=DIGGER;
 	}else if(board->idS!=-1){
 		int test=0,i;
 		for(i=0;i<board->nbPinguins;i++){
 			if(board->pinguins[i]->state==FALLING && collisionDetectionCursorRect(x,y,board->pinguins[i]->position)==POINT)
 			{ board->pinguins[i]->state=FLOATING;}
+			if(collisionDetectionCursorRect(x,y,board->pinguins[i]->position)==POINT && board->idS==DIGGER)
+			{board->pinguins[i]->state=DIGGING;}
 		}
 		//idS=-1;
 	}
