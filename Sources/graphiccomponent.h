@@ -12,6 +12,7 @@ typedef enum{
 	WATER,
 	WALL,
 	STONE_WALL,
+	DECO,
 	ENTRY,
 	EXIT
 }Type;

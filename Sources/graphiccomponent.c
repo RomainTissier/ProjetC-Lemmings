@@ -40,6 +40,11 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render, "img/water.png");
 			break;
+		case DECO:
+			newComp->destructible=0;
+			newComp->collision=0;
+			newComp->texture=IMG_LoadTexture(render, "img/pingu.png");
+			break;
 		case ENTRY:
 			newComp->destructible=0;
 			newComp->collision=0;
