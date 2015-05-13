@@ -1,7 +1,7 @@
 #include "button.h"
 
 Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w, int h){
-	Button *button=malloc(sizeof(button));
+	Button *button= (Button *) malloc(sizeof(Button));
 	button->position.x=x;
 	button->position.y=y;
 	button->position.w=w;
