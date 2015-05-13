@@ -17,4 +17,6 @@ CollisionDirection collisionDetectionCursorRect(int cursor_x,int cursor_y, SDL_R
 /* Function detecting a collision between two box*/
 CollisionDirection collisionDetectionRectRect(SDL_Rect zone1,SDL_Rect zone2);
 
+CollisionDirection collisionInside(SDL_Rect zone1, SDL_Rect zone2);
+
 #endif
