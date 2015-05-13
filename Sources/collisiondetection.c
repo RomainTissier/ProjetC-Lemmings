@@ -30,16 +30,16 @@ CollisionDirection collisionDetectionRectRect(SDL_Rect zone1,SDL_Rect zone2){
 CollisionDirection collisionInside(SDL_Rect zone1, SDL_Rect zone2){
 	//coin haut gauche
 	if (zone2.x>=zone1.x && zone2.x<=zone1.x+zone1.w && zone2.y>=zone1.y && zone2.y<=zone1.y+zone1.h){
-		return POINT;
+		return INCLUT;
 	} //coin haut droit
 	else if (zone2.x+zone2.w>=zone1.x && zone2.x+zone2.w<=zone1.x+zone1.w && zone2.y>=zone1.y && zone2.y<=zone1.y+zone1.h){
-		return POINT;
+		return INCLUT;
 	} //coin bas gauche
 	else if (zone2.x>=zone1.x && zone2.x<=zone1.x+zone1.w && zone2.y+zone2.h>=zone1.y && zone2.y+zone2.h<=zone1.y+zone1.h){
-		return POINT;
+		return INCLUT;
 	} //coin bas droite
 	else if (zone2.x+zone2.w>=zone1.x && zone2.x+zone2.w<=zone1.x+zone1.w && zone2.y+zone2.h>=zone1.y && zone2.y+zone2.h<=zone1.y+zone1.h){
-		return POINT;
+		return INCLUT;
 	} else {
 		return NONE;
 	}
