@@ -96,6 +96,8 @@ else if(pinguin->state==DIGGING){
 				pinguin->sprite.y=0;
 				pinguin->sprite.h=32;
 				pinguin->sprite.w=32-shift*2;
+				
+				
 			}
 			pinguin->sprite.x+=32;
 			if(pinguin->sprite.x>=256){

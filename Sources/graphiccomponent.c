@@ -55,6 +55,11 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->collision=0;
 			newComp->texture=IMG_LoadTexture(render, "img/exit.png");
 			break;
+		case TRANS:
+			newComp->destructible=0;
+			newComp->collision=1;
+			newComp->texture=IMG_LoadTexture(render, "img/select.png");
+			break;
 	}
 	return newComp;
 }

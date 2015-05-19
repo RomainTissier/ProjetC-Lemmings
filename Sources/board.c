@@ -57,6 +57,7 @@ Board* board_create(SDL_Renderer *render, char level[]){
 /*Loading pinguins  TODO: several pinguins*/
 	//board->nbPinguins=1;
 	board->pinguins=malloc(board->nbPinguins*sizeof(Pinguin*));
+
 	int i;
 	for(i=0;i<board->nbPinguins;i++){
 		board->pinguins[i]=pinguin_create(render);
@@ -64,6 +65,12 @@ Board* board_create(SDL_Renderer *render, char level[]){
 		board->pinguins[i]->position.y=board->graphics[0]->position.y+10;
 	}
 	return board;
+}
+
+void board_addRect(Board *board, SDL_Rect r){
+	board->graphics=realloc(board->graphics,(board->nbGraphics+1)*sizeof(GraphicComponent*));	
+	board->graphics[board->nbGraphics]=graphicComponent_create(board->render, TRANS, r.x-2, r.y-2, r.w+2, r.h+2);
+	board->nbGraphics++;
 }
 
 /*Function freeing memory*/
@@ -112,29 +119,103 @@ void board_computePosition(Board *board){
 /*Function managing board's collision*/
 void board_manageCollision(Board *board){
 	int ig,ip;
+	State nouvelEtat;
 	for(ip=0;ip<board->nbPinguins;ip++){
+
+
 		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE && board->pinguins[ip]->state!=DEAD && board->pinguins[ip]->state!=KILLING){
-		int fallingTest=1;
+		nouvelEtat=FALLING;
 		for(ig=0;ig<board->nbGraphics;ig++){
+			unsigned char breakTest=0;
 			if(board->graphics[ig]->collision){
 				switch(collisionDetectionRectRect(board->graphics[ig]->position,board->pinguins[ip]->position)){
-					case LEFTRIGHT : pinguin_switchDirection(board->pinguins[ip]); break;
-					case UPDOWN : fallingTest=0; break;
+					case LEFTRIGHT : 
+					if(ip==0) printf("colisionLEFRIGHT\n");
+					if(board->graphics[ig]->type!=TRANS && board->pinguins[ip]->state==WALKING){
+					printf("retournepinguin\n");
+					pinguin_switchDirection(board->pinguins[ip]);
+					}else nouvelEtat=board->pinguins[ip]->previousState;
+					break;
+					case UPDOWN : 
+					if(ip==0) printf("colisionUPDOWN\n");
+					if(board->graphics[ig]->type!=TRANS)nouvelEtat=WALKING; break;
+					case INCLUT :
+				//TODO: si on est INCLUT MAIS QUE L'on est pas inclu dans un vert	
+					if(board->pinguins[ip]->previousState==DIGGING && board->graphics[ig]->type!=TRANS) 
+					printf("Inclusion détectée\n");
+					if(board->graphics[ig]->type==TRANS && board->pinguins[ip]->state!=DIGGING){nouvelEtat=FALLING; breakTest=1;} else if(board->pinguins[ip]->state==DIGGING && board->graphics[ig]->type!=TRANS ){
+					printf("On valide la condiftion\n");
+					nouvelEtat=DIGGING; 
+					breakTest=1;
+					} else nouvelEtat=board->pinguins[ip]->previousState;
+					break;
 				}
-			}
-		}
+			}		
+			if(breakTest)
+				break;
 
-if(board->pinguins[ip]->state!=FLOATING && board->pinguins[ip]->state!=DIGGING){
-			board->pinguins[ip]->state=(fallingTest)?FALLING:WALKING;	
-		}else if(fallingTest==0 && board->pinguins[ip]->state!=DIGGING) board->pinguins[ip]->state=WALKING;
-		else if(board->pinguins[ip]->state==DIGGING && fallingTest==1)
-			board->pinguins[ip]->state=FALLING;
+		}
+		if(board->pinguins[ip]->state==DIGGING){
+			if(nouvelEtat==FALLING)
+			{
+			printf("On passe en chute libre\n");
+				board->pinguins[ip]->state=FALLING;
+			}
+			else
+				board_addRect(board,board->pinguins[ip]->position);	
+		}else if(board->pinguins[ip]->state==FLOATING && nouvelEtat==WALKING){
+			board->pinguins[ip]->state=WALKING;
+		}else if(board->pinguins[ip]->state!=FLOATING){
+			board->pinguins[ip]->state=nouvelEtat;	
+		}
 		if(collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2-10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT && collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2+10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT){
 
 			board->pinguins[ip]->state=EXITING;
 		}
 		}
 	}
+/*
+	int ig,ip;
+	for(ip=0;ip<board->nbPinguins;ip++){
+		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE && board->pinguins[ip]->state!=DEAD && board->pinguins[ip]->state!=KILLING){
+		int fallingTest=1;
+		int fallingRectTest=0;
+		int inclutest=0;
+		for(ig=0;ig<board->nbGraphics;ig++){
+			if(board->graphics[ig]->collision){
+				switch(collisionDetectionRectRect(board->graphics[ig]->position,board->pinguins[ip]->position)){
+					case LEFTRIGHT : pinguin_switchDirection(board->pinguins[ip]); break;
+					case UPDOWN : fallingTest=0; break;
+					case INCLUT : fallingTest=0; inclutest=1;board->pinguins[ip]->state=DIGGING;
+					break;
+				}
+			}
+			if(board->graphics[ig]->type==TRANS){
+				printf("On rentre dans la trans\n");
+				if(collisionDetectionRectRect(board->graphics[ig]->position,board->pinguins[ip]->position)==INCLUT && board->pinguins[ip]->previousState!=DIGGING ){
+					fallingRectTest=1;
+				}
+			}
+			
+		}
+
+		if(board->pinguins[ip]->state!=FLOATING && board->pinguins[ip]->state!=DIGGING && fallingRectTest==0 &&inclutest==0){
+			board->pinguins[ip]->state=(fallingTest)?FALLING:WALKING;	
+		}else if(board->pinguins[ip]->state!=FLOATING && board->pinguins[ip]->state!=DIGGING && fallingRectTest==1){
+			board->pinguins[ip]->state=FALLING;
+		}
+		else if(fallingTest==0 && board->pinguins[ip]->state!=DIGGING) board->pinguins[ip]->state=WALKING;
+		else if(board->pinguins[ip]->state==DIGGING && fallingTest==1)
+			board->pinguins[ip]->state=FALLING;
+		else {
+			board_addRect(board,board->pinguins[ip]->position);
+		}
+		if(collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2-10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT && collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2+10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT){
+
+			board->pinguins[ip]->state=EXITING;
+		}
+		}
+	}*/
 }
 static void board_createPanel(Board *board){
 	board->panel=malloc(sizeof(Button*)*NBBTN);
@@ -164,6 +245,5 @@ void board_manageEvent(Board *board,int x, int y){
 if(collisionDetectionCursorRect(x,y,board->pinguins[i]->position)==POINT && board->idS==DIGGER)
 			{board->pinguins[i]->state=DIGGING;}
 		}
-		//idS=-1;
 	}
 }

@@ -14,7 +14,8 @@ typedef enum{
 	STONE_WALL,
 	DECO,
 	ENTRY,
-	EXIT
+	EXIT,
+	TRANS
 }Type;
 
 /* Graphic component structure */
