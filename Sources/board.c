@@ -13,7 +13,8 @@ Board* board_create(SDL_Renderer *render, char level[]){
 	board->render=render;
 	board->background=IMG_LoadTexture(board->render, "img/background.jpg");
 	board->speed=1;
-	board->moment=10;	
+	board->moment=10;
+	//board->nbFallingBox=0;
 	board_createPanel(board);	
 	board->idS=-1;
 
@@ -118,6 +119,44 @@ void board_computePosition(Board *board){
 
 /*Function managing board's collision*/
 void board_manageCollision(Board *board){
+/*	int ig,ip,ifb;
+	for(ip=0;ip<board->nbPinguins;ip++){
+		if(board->pinguins[ip]->state!=EXITING && board->pinguins[ip]->state!=SAVE && board->pinguins[ip]->state!=DEAD && board->pinguins[ip]->state!=KILLING){
+		Collision graphicColision=NONE;
+		Collision fallingBoxColision=NONE;
+		for(ig=0;ig<board->nbGraphics;ig++){
+			unsigned char breakTest=0;
+			if(board->graphics[ig]->collision){
+				graphicColision=collisionDetectionRectRect(board->graphics[ig]->position,board->pinguins[ip]->position);
+				if(graphicColision!=NONE)
+					breakTest=1;
+			}		
+			if(breakTest)
+				break;
+
+		}
+		for(ifb=0;ifb<nbFallingBox;ifb++){
+			if(board->fallingBox)
+				fallingBoxColision=collisionDetectionRectRect(board->graphics[ig]->position,board->pinguins[ip]->position);
+		}
+		if(board->pinguins[ip]->state==DIGGING){
+			if(nouvelEtat==FALLING){
+				board->pinguins[ip]->state=FALLING;
+			}
+			else
+				board_addRect(board,board->pinguins[ip]->position);	
+		}else if(board->pinguins[ip]->state==FLOATING && nouvelEtat==WALKING){
+			board->pinguins[ip]->state=WALKING;
+		}else if(board->pinguins[ip]->state!=FLOATING){
+			board->pinguins[ip]->state=nouvelEtat;	
+		}
+		if(collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2-10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT && collisionDetectionCursorRect(board->graphics[1]->position.x+board->graphics[1]->position.w/2+10,board->graphics[1]->position.y+board->graphics[1]->position.h-15, board->pinguins[ip]->position)==POINT){
+
+			board->pinguins[ip]->state=EXITING;
+		}
+		}
+	}*/
+
 	int ig,ip;
 	State nouvelEtat;
 	for(ip=0;ip<board->nbPinguins;ip++){
@@ -129,9 +168,15 @@ void board_manageCollision(Board *board){
 			unsigned char breakTest=0;
 			if(board->graphics[ig]->collision){
 				switch(collisionDetectionRectRect(board->graphics[ig]->position,board->pinguins[ip]->position)){
-					case LEFTRIGHT : 
-					if(ip==0) printf("colisionLEFRIGHT\n");
-					if(board->graphics[ig]->type!=TRANS && board->pinguins[ip]->state==WALKING){
+					case LEFTRIGHT :				
+					if(board->pinguins[ip]->state==DIGGING && board->graphics[ig]->type!=TRANS && collisionDetectionCursorRect(
+					board->pinguins[ip]->position.x, board->pinguins[ip]->position.y+board->pinguins[ip]->position.h,board->graphics[ig]->position
+					)!=POINT){
+						printf("CONDITIONFALLING\n");
+						if(nouvelEtat!=DIGGING)
+							nouvelEtat=FALLING;
+						//breakTest=1;
+					}else if(board->graphics[ig]->type!=TRANS && board->pinguins[ip]->state==WALKING){
 					printf("retournepinguin\n");
 					pinguin_switchDirection(board->pinguins[ip]);
 					}else nouvelEtat=board->pinguins[ip]->previousState;
@@ -140,14 +185,17 @@ void board_manageCollision(Board *board){
 					if(ip==0) printf("colisionUPDOWN\n");
 					if(board->graphics[ig]->type!=TRANS)nouvelEtat=WALKING; break;
 					case INCLUT :
-				//TODO: si on est INCLUT MAIS QUE L'on est pas inclu dans un vert	
-					if(board->pinguins[ip]->previousState==DIGGING && board->graphics[ig]->type!=TRANS) 
-					printf("Inclusion détectée\n");
-					if(board->graphics[ig]->type==TRANS && board->pinguins[ip]->state!=DIGGING){nouvelEtat=FALLING; breakTest=1;} else if(board->pinguins[ip]->state==DIGGING && board->graphics[ig]->type!=TRANS ){
-					printf("On valide la condiftion\n");
-					nouvelEtat=DIGGING; 
-					breakTest=1;
-					} else nouvelEtat=board->pinguins[ip]->previousState;
+					if(board->graphics[ig]->type==TRANS && board->pinguins[ip]->state!=DIGGING){
+						printf("Maintenant on tombe\n");
+						nouvelEtat=FALLING; 
+						breakTest=1;
+					} else if(board->pinguins[ip]->state==DIGGING && board->graphics[ig]->type!=TRANS ){
+						printf("\t x:%d y:%d w=%d h=%d dans x:%d y:%d w:%d h:%d \n",board->pinguins[ip]->position.x,board->pinguins[ip]->position.y, board->pinguins[ip]->position.w, board->pinguins[ip]->position.h, board->graphics[ig]->position.x,board->graphics[ig]->position.y,board->graphics[ig]->position.w,board->graphics[ig]->position.h);
+						nouvelEtat=DIGGING; 
+						breakTest=1;
+					}else if(board->graphics[ig]->type==TRANS){
+						nouvelEtat=FALLING;
+					}else  board->pinguins[ip]->previousState;
 					break;
 				}
 			}		
@@ -158,7 +206,8 @@ void board_manageCollision(Board *board){
 		if(board->pinguins[ip]->state==DIGGING){
 			if(nouvelEtat==FALLING)
 			{
-			printf("On passe en chute libre\n");
+					board_addRect(board,board->pinguins[ip]->position);	
+
 				board->pinguins[ip]->state=FALLING;
 			}
 			else
@@ -174,6 +223,7 @@ void board_manageCollision(Board *board){
 		}
 		}
 	}
+	//######################################################################################
 /*
 	int ig,ip;
 	for(ip=0;ip<board->nbPinguins;ip++){

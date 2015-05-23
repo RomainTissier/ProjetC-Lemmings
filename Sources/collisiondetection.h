@@ -9,7 +9,8 @@ typedef enum{
 	POINT,
 	UPDOWN,
 	LEFTRIGHT,
-	INCLUT
+	INCLUT,
+	SEMIINCLUT
 }CollisionDirection;
 
 /* Function detecting a collision between a cursor and a box */

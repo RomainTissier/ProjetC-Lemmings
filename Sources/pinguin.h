@@ -14,7 +14,8 @@ typedef enum {
 	FLOATING,
 	KILLING,
 	DEAD,
-	DIGGING
+	DIGGING,
+	WAITING
 }State;
 
 /*Structure specifying a pinguin*/
