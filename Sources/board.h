@@ -32,7 +32,7 @@ void board_createPanel(Board *board);
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
 
 /*Function computing the board's component position*/
-void board_computePosition(Board *board);
+int board_computePosition(Board *board);
 
 /*Function freeing memory*/
 void board_destroy(Board *board);

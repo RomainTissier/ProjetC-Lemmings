@@ -7,11 +7,6 @@
 #include "collisiondetection.h"
 
 typedef enum{
-	STARTMENU,
-	PAUSEMENU
-}TypeMenu;
-
-typedef enum{
 	DEBUT,
 	ARRET,
 	NO
@@ -22,7 +17,11 @@ typedef struct{
 	Button **button;
 }Menu;
 
-Menu *menu_create(SDL_Renderer *render, TypeMenu type);
+Menu *menu_create(SDL_Renderer *render);
+
+MenuDetection menu_execute(Menu *menu);
+
+void menu_destroy(Menu *menu);
 
 MenuDetection menu_detection(Menu *menu, int x, int y);
 
