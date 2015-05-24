@@ -1,12 +1,14 @@
 #ifndef MENU_H
 #define MENU_H
-
+//TODO : ceci est le menu principal
+//TODO: ajouter menu GAMEOVER/WINNER copyright TISSIER TODO-WRITTING
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "button.h"
 #include "collisiondetection.h"
 
 typedef enum{
+<<<<<<< HEAD
 	STARTMENU,
 	PAUSEMENU,
 	GAMEOVERMENU,
@@ -14,6 +16,8 @@ typedef enum{
 }TypeMenu;
 
 typedef enum{
+=======
+>>>>>>> refs/remotes/origin/master
 	DEBUT,
 	ARRET,
 	NO
@@ -24,7 +28,11 @@ typedef struct{
 	Button **button;
 }Menu;
 
-Menu *menu_create(SDL_Renderer *render, TypeMenu type);
+Menu *menu_create(SDL_Renderer *render);
+
+MenuDetection menu_execute(Menu *menu);
+
+void menu_destroy(Menu *menu);
 
 MenuDetection menu_detection(Menu *menu, int x, int y);
 

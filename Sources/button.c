@@ -1,11 +1,12 @@
 #include "button.h"
 
-Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w, int h){
+Button * button_create(SDL_Renderer *render,ButtonType type, int x, int y, int w, int h){
 	Button *button= (Button *) malloc(sizeof(Button));
 	button->position.x=x;
 	button->position.y=y;
 	button->position.w=w;
 	button->position.h=h;
+	button->type=type;
 	switch(type){
 		case FLOATER:
 			button->background=IMG_LoadTexture(render,"img/floater_button.png");
@@ -46,6 +47,25 @@ Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w
 		case CONTINUER:
 			button->background=IMG_LoadTexture(render,"img/continuer_button.png");
 			break;
+		case LEVEL1:
+			button->background=IMG_LoadTexture(render,"img/level1_button.png");
+			break;
+		case LEVEL2:
+			button->background=IMG_LoadTexture(render,"img/level2_button.png");
+			break;
+		case LEVEL3:
+			button->background=IMG_LoadTexture(render,"img/level3_button.png");
+			break;
+		case LEVEL4:
+			button->background=IMG_LoadTexture(render,"img/level4_button.png");
+			break;
+		case LEVEL5:
+			button->background=IMG_LoadTexture(render,"img/level5_button.png");
+			break;
+		case LEVEL6:
+			button->background=IMG_LoadTexture(render,"img/level6_button.png");
+			break;
 	}
 	return button;
 }
+void button_destroy(Button *b){}

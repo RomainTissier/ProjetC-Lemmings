@@ -26,13 +26,13 @@ typedef struct board{
 	char idS;
 }Board;
 
-void board_createPanel(Board *board, TypeButton type_button);
+void board_createPanel(Board *board, ButtonType type_button);
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
 
 /*Function computing the board's component position*/
-void board_computePosition(Board *board);
+int board_computePosition(Board *board);
 
 /*Function freeing memory*/
 void board_destroy(Board *board);

@@ -5,7 +5,7 @@
 #define NBBTN 9
 #define ECART 40
 
-void board_createPanel(Board *board, TypeButton type_button) {
+void board_createPanel(Board *board, ButtonType type_button) {
 	//TODO: coef avec constante
 	board->panel = malloc(sizeof(Button*)*NBBTN);
 	switch(type_button) {
@@ -37,13 +37,14 @@ void board_createPanel(Board *board, TypeButton type_button) {
 //TODO: prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]) {
+	printf("On passe par la\n");
 	Board *board = malloc(sizeof(Board));
 	board->render = render;
 	board->background = IMG_LoadTexture(board->render, "img/background.jpg");
 	board->speed = 1;
 	board->pause = 0;
 	board->moment = 10;
-	TypeButton type_button = PAUSE;
+	ButtonType type_button = PAUSE;
 	//board->nbFallingBox=0;
 	board_createPanel(board, type_button);
 	board->idS = -1;
@@ -205,7 +206,7 @@ void board_refresh(Board *board) {
 //TODO : merger green et orange
 
 /*Function computing component's position*/
-void board_computePosition(Board *board) {
+int board_computePosition(Board *board) {
 	int i;
 	for (i = 0; i < board->nbPinguins && (i < board->moment / ECART); i++)
 		pinguin_computePosition(board->pinguins[i]);
@@ -219,8 +220,9 @@ void board_computePosition(Board *board) {
 			nbM++;
 	}
 	if (nbS + nbM == board->nbPinguins) {
-		quit = 1;
+		return 1;
 	}
+	return 0;
 }
 
 /*Function managing board's collision*/

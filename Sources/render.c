@@ -3,21 +3,20 @@
 
 /*Function executing the render loop*/
 void renderLoop(Board *board){
-	//int quit=0;
+	int quit=0,fin=0;
 	SDL_Event event;
-	while (!quit){
+	while (!quit && !fin){
 		/*Manage events*/
 		quit=manageEvent(&event,board);
 		/*Refresh display*/
 		if(board->pause==0){
-			board_computePosition(board);
+			fin=board_computePosition(board);
 			board_manageCollision(board);
 		}
 		board_refresh(board);	
 		SDL_RenderPresent(board->render);
 		SDL_Delay(50*board->speed);
 		SDL_RenderClear(board->render);
-
 	}	
 }
 

@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-typedef enum{
+typedef enum {
 	FLOATER,
 	MINER,
 	BASHER,
@@ -17,17 +17,26 @@ typedef enum{
 	LEVELS,
 	QUIT,
 	REESSAYER,
-	CONTINUER
-}TypeButton;
+	CONTINUER,
+	LEVEL1,
+	LEVEL2,
+	LEVEL3,
+	LEVEL4,
+	LEVEL5,
+	LEVEL6
+} ButtonType;
 
-typedef struct{
+typedef struct {
 	SDL_Rect position;
 	SDL_Texture *background;
+	ButtonType type;
 	unsigned char STATE;
-}Button; 
+} Button;
 
-Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w, int h);
+Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
+		int w, int h);
 
 Button * button_updateState(Button button);
 
+void button_destroy(Button *b);
 #endif

@@ -1,17 +1,16 @@
 #include "menu.h"
 
-Menu *menu_create(SDL_Renderer *render, TypeMenu type) {
+Menu *menu_create(SDL_Renderer *render) {
 	Menu *menu=malloc(sizeof(menu));
 	menu->background=IMG_LoadTexture(render,"img/background_menu.jpg");
 	SDL_RenderClear(render);
-	switch(type){
-		case STARTMENU:
 			menu->button=malloc(sizeof(menu->button)*2);
 			menu->button[0]=button_create(render, LEVELS,300, 270, 200, 68);
 			menu->button[1]=button_create(render, QUIT,300, 400, 200, 68);
 			SDL_RenderCopy(render, menu->background, NULL, NULL);
 			SDL_RenderCopy(render, menu->button[0]->background, NULL,&(menu->button[0]->position));
 			SDL_RenderCopy(render, menu->button[1]->background, NULL,&(menu->button[1]->position));
+
 
 		break;
 		case PAUSEMENU:
@@ -37,8 +36,22 @@ Menu *menu_create(SDL_Renderer *render, TypeMenu type) {
 			SDL_RenderCopy(render, menu->button[1]->background, NULL,&(menu->button[1]->position));
 		break;		
 	}
+
 	SDL_RenderPresent(render);
 	return menu;
+}
+
+MenuDetection menu_execute(Menu *menu){
+	MenuDetection res=NO;
+	SDL_Event event;
+	int x, y;
+	while (res==NO && SDL_WaitEvent(&event)) {
+		switch (event.type) {
+			case SDL_QUIT: return NO;break;
+			case SDL_MOUSEBUTTONUP:SDL_GetMouseState(&x, &y);res=menu_detection(menu,x,y);break;
+		}
+	}
+	return res;
 }
 
 MenuDetection menu_detection(Menu *menu, int x, int y) {
@@ -49,3 +62,8 @@ MenuDetection menu_detection(Menu *menu, int x, int y) {
 	}
 	return NO;
 }
+
+void menu_destroy(Menu *menu){
+	free(menu);
+}
+
