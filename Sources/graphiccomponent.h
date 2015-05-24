@@ -29,6 +29,7 @@ typedef struct{
 	int destructible;
 	Type type;
 	unsigned char collision;
+	int drown;
 }GraphicComponent;
 
 /* Function creating a graphic component */
