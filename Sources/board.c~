@@ -417,7 +417,7 @@ void board_manageCollision(Board *board) {
 	 }
 	 }*/
 }
-void board_createPanel(Board *board, ButtonType type_button) {
+void board_createPanel(Board *board) {
 	//TODO: coef avec constante
 	board->panel = malloc(sizeof(Button*)*NBBTN);
 	switch(type_button) {
