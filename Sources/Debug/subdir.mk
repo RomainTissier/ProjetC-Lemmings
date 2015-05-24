@@ -8,8 +8,9 @@ C_SRCS += \
 ../button.c \
 ../collisiondetection.c \
 ../graphiccomponent.c \
+../levelsmenu.c \
 ../main.c \
-../menu.c \
+../mainmenu.c \
 ../pinguin.c \
 ../render.c 
 
@@ -27,8 +28,9 @@ OBJS += \
 ./button.o \
 ./collisiondetection.o \
 ./graphiccomponent.o \
+./levelsmenu.o \
 ./main.o \
-./menu.o \
+./mainmenu.o \
 ./pinguin.o \
 ./render.o 
 
@@ -37,8 +39,9 @@ C_DEPS += \
 ./button.d \
 ./collisiondetection.d \
 ./graphiccomponent.d \
+./levelsmenu.d \
 ./main.d \
-./menu.d \
+./mainmenu.d \
 ./pinguin.d \
 ./render.d 
 
