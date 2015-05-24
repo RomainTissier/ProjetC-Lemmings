@@ -317,6 +317,8 @@ void board_manageCollision(Board *board) {
 					board->pinguins[ip]->state = WALKING;
 			} else if (nouvelEtatGreen == INCLUT) {
 				if (board->pinguins[ip]->state != FLOATING)
+					if (board->graphics[ig]->type==WATER)
+						board->pinguins[ip]->state = DROWNING;
 					board->pinguins[ip]->state = FALLING;
 			} else if (nouvelEtatGraphic == LEFTRIGHT && nouvelEtatIO==NONE)
 				if (board->pinguins[ip]->previousState == WALKING)

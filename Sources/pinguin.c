@@ -177,6 +177,24 @@ void pinguin_computePosition(Pinguin* pinguin) {
 				pinguin->sprite.x = 0 + shift;
 			}
 			pinguin->position.y += 2;
+		} else if (pinguin->state == DROWNING) {
+			if (pinguin->previousState != DROWNING) {
+				pinguin->texture = IMG_LoadTexture(pinguin->render,
+						"img/drownfall.png");
+				pinguin->sprite.x = 0 + shift;
+				if (pinguin->sens == 0)
+					pinguin->sprite.y = 32;
+				else
+					pinguin->sprite.y = 0;
+				pinguin->sprite.h = 32;
+				pinguin->sprite.w = 32 - shift * 2;
+
+			}
+			pinguin->sprite.x += 32;
+			if (pinguin->sprite.x >= 256) {
+				pinguin->state = DEAD;
+				pinguin->sprite.h = 0;
+			}
 		}
 		if (pinguin->state == KILLING) {
 			if (pinguin->previousState != KILLING) {
