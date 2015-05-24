@@ -9,6 +9,7 @@ C_SRCS += \
 ../collisiondetection.c \
 ../graphiccomponent.c \
 ../main.c \
+../menu.c \
 ../pinguin.c \
 ../render.c 
 
@@ -27,6 +28,7 @@ OBJS += \
 ./collisiondetection.o \
 ./graphiccomponent.o \
 ./main.o \
+./menu.o \
 ./pinguin.o \
 ./render.o 
 
@@ -36,6 +38,7 @@ C_DEPS += \
 ./collisiondetection.d \
 ./graphiccomponent.d \
 ./main.d \
+./menu.d \
 ./pinguin.d \
 ./render.d 
 

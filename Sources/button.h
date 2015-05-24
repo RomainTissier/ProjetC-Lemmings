@@ -13,7 +13,9 @@ typedef enum{
 	BRIDGER,
 	CLIMBER,
 	DIGGER,
-	PAUSE
+	PAUSE,
+	LEVELS,
+		QUIT
 }TypeButton;
 
 typedef struct{
