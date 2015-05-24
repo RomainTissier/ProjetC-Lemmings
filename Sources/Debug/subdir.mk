@@ -19,7 +19,9 @@ O_SRCS += \
 ../button.o \
 ../collisiondetection.o \
 ../graphiccomponent.o \
+../levelsmenu.o \
 ../main.o \
+../mainmenu.o \
 ../pinguin.o \
 ../render.o 
 

@@ -44,12 +44,12 @@ int main() {
 					levelstr[13]=level+'0';
 					levelstr[14]='\0';
 					/*Start the game loop*/
-					SDL_RenderClear(render);
 					Board *board = board_create(render, levelstr);
+					SDL_RenderClear(render);
 					renderLoop(board);
 					board_destroy(board);
 				}
-			} while (menuEvent!=-1);
+			} while (menuEvent!=-1 && menuEvent!=QUIT);
 			/*Freeing memory*/
 			SDL_DestroyRenderer(render);
 			SDL_DestroyWindow(window);
