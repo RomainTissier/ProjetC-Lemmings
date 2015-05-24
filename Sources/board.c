@@ -169,6 +169,20 @@ void board_computePosition(Board *board) {
 	}
 }
 
+void board_nbPinguins(Board *board) {
+	int i;
+	int nbS=0, nbM=0;
+	for (i = 0; i < board->nbPinguins; i++) {
+		if (board->pinguins[i]->state == SAVE)
+			nbS++;
+		else if (board->pinguins[i]->state == DEAD)
+			nbM++;
+	}
+	TTF_Font *police = TTF_OpenFont("angelina.ttf", 65);
+    SDL_Color couleurNoire = {0, 0, 0};
+	SDL_Surface *texte = TTF_RenderText_Solid(police, "Test test", couleurNoire);
+}
+
 /*Function managing board's collision*/
 void board_manageCollision(Board *board) {
 	/*	int ig,ip,ifb;

@@ -12,6 +12,7 @@ void renderLoop(Board *board){
 		if(board->pause==0){
 			board_computePosition(board);
 			board_manageCollision(board);
+			board_nbPinguins(board);
 		}
 		board_refresh(board);	
 		SDL_RenderPresent(board->render);

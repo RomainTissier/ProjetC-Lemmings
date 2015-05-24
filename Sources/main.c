@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "menu.h"
 #include "render.h"
@@ -13,6 +14,7 @@ int main(){
 		printf("On tente la sdl\n");
 		if(window!=NULL){
 			printf("La sdl marche\n");
+			TTF_Init();
 			/*Initialising the render*/
 			SDL_Renderer *render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 			/*Start the game*/
@@ -86,6 +88,7 @@ int main(){
 			SDL_DestroyRenderer(render);
 			SDL_DestroyWindow(window);
 			/*Close SDL*/
+			TTF_Quit();
 			SDL_Quit();
 			return EXIT_SUCCESS;
 		}printf("SDL error:\n");
