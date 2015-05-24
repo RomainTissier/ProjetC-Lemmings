@@ -9,7 +9,6 @@ void renderLoop(Board *board){
 		/*Manage events*/
 		quit=manageEvent(&event,board);
 		/*Refresh display*/
-		SDL_RenderClear(board->render);
 		if(board->pause==0){
 			board_computePosition(board);
 			board_manageCollision(board);
@@ -17,11 +16,13 @@ void renderLoop(Board *board){
 		board_refresh(board);	
 		SDL_RenderPresent(board->render);
 		SDL_Delay(50*board->speed);
+		SDL_RenderClear(board->render);
+
 	}	
 }
 
 /*Function managing events*/
-static int manageEvent(SDL_Event *event,Board *board){
+int manageEvent(SDL_Event *event, Board *board){
 	int x,y;
 	while(SDL_PollEvent(event)){
 		switch(event->type){

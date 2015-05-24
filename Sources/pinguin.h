@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "collisiondetection.h"
 
 /*Pinguin's state structure*/
 typedef enum {
@@ -14,22 +15,30 @@ typedef enum {
 	FLOATING,
 	KILLING,
 	DEAD,
-	DIGGING
-}State;
+	DIGGING,
+	WAITING,
+	BASHING,
+	BOOMING,
+	BRIDGING
+} State;
+
+//TODO: rajouter des sons aux pinguins
 
 /*Structure specifying a pinguin*/
-typedef struct pinguin{
+typedef struct pinguin {
 	SDL_Renderer *render;
 	SDL_Texture *texture;
 	SDL_Rect sprite;
 	SDL_Rect position;
 	State state;
 	State previousState;
+	CollisionDirection previousColision;
 	unsigned char height;
 	unsigned char sens;
+	unsigned char boolBash;
 } Pinguin;
 
-/*Function creating a pinguin*/
+/*Function creating a penguin*/
 Pinguin* pinguin_create(SDL_Renderer *render);
 
 /*Function computing a pinguin position*/
