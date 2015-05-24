@@ -2,66 +2,28 @@
 #include "collisiondetection.h"
 #include "render.h"
 
-#define NBBTN 9
+#define NBBTN 7
 #define ECART 40
-
-void board_createPanel(Board *board, ButtonType type_button) {
-	//TODO: coef avec constante
-	int i;
-	board->panel = malloc(sizeof(Button*)*NBBTN);
-	switch(type_button) {
-		case PAUSE:
-			board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
-			break;
-		case FLOATER:
-			board->panel[0] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			board->panel[1] = button_create(board->render, FLOATER, 60, 520, 50, 70);
-			break;
-		case BASHER:
-			board->panel[0] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			board->panel[1] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			break;
-		case BLOCKER:
-			for (i = 0 ; i < 3 ; i++) {
-				board->panel[i] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			}
-			board->panel[3] = button_create(board->render, BLOCKER, 160, 520, 50, 70);
-			break;
-		case BOMBER:
-			for (i = 0 ; i < 4 ; i++) {
-				board->panel[i] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			}
-			board->panel[4] = button_create(board->render, BOMBER, 210, 520, 50, 70);
-			break;
-		case BRIDGER:
-			for (i = 0 ; i < 5 ; i++) {
-				board->panel[i] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			}
-			board->panel[5] = button_create(board->render, BRIDGER, 260, 520, 50, 70);
-			break;
-		case DIGGER:
-			for (i = 0 ; i < 6 ; i++) {
-				board->panel[i] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
-			}
-			board->panel[6] = button_create(board->render, DIGGER, 310, 520, 50, 70);
-			break;
-	}
-}
 
 //TODO: on ne peut pas changer d'action une fois qu'une action est engagée !=> sauf si elle se termine
 //TODO: prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]) {
 	printf("On passe par la\n");
-	Board *board = malloc(sizeof(Board));
+	Board *board = malloc(sizeof(Board));	
 	board->render = render;
 	board->background = IMG_LoadTexture(board->render, "img/background.jpg");
 	board->speed = 1;
 	board->pause = 0;
 	board->moment = 10;
+	board->panel = malloc(sizeof(Button*)*NBBTN);
+	int j;
+	for (j = 0 ; j < 7 ; j++) {
+		board->panel[j] = button_create(board->render, NOBUTTON, 0, 0, 0, 0);
+	}
 	ButtonType type_button = PAUSE;
-	//board->nbFallingBox=0;
 	board_createPanel(board, type_button);
+	//board->nbFallingBox=0;
 	board->idS = -1;
 	board->nbGreen = 0;
 	board->green = malloc(0);
@@ -88,46 +50,45 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 				type_button = BASHER;
 				board_createPanel(board, type_button);
 			}
-			if (!strcmp(typeName, "BLOCKER")) {
+			else if (!strcmp(typeName, "BLOCKER")) {
 				type_button = BLOCKER;
 				board_createPanel(board, type_button);
 			}
-			if (!strcmp(typeName, "BOMBER")) {
+			else if (!strcmp(typeName, "BOMBER")) {
 				type_button = BOMBER;
 				board_createPanel(board, type_button);
 			}
-			if (!strcmp(typeName, "BRIDGER")) {
+			else if (!strcmp(typeName, "BRIDGER")) {
 				type_button = BRIDGER;
 				board_createPanel(board, type_button);
 			}
-			if (!strcmp(typeName, "DIGGER")) {
+			else if (!strcmp(typeName, "DIGGER")) {
 				type_button = DIGGER;
 				board_createPanel(board, type_button);
+			} else {
+				board->graphics = realloc(board->graphics,(board->nbGraphics + 1) * sizeof(GraphicComponent*));
+				if (!strcmp(typeName, "ICE_PEAK"))
+					type = ICE_PEAK;
+				else if (!strcmp(typeName, "STONE_FLOOR"))
+					type = STONE_FLOOR;
+				else if (!strcmp(typeName, "STONE_WALL"))
+					type = STONE_WALL;
+				else if (!strcmp(typeName, "FLOOR"))
+					type = FLOOR;
+				else if (!strcmp(typeName, "WALL"))
+					type = WALL;
+				else if (!strcmp(typeName, "WATER"))
+					type = WATER;
+				else if (!strcmp(typeName, "DECO"))
+					type = DECO;
+				else if (!strcmp(typeName, "ENTRY"))
+					type = ENTRY;
+				else if (!strcmp(typeName, "EXIT"))
+					type = EXIT;
+				board->graphics[board->nbGraphics] = graphicComponent_create(render,
+						type, arg1, arg2, arg3, arg4);
+				board->nbGraphics++;
 			}
-			board->graphics = realloc(board->graphics,
-					(board->nbGraphics + 1) * sizeof(GraphicComponent*));
-			if (!strcmp(typeName, "ICE_PEAK"))
-				type = ICE_PEAK;
-			else if (!strcmp(typeName, "STONE_FLOOR"))
-				type = STONE_FLOOR;
-			else if (!strcmp(typeName, "STONE_WALL"))
-				type = STONE_WALL;
-			else if (!strcmp(typeName, "FLOOR"))
-				type = FLOOR;
-			else if (!strcmp(typeName, "WALL"))
-				type = WALL;
-			else if (!strcmp(typeName, "WATER"))
-				type = WATER;
-			else if (!strcmp(typeName, "DECO"))
-				type = DECO;
-			else if (!strcmp(typeName, "ENTRY"))
-				type = ENTRY;
-			else if (!strcmp(typeName, "EXIT"))
-				type = EXIT;
-			board->graphics[board->nbGraphics] = graphicComponent_create(render,
-					type, arg1, arg2, arg3, arg4);
-			board->nbGraphics++;
-			
 		}
 		fclose(file);
 	} else
@@ -136,7 +97,6 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 	/*Loading pinguins  TODO: several pinguins*/
 	//board->nbPinguins=1;
 	board->pinguins = malloc(board->nbPinguins * sizeof(Pinguin*));
-
 	int i;
 	for (i = 0; i < board->nbPinguins; i++) {
 		board->pinguins[i] = pinguin_create(render);
@@ -461,6 +421,31 @@ void board_manageCollision(Board *board) {
 	 }*/
 }
 
+void board_createPanel(Board *board, ButtonType type_button) {
+	switch(type_button) {
+		case PAUSE:
+			board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
+			break;
+		case FLOATER:
+			board->panel[1] = button_create(board->render, FLOATER, 60, 520, 50, 70);
+			break;
+		case BASHER:
+			board->panel[2] = button_create(board->render, BASHER, 110, 520, 50, 70);
+			break;
+		case BLOCKER:
+			board->panel[3] = button_create(board->render, BLOCKER, 160, 520, 50, 70);
+			break;
+		case BOMBER:
+			board->panel[4] = button_create(board->render, BOMBER, 210, 520, 50, 70);
+			break;
+		case BRIDGER:
+			board->panel[5] = button_create(board->render, BRIDGER, 260, 520, 50, 70);
+			break;
+		case DIGGER:
+			board->panel[6] = button_create(board->render, DIGGER, 310, 520, 50, 70);
+			break;
+	}
+}
 
 void board_manageEvent(Board *board, int x, int y) {
 	if (collisionDetectionCursorRect(x, y, board->panel[0]->position)
