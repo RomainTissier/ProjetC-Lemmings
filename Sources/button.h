@@ -23,7 +23,8 @@ typedef enum {
 	LEVEL3,
 	LEVEL4,
 	LEVEL5,
-	LEVEL6
+	LEVEL6,
+	NOBUTTON
 } ButtonType;
 
 typedef struct {

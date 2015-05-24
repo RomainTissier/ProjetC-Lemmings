@@ -65,6 +65,8 @@ Button * button_create(SDL_Renderer *render,ButtonType type, int x, int y, int w
 		case LEVEL6:
 			button->background=IMG_LoadTexture(render,"img/level6_button.png");
 			break;
+		case NOBUTTON:
+			break;
 	}
 	return button;
 }
