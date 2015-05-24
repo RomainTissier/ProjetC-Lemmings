@@ -6,13 +6,16 @@
 #include "menu.h"
 #include "render.h"
 
+#define WIDTH 800
+#define HEIGHT 600
+
 /*Entry point of the program*/
 int main() {
 	/*Try to init SDL*/
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		/*Create the main window*/
 		SDL_Window *window = SDL_CreateWindow("Penguins",
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600,
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT,
 				SDL_WINDOW_SHOWN);
 		/*Try the window and start the game*/
 		if (window != NULL) {
@@ -44,9 +47,9 @@ int main() {
 			SDL_Quit();
 			return EXIT_SUCCESS;
 		}else
-		printf("SDL error:\n");
+		printf("SDL error! Couldn'nt initialize main window\n");
 	}
 	/*If error, display it and quit*/
-	printf("SDL error:\n");
+	printf("SDL error! Can't get the driver\n");
 	return EXIT_FAILURE;
 }

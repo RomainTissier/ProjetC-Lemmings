@@ -40,6 +40,12 @@ Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w
 				case QUIT:
 					button->background=IMG_LoadTexture(render,"img/quit_button.png");
 					break;
+				case REESSAYER:
+							button->background=IMG_LoadTexture(render,"img/ressayer_button.png");
+							break;
+						case CONTINUER:
+							button->background=IMG_LoadTexture(render,"img/continuer_button.png");
+							break;
 	}
 	return button;
 }

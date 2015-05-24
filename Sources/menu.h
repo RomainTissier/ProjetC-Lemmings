@@ -1,6 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
-
+//TODO : ceci est le menu principal
+//TODO: ajouter menu GAMEOVER/WINNER copyright TISSIER TODO-WRITTING
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "button.h"

@@ -14,7 +14,7 @@ typedef enum{
 	CLIMBER,
 	DIGGER,
 	PAUSE,
-	LEVELS,
+	LEVELS,CONTINUER,REESSAYER,
 		QUIT
 }TypeButton;
 
