@@ -8,7 +8,9 @@
 
 typedef enum{
 	STARTMENU,
-	PAUSEMENU
+	PAUSEMENU,
+	GAMEOVERMENU,
+	VICTORYMENU
 }TypeMenu;
 
 typedef enum{

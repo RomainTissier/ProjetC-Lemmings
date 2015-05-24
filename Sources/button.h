@@ -15,7 +15,9 @@ typedef enum{
 	DIGGER,
 	PAUSE,
 	LEVELS,
-		QUIT
+	QUIT,
+	REESSAYER,
+	CONTINUER
 }TypeButton;
 
 typedef struct{

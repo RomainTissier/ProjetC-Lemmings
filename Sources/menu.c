@@ -20,6 +20,22 @@ Menu *menu_create(SDL_Renderer *render, TypeMenu type) {
 			SDL_RenderCopy(render, menu->background, NULL, NULL);
 			SDL_RenderCopy(render, menu->button[0]->background, NULL,&(menu->button[0]->position));
 		break;
+		case GAMEOVERMENU:
+			menu->button=malloc(sizeof(menu->button)*2);
+			menu->button[0]=button_create(render, REESSAYER, 300, 270, 200, 68);
+			menu->button[1]=button_create(render, QUIT, 300, 270, 200, 68);
+			SDL_RenderCopy(render, menu->background, NULL, NULL);
+			SDL_RenderCopy(render, menu->button[0]->background, NULL,&(menu->button[0]->position));
+			SDL_RenderCopy(render, menu->button[1]->background, NULL,&(menu->button[1]->position));
+		break;
+		case VICTORYMENU:
+			menu->button=malloc(sizeof(menu->button)*2);
+			menu->button[0]=button_create(render, CONTINUER, 300, 270, 200, 68);
+			menu->button[1]=button_create(render, QUIT, 300, 270, 200, 68);
+			SDL_RenderCopy(render, menu->background, NULL, NULL);
+			SDL_RenderCopy(render, menu->button[0]->background, NULL,&(menu->button[0]->position));
+			SDL_RenderCopy(render, menu->button[1]->background, NULL,&(menu->button[1]->position));
+		break;		
 	}
 	SDL_RenderPresent(render);
 	return menu;
