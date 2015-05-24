@@ -44,7 +44,7 @@ void pinguin_computePosition(Pinguin* pinguin) {
 			}
 			/*Test the falling height*/
 			//TODO: COLISION EAU === MORT :p
-			if (pinguin->height >= 50) {
+			if (pinguin->height >= 40) {
 				pinguin->state = KILLING;
 			} else {
 				pinguin->height = 0;
