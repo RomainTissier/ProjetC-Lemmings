@@ -17,11 +17,14 @@ typedef enum {
 	DEAD,
 	DIGGING,
 	WAITING,
-	BASHING
-}State;
+	BASHING,
+	BOOMING
+} State;
+
+//TODO: rajouter des sons aux pinguins
 
 /*Structure specifying a pinguin*/
-typedef struct pinguin{
+typedef struct pinguin {
 	SDL_Renderer *render;
 	SDL_Texture *texture;
 	SDL_Rect sprite;
@@ -31,9 +34,10 @@ typedef struct pinguin{
 	CollisionDirection previousColision;
 	unsigned char height;
 	unsigned char sens;
+	unsigned char boolBash;
 } Pinguin;
 
-/*Function creating a pinguin*/
+/*Function creating a penguin*/
 Pinguin* pinguin_create(SDL_Renderer *render);
 
 /*Function computing a pinguin position*/

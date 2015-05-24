@@ -35,6 +35,11 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render, "img/piece9.png");
 			break;
+		case STOPP:
+			newComp->destructible=1;
+			newComp->collision=1;
+			newComp->texture=IMG_LoadTexture(render, "img/stopp.png");
+			break;
 		case WATER:
 			newComp->destructible=0;
 			newComp->collision=1;
@@ -59,6 +64,11 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->destructible=0;
 			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render, "img/select.png");
+			break;
+		case ORANGE:
+			newComp->destructible=0;
+			newComp->collision=1;
+			newComp->texture=IMG_LoadTexture(render, "img/selectorange.png");
 			break;
 	}
 	return newComp;

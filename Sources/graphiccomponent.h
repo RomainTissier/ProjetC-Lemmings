@@ -15,7 +15,9 @@ typedef enum{
 	DECO,
 	ENTRY,
 	EXIT,
-	TRANS
+	TRANS,
+	ORANGE,
+	STOPP
 }Type;
 
 /* Graphic component structure */

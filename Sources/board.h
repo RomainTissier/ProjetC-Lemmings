@@ -12,9 +12,12 @@ typedef struct board{
 	Pinguin **pinguins;
 	int nbPinguins;
 	int nbPinguinsAlive;
+	//TODO : tout repasser en un seul tableau
 	GraphicComponent **graphics;
 	GraphicComponent **green;
+	GraphicComponent **orange;
 	int nbGreen;
+	int nbOrange;
 	Button **panel;
 	int nbGraphics;
 	unsigned char speed;

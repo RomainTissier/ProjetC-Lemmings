@@ -3,7 +3,8 @@
 #include "render.h"
 
 #define NBBTN 9
-
+#define ECART 40
+//TODO: prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]) {
 	Board *board = malloc(sizeof(Board));
@@ -18,6 +19,7 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 	board->nbGreen = 0;
 	board->green = malloc(0);
 	board->graphics = malloc(0);
+	board->orange = malloc(0);
 	/*Loading graphic component from a configuration file*/
 	FILE *file = fopen(level, "r");
 	if (file != NULL) {
@@ -75,9 +77,26 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 void board_addRect(Board *board, SDL_Rect r) {
 	board->green = realloc(board->green,
 			(board->nbGreen + 1) * sizeof(GraphicComponent*));
+	//TODO: tester avec des coordonnées PILE POIL
 	board->green[board->nbGreen] = graphicComponent_create(board->render, TRANS,
 			r.x - 2, r.y - 2, r.w + 2, r.h + 2);
 	board->nbGreen++;
+}
+//TODO: mamailler le sprite si on ne l'lannime pas
+void board_addStop(Board *board, SDL_Rect r) {
+	board->graphics = realloc(board->graphics,
+			(board->nbGraphics + 1) * sizeof(GraphicComponent*));
+	board->graphics[board->nbGraphics] = graphicComponent_create(board->render, STOPP,
+			r.x-1, r.y-2, r.w+2, r.h+1);
+	board->nbGraphics++;
+}
+//TODO: ajout menu automatique
+void board_addOrange(Board *board, SDL_Rect r) {
+	board->orange = realloc(board->orange,
+			(board->nbOrange + 1) * sizeof(GraphicComponent*));
+	board->orange[board->nbOrange] = graphicComponent_create(board->render,
+			ORANGE, r.x - 2, r.y - 2, r.w + 2, r.h + 2);
+	board->nbOrange++;
 }
 
 /*Function freeing memory*/
@@ -99,10 +118,16 @@ void board_refresh(Board *board) {
 	for (i = 0; i < board->nbGraphics; i++)
 		SDL_RenderCopy(board->render, board->graphics[i]->texture, NULL,
 				&(board->graphics[i]->position));
+
+	for (i = 0; i < board->nbOrange; i++)
+		SDL_RenderCopy(board->render, board->orange[i]->texture, NULL,
+				&(board->orange[i]->position));
+
 	for (i = 0; i < board->nbGreen; i++)
 		SDL_RenderCopy(board->render, board->green[i]->texture, NULL,
 				&(board->green[i]->position));
-	for (i = 0; i < board->nbPinguins && (i < board->moment / 20); i++)
+
+	for (i = 0; i < board->nbPinguins && (i < board->moment / ECART); i++)
 		SDL_RenderCopy(board->render, board->pinguins[i]->texture,
 				&(board->pinguins[i]->sprite), &(board->pinguins[i]->position));
 	for (i = 0; i < NBBTN; i++)
@@ -114,9 +139,9 @@ void board_refresh(Board *board) {
 /*Function computing component's position*/
 void board_computePosition(Board *board) {
 	int i;
-	for (i = 0; i < board->nbPinguins && (i < board->moment / 20); i++)
+	for (i = 0; i < board->nbPinguins && (i < board->moment / ECART); i++)
 		pinguin_computePosition(board->pinguins[i]);
-	if (board->moment / 20 < board->nbPinguins)
+	if (board->moment / ECART < board->nbPinguins)
 		board->moment++;
 	int nbS = 0, nbM = 0;
 	for (i = 0; i < board->nbPinguins; i++) {
@@ -169,6 +194,9 @@ void board_manageCollision(Board *board) {
 	 }
 	 }
 	 }*/
+
+	//TODO: prise en compte de la noyade
+	//TODO: prise en compte du prob de DESTRUCTABILITE
 	CollisionDirection nouvelEtatGraphic;
 	int ip;
 	for (ip = 0; ip < board->nbPinguins; ip++) {
@@ -180,62 +208,98 @@ void board_manageCollision(Board *board) {
 			int ig;
 			for (ig = 0; ig < board->nbGraphics; ig++) {
 				//unsigned char breakTest = 0;
-				int breakTest=0;
+				int breakTest = 0;
 				if (board->graphics[ig]->collision) {
-					int nc=collisionDetectionRectRect(
+					int nc = collisionDetectionRectRect(
 							board->graphics[ig]->position,
 							board->pinguins[ip]->position);
-					if(nc!=NONE){
-						if(nc==LEFTRIGHT &&  nouvelEtatGraphic!=INCLUT){
-							nouvelEtatGraphic=LEFTRIGHT;
+					if (nc != NONE) {
+						if (nc == LEFTRIGHT && nouvelEtatGraphic != INCLUT) {
+							nouvelEtatGraphic = LEFTRIGHT;
 						}
-						if(nc==UPDOWN && nouvelEtatGraphic==NONE){
-							nouvelEtatGraphic=UPDOWN;
+						if (nc == UPDOWN && nouvelEtatGraphic == NONE) {
+							nouvelEtatGraphic = UPDOWN;
 						}
-						if(nc==INCLUT)
-							nouvelEtatGraphic=INCLUT;
+						if (nc == INCLUT)
+							nouvelEtatGraphic = INCLUT;
 					}
-				}if(breakTest)
+				}
+				if (breakTest)
 					break;
 			}
-			CollisionDirection nouvelEtatGreen=NONE;
+			CollisionDirection nouvelEtatGreen = NONE;
 			int iv;
-			for(iv=0;iv<board->nbGreen;iv++){
-				CollisionDirection nv=collisionDetectionRectRect(
+			for (iv = 0; iv < board->nbGreen; iv++) {
+				CollisionDirection nv = collisionDetectionRectRect(
 						board->green[iv]->position,
 						board->pinguins[ip]->position);
-				if(nv==LEFTRIGHT && nouvelEtatGreen==NONE)
-					nouvelEtatGreen=LEFTRIGHT;
-				if(nv==UPDOWN && nouvelEtatGreen==NONE)
-					nouvelEtatGreen=UPDOWN;
-				if(nv==INCLUT)
-					nouvelEtatGreen=INCLUT;
+				if (nv == LEFTRIGHT && nouvelEtatGreen == NONE)
+					nouvelEtatGreen = LEFTRIGHT;
+				if (nv == UPDOWN && nouvelEtatGreen == NONE)
+					nouvelEtatGreen = UPDOWN;
+				if (nv == INCLUT)
+					nouvelEtatGreen = INCLUT;
 
 			}
-			if(board->pinguins[ip]->state==FLOATING && nouvelEtatGraphic!=UPDOWN){
+			int io;
+			CollisionDirection nouvelEtatIO = NONE;
+			for(io=0;io<board->nbOrange;io++) {
+				CollisionDirection nv = collisionDetectionRectRect(
+										board->orange[io]->position,
+										board->pinguins[ip]->position);
+								if (nv == LEFTRIGHT && nouvelEtatIO == NONE)
+									nouvelEtatIO = LEFTRIGHT;
+								if (nv == UPDOWN && nouvelEtatIO == NONE)
+									nouvelEtatIO = UPDOWN;
+								if (nv == INCLUT)
+									nouvelEtatIO = INCLUT;
+			}
+			if (board->pinguins[ip]->state == FLOATING
+					&& nouvelEtatGraphic != UPDOWN) {
 				//board->pinguins[ip]->state==UPDOWN;
-			}else if(board->pinguins[ip]->state==DIGGING){
-				printf("Position actuelle: x:%d, y:%d,w:%d,h:%d\n",board->pinguins[ip]->position.x,board->pinguins[ip]->position.y, board->pinguins[ip]->position.w, board->pinguins[ip]->position.h);
-					if(nouvelEtatGraphic==INCLUT)
-						printf("nouvelEtatGraphic=INCLUT\n");
-						if(nouvelEtatGraphic==NONE)	printf("nouvelEtatGraphic=NONE\n");
-							if(nouvelEtatGraphic==LEFTRIGHT)printf("nouvelEtatGraphic=LEFTRIGHT\n");
-								if(nouvelEtatGraphic==UPDOWN)printf("nouvelEtatGraphic=UPDOWN\n");
-					board_addRect(board, board->pinguins[ip]->position);
-					if(nouvelEtatGraphic==LEFTRIGHT && board->pinguins[ip]->previousColision==INCLUT)
-						board->pinguins[ip]->state=FALLING;
-			}else if(nouvelEtatGreen==INCLUT){
-				if(board->pinguins[ip]->state!=FLOATING)
-					board->pinguins[ip]->state=FALLING;
-			}else if(nouvelEtatGraphic==LEFTRIGHT)
-				if(board->pinguins[ip]->previousState==WALKING)
-				pinguin_switchDirection(board->pinguins[ip]);
+			}else if(board->pinguins[ip]->state==BOOMING){
+				//TODO : KILL des pinguins autour
+				//TODO : marche pinguin dans les deux sens inclusion classe;
+				if(board->pinguins[ip]->sprite.x>=256){
+					board_addRect(board,board->pinguins[ip]->position);
+				}
+			} else if (board->pinguins[ip]->state == DIGGING) { //TODO: PRECONDITION : etre INCLU sinon test en boucle!
+				printf("Position actuelle: x:%d, y:%d,w:%d,h:%d\n",
+						board->pinguins[ip]->position.x,
+						board->pinguins[ip]->position.y,
+						board->pinguins[ip]->position.w,
+						board->pinguins[ip]->position.h);
+				if (nouvelEtatGraphic == INCLUT)
+					printf("nouvelEtatGraphic=INCLUT\n");
+				if (nouvelEtatGraphic == NONE)
+					printf("nouvelEtatGraphic=NONE\n");
+				if (nouvelEtatGraphic == LEFTRIGHT)
+					printf("nouvelEtatGraphic=LEFTRIGHT\n");
+				if (nouvelEtatGraphic == UPDOWN)
+					printf("nouvelEtatGraphic=UPDOWN\n");
+				board_addRect(board, board->pinguins[ip]->position);
+				if (nouvelEtatGraphic == LEFTRIGHT
+						&& board->pinguins[ip]->previousColision == INCLUT)
+					board->pinguins[ip]->state = FALLING;
+			} else if (board->pinguins[ip]->state == BASHING) {
+				//ON BASH
+				//TODO: précond: être INCLUT
+				board_addOrange(board, board->pinguins[ip]->position);
+				if (board->pinguins[ip]->previousColision == INCLUT
+						&& nouvelEtatGraphic == LEFTRIGHT)
+					board->pinguins[ip]->state = WALKING;
+			} else if (nouvelEtatGreen == INCLUT) {
+				if (board->pinguins[ip]->state != FLOATING)
+					board->pinguins[ip]->state = FALLING;
+			} else if (nouvelEtatGraphic == LEFTRIGHT && nouvelEtatIO==NONE)
+				if (board->pinguins[ip]->previousState == WALKING)
+					pinguin_switchDirection(board->pinguins[ip]);
 				else
-					board->pinguins[ip]->state=FALLING;
-			else if(nouvelEtatGraphic==UPDOWN)
-				board->pinguins[ip]->state=WALKING;
-			else if(nouvelEtatGraphic==NONE)
-				board->pinguins[ip]->state=FALLING;
+					board->pinguins[ip]->state = FALLING;
+			else if (nouvelEtatGraphic == UPDOWN)
+				board->pinguins[ip]->state = WALKING;
+			else if (nouvelEtatGraphic == NONE)
+				board->pinguins[ip]->state = FALLING;
 
 			if (collisionDetectionCursorRect(
 					board->graphics[1]->position.x
@@ -252,11 +316,9 @@ void board_manageCollision(Board *board) {
 
 				board->pinguins[ip]->state = EXITING;
 			}
-			board->pinguins[ip]->previousColision=nouvelEtatGraphic;
+			board->pinguins[ip]->previousColision = nouvelEtatGraphic;
 		}
 	}
-
-
 
 	//######################################################################################
 	/*
@@ -303,6 +365,7 @@ void board_manageCollision(Board *board) {
 	 }*/
 }
 void board_createPanel(Board *board) {
+	//TODO: coef avec constante
 	board->panel = malloc(sizeof(Button*) * NBBTN);
 	board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
 	board->panel[1] = button_create(board->render, FLOATER, 60, 520, 50, 70);
@@ -330,20 +393,49 @@ void board_manageEvent(Board *board, int x, int y) {
 	} else if (collisionDetectionCursorRect(x, y, board->panel[8]->position)
 			== POINT) {
 		board->idS = DIGGER;
-	}else if(collisionDetectionCursorRect(x,y,board->panel[3]->position)){
-
+	} else if (collisionDetectionCursorRect(x, y, board->panel[3]->position)==POINT) {
+		board->idS = BASHER;
+	}else if(collisionDetectionCursorRect(x,y,board->panel[4]->position)==POINT){
+			board->idS=BLOCKER;}
+	else if(collisionDetectionCursorRect(x,y,board->panel[5]->position)==POINT){
+				board->idS=BOMBER;
 	} else if (board->idS != -1) {
 		int i;
+		int breaktest = 0;
+		//TODO: état sélectionné pour les boutons
 		for (i = 0; i < board->nbPinguins; i++) {
+			if(board->pinguins[i]->state!=EXITING && board->pinguins[i]->state!=SAVE && board->pinguins[i]->state!=DEAD){
 			if (board->pinguins[i]->state == FALLING
 					&& collisionDetectionCursorRect(x, y,
 							board->pinguins[i]->position) == POINT) {
 				board->pinguins[i]->state = FLOATING;
+				breaktest = 1;
 			}
 			if (collisionDetectionCursorRect(x, y, board->pinguins[i]->position)
 					== POINT && board->idS == DIGGER) {
 				board->pinguins[i]->state = DIGGING;
+				breaktest = 1;
 			}
+			if (collisionDetectionCursorRect(x, y, board->pinguins[i]->position)
+					== POINT && board->idS == BASHER) {
+				board->pinguins[i]->state = BASHING;
+				breaktest = 1;
+			}
+			//TODO: supprimmer proprement le sprite
+			//TODO: animation du STOPPER
+			if(collisionDetectionCursorRect(x, y, board->pinguins[i]->position)==POINT && board->idS==BLOCKER){
+				if(board->pinguins[i]->state!=FLOATING || board->pinguins[i]->state!=FALLING)
+				{board->pinguins[i]->state=DEAD;board_addStop(board, board->pinguins[i]->position);}
+				breaktest=1;
+			}
+
+			if(collisionDetectionCursorRect(x, y, board->pinguins[i]->position)==POINT && board->idS==BOMBER){
+				board->pinguins[i]->state=BOOMING;
+			}
+
+			if (breaktest)
+				break;
+		}
 		}
 	}
 }
