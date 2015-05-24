@@ -1,7 +1,6 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include "pinguin.h"
 #include "graphiccomponent.h"
 #include "button.h"
@@ -33,9 +32,7 @@ void board_createPanel(Board *board);
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
 
 /*Function computing the board's component position*/
-void board_computePosition(Board *board);
-
-void board_nbPinguins(Board *board);
+int board_computePosition(Board *board);
 
 /*Function freeing memory*/
 void board_destroy(Board *board);

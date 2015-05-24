@@ -1,99 +1,65 @@
+//TODO: Sens des briques pour BRIDGER
+//TODO: ajouter menu GAMEOVER/WINNER copyright TISSIER TODO-WRITTING
+//TODO: colision avec les bords == meurt!
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 
-#include "menu.h"
+#include "mainmenu.h"
+#include "levelsmenu.h"
 #include "render.h"
 
-int main(){
+#define WIDTH 800
+#define HEIGHT 600
+
+/*Entry point of the program*/
+int main() {
 	/*Try to init SDL*/
-	if (SDL_Init(SDL_INIT_VIDEO)==0){
+	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		/*Create the main window*/
-		SDL_Window *window=SDL_CreateWindow("Pinguins", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+		SDL_Window *window = SDL_CreateWindow("Penguins",
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT,
+				SDL_WINDOW_SHOWN);
 		/*Try the window and start the game*/
-		printf("On tente la sdl\n");
-		if(window!=NULL){
-			printf("La sdl marche\n");
-			TTF_Init();
-			/*Initialising the render*/
-			SDL_Renderer *render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-			/*Start the game*/
-			Menu *menu=menu_create(render, STARTMENU);
-			SDL_Event event;
-			int x,y;
-			int test=1;
-			while(SDL_WaitEvent(&event) && test && (menu_detection(menu,x,y)!=DEBUT || menu_detection(menu,x,y)!=ARRET)){
-				switch(event.type)
-				{
-				case SDL_QUIT :
-					return 0;
-					break;
-				case SDL_MOUSEBUTTONUP:
-					SDL_GetMouseState(&x,&y);
-					test=0;
-					break;
-				}
-			}
-			SDL_RenderClear(render);
-			if(menu_detection(menu,x,y)==DEBUT) {
-				free(menu);
-				Menu *levels=menu_create(render, LEVELSMENU);
-				test=1;
-				while(SDL_WaitEvent(&event) && test && (menu_detection(menu,x,y)!=DEBUT || menu_detection(menu,x,y)!=ARRET)){
-					switch(event.type)
-					{
-					case SDL_QUIT :
-						return 0;
-						break;
-					case SDL_MOUSEBUTTONUP:
-						SDL_GetMouseState(&x,&y);
-						test=0;
-						break;
-					}
-				}
+		if (window != NULL) {
+			/*Initializing the render*/
+			SDL_Renderer *render = SDL_CreateRenderer(window, -1,
+					SDL_RENDERER_ACCELERATED);
+			/*Display the menu*/
+			ButtonType menuEvent;
+			do {
+				MainMenu *menu = mainmenu_create(render);
+				menuEvent = mainmenu_execute(menu);
 				SDL_RenderClear(render);
-				if(menu_detection(levels,x,y)==DEBUT) {
-					free(levels);
-					Board *board=board_create(render,"levels/level-1");
-					SDL_RenderPresent(render);
-					renderLoop(board);
-					board_destroy(board);
-				} else if(menu_detection(levels,x,y)==ARRET) {
-					free(levels);
-					Board *board=board_create(render,"levels/level-2");
-					SDL_RenderPresent(render);
+				mainmenu_destroy(menu);
+				if (menuEvent == LEVELS) {
+					/*Display the levels menu*/
+					int level=-1;
+					do{
+						LevelsMenu *levelsmenu=levelsmenu_create(render);
+						level= levelsmenu_execute(levelsmenu);
+						levelsmenu_destroy(levelsmenu);
+					}while(level==-1);
+					/*Load the board*/
+					char levelstr[15]="levels/level-";
+					levelstr[13]=level+'0';
+					levelstr[14]='\0';
+					/*Start the game loop*/
+					Board *board = board_create(render, levelstr);
+					SDL_RenderClear(render);
 					renderLoop(board);
 					board_destroy(board);
 				}
-				printf("debut");
-				/*Load the board*/
-				/*Start the game loop*/
-			}else if(menu_detection(menu,x,y)==ARRET) {
-				printf("arret");
-				/*Free memory*/
-				free(menu);
-			}
-			//TODO display menu;
-			//SDL_Texture *backg=IMG_LoadTexture(render,"img/background.jpg");
-			//SDL_RenderCopy(render,backg,NULL,NULL);
-			//SDL_RenderPresent(render);
-			//SDL_Delay(3000);
-			//SDL_RenderClear(render);
-			/*Load the board*/
-			//##Board *board=board_create(render,"levels/level-1");
-			/*Start the game loop*/
-			//##renderLoop(board);
-			/*Free memory*/
-			//##board_destroy(board);
+			} while (menuEvent!=-1 && menuEvent!=QUIT);
+			/*Freeing memory*/
 			SDL_DestroyRenderer(render);
 			SDL_DestroyWindow(window);
 			/*Close SDL*/
-			TTF_Quit();
 			SDL_Quit();
 			return EXIT_SUCCESS;
-		}printf("SDL error:\n");
+		}else
+		printf("SDL error! Couldn'nt initialize main window\n");
 	}
 	/*If error, display it and quit*/
-	printf("SDL error:\n");
+	printf("SDL error! Can't get the driver\n");
 	return EXIT_FAILURE;
 }

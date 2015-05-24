@@ -11,6 +11,6 @@
 void renderLoop(Board *board);
 int manageEvent(SDL_Event *event, Board *board);
 
-int quit;
+//int quit;
 
 #endif
