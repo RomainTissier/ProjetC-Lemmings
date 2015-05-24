@@ -325,9 +325,11 @@ void board_manageCollision(Board *board) {
 					pinguin_switchDirection(board->pinguins[ip]);
 				else
 					board->pinguins[ip]->state = FALLING;
-			else if (nouvelEtatGraphic == UPDOWN)
+			else if (nouvelEtatGraphic == UPDOWN) {
+				if (board->graphics[ig]->type==WATER)
+					board->pinguins[ip]->state = DROWNING;
 				board->pinguins[ip]->state = WALKING;
-			else if (nouvelEtatGraphic == NONE)
+			} else if (nouvelEtatGraphic == NONE)
 				board->pinguins[ip]->state = FALLING;
 
 			if (collisionDetectionCursorRect(
