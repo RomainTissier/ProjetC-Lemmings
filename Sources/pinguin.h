@@ -19,7 +19,7 @@ typedef enum {
 	WAITING,
 	BASHING,
 	BOOMING,
-	BRIDGING
+	BRIDGING,
 } State;
 
 //TODO: rajouter des sons aux pinguins

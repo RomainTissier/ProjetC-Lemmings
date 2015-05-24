@@ -18,7 +18,7 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 		case FLOOR:
 			newComp->destructible=1;
 			newComp->collision=1;
-			newComp->texture=IMG_LoadTexture(render,"img/floor.png");
+			newComp->texture=IMG_LoadTexture(render,"img/piece2.png");
 			break;
 		case WALL:
 			newComp->destructible=1;
