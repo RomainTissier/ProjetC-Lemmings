@@ -26,7 +26,7 @@ typedef struct board{
 	char idS;
 }Board;
 
-void board_createPanel(Board *board);
+void board_createPanel(Board *board, ButtonType type_button);
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
