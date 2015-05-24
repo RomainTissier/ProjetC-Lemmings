@@ -4,6 +4,8 @@
 
 #define NBBTN 9
 #define ECART 40
+
+//TODO: on ne peut pas changer d'action une fois qu'une action est engagée !=> sauf si elle se termine
 //TODO: prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]) {
@@ -90,6 +92,16 @@ void board_addStop(Board *board, SDL_Rect r) {
 			r.x-1, r.y-2, r.w+2, r.h+1);
 	board->nbGraphics++;
 }
+
+//TODO: optimiser les fonctions add en une seule
+void board_addBrick(Board *board, SDL_Rect r) {
+	board->graphics = realloc(board->graphics,
+			(board->nbGraphics + 1) * sizeof(GraphicComponent*));
+	board->graphics[board->nbGraphics] = graphicComponent_create(board->render, BRIDGEPART,
+			r.x+r.w/2, r.y+r.h-1, r.w/2+1, 20);
+	board->nbGraphics++;
+}
+
 //TODO: ajout menu automatique
 void board_addOrange(Board *board, SDL_Rect r) {
 	board->orange = realloc(board->orange,
@@ -135,6 +147,8 @@ void board_refresh(Board *board) {
 				&(board->panel[i]->position));
 
 }
+
+//TODO : merger green et orange
 
 /*Function computing component's position*/
 void board_computePosition(Board *board) {
@@ -257,10 +271,21 @@ void board_manageCollision(Board *board) {
 			if (board->pinguins[ip]->state == FLOATING
 					&& nouvelEtatGraphic != UPDOWN) {
 				//board->pinguins[ip]->state==UPDOWN;
+			}else if(board->pinguins[ip]->state==BRIDGING){
+				if(board->pinguins[ip]->sprite.x>=256 && board->pinguins[ip]->sprite.x<=288)
+				board_addBrick(board,board->pinguins[ip]->position);
 			}else if(board->pinguins[ip]->state==BOOMING){
-				//TODO : KILL des pinguins autour
+//TODO : detection des hautbas pour creuser en L
 				//TODO : marche pinguin dans les deux sens inclusion classe;
 				if(board->pinguins[ip]->sprite.x>=256){
+					int ip2;
+					for(ip2=0;ip2<board->nbPinguins;ip2++){
+						if(board->pinguins[ip2]->state!=DEAD && collisionDetectionRectRect(
+													board->pinguins[ip]->position,
+													board->pinguins[ip2]->position)!=NONE){
+							board->pinguins[ip2]->state=KILLING;
+						}
+					}
 					board_addRect(board,board->pinguins[ip]->position);
 				}
 			} else if (board->pinguins[ip]->state == DIGGING) { //TODO: PRECONDITION : etre INCLU sinon test en boucle!
@@ -399,6 +424,8 @@ void board_manageEvent(Board *board, int x, int y) {
 			board->idS=BLOCKER;}
 	else if(collisionDetectionCursorRect(x,y,board->panel[5]->position)==POINT){
 				board->idS=BOMBER;
+	}else if(collisionDetectionCursorRect(x,y,board->panel[6]->position)==POINT){
+			board->idS=BRIDGER;
 	} else if (board->idS != -1) {
 		int i;
 		int breaktest = 0;
@@ -407,9 +434,14 @@ void board_manageEvent(Board *board, int x, int y) {
 			if(board->pinguins[i]->state!=EXITING && board->pinguins[i]->state!=SAVE && board->pinguins[i]->state!=DEAD){
 			if (board->pinguins[i]->state == FALLING
 					&& collisionDetectionCursorRect(x, y,
-							board->pinguins[i]->position) == POINT) {
+							board->pinguins[i]->position) == POINT && board->idS==FLOATER) {
 				board->pinguins[i]->state = FLOATING;
 				breaktest = 1;
+			}
+			if(collisionDetectionCursorRect(x, y,
+					board->pinguins[i]->position) == POINT && board->idS==BRIDGER){
+				board->pinguins[i]->state=BRIDGING;
+				breaktest=1;
 			}
 			if (collisionDetectionCursorRect(x, y, board->pinguins[i]->position)
 					== POINT && board->idS == DIGGER) {

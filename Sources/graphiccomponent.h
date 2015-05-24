@@ -17,7 +17,8 @@ typedef enum{
 	EXIT,
 	TRANS,
 	ORANGE,
-	STOPP
+	STOPP,
+	BRIDGEPART
 }Type;
 
 /* Graphic component structure */
