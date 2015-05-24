@@ -87,8 +87,7 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 			else if (!strcmp(typeName, "DIGGER")) {
 				type_button = DIGGER;
 				board_createPanel(board, type_button);
-			}
-			else {
+			} else {
 				board->graphics = realloc(board->graphics,
 						(board->nbGraphics + 1) * sizeof(GraphicComponent*));
 				if (!strcmp(typeName, "ICE_PEAK"))
