@@ -35,11 +35,29 @@ Button * button_create(SDL_Renderer *render,TypeButton type, int x, int y, int w
 			button->background=IMG_LoadTexture(render,"img/pause.png");
 			break;
 		case LEVELS:
-					button->background=IMG_LoadTexture(render,"img/start_button.png");
-					break;
-				case QUIT:
-					button->background=IMG_LoadTexture(render,"img/quit_button.png");
-					break;
+			button->background=IMG_LoadTexture(render,"img/start_button.png");
+			break;
+		case QUIT:
+			button->background=IMG_LoadTexture(render,"img/quit_button.png");
+			break;
+		case LEVEL1:
+			button->background=IMG_LoadTexture(render,"img/level1_button.png");
+			break;
+		case LEVEL2:
+			button->background=IMG_LoadTexture(render,"img/level2_button.png");
+			break;
+		case LEVEL3:
+			button->background=IMG_LoadTexture(render,"img/level3_button.png");
+			break;
+		case LEVEL4:
+			button->background=IMG_LoadTexture(render,"img/level4_button.png");
+			break;
+		case LEVEL5:
+			button->background=IMG_LoadTexture(render,"img/level5_button.png");
+			break;
+		case LEVEL6:
+			button->background=IMG_LoadTexture(render,"img/level6_button.png");
+			break;
 	}
 	return button;
 }

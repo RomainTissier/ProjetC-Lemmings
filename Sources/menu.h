@@ -8,7 +8,7 @@
 
 typedef enum{
 	STARTMENU,
-	PAUSEMENU
+	LEVELSMENU
 }TypeMenu;
 
 typedef enum{
