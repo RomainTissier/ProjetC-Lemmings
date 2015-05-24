@@ -420,26 +420,42 @@ void board_manageCollision(Board *board) {
 void board_createPanel(Board *board, ButtonType type_button) {
 	//TODO: coef avec constante
 	board->panel = malloc(sizeof(Button*)*NBBTN);
+	int i=0;
 	switch(type_button) {
 		case PAUSE:
 			board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
 			break;
 		case FLOATER:
+			board->panel[0] = NOBUTTON;
 			board->panel[1] = button_create(board->render, FLOATER, 60, 520, 50, 70);
 			break;
 		case BASHER:
+			board->panel[0] = NOBUTTON;
+			board->panel[1] = NOBUTTON;
 			board->panel[2] = button_create(board->render, BASHER, 110, 520, 50, 70);
 			break;
 		case BLOCKER:
+			for (i = 0 ; i < 3 ; i++) {
+				board->panel[i] = NOBUTTON;
+			}
 			board->panel[3] = button_create(board->render, BLOCKER, 160, 520, 50, 70);
 			break;
 		case BOMBER:
+			for (i = 0 ; i < 4 ; i++) {
+				board->panel[i] = NOBUTTON;
+			}
 			board->panel[4] = button_create(board->render, BOMBER, 210, 520, 50, 70);
 			break;
 		case BRIDGER:
+			for (i = 0 ; i < 5 ; i++) {
+				board->panel[i] = NOBUTTON;
+			}
 			board->panel[5] = button_create(board->render, BRIDGER, 260, 520, 50, 70);
 			break;
 		case DIGGER:
+			for (i = 0 ; i < 6 ; i++) {
+				board->panel[i] = NOBUTTON;
+			}
 			board->panel[6] = button_create(board->render, DIGGER, 310, 520, 50, 70);
 			break;
 	}
