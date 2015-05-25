@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-//TODO: supprimmer image inutilisée dans IMG
+//TODO: supprimmer image inutilisée dans IMG et renommer correctement les autres
 //TODO: commenter !
 typedef enum {
 	FLOATER,

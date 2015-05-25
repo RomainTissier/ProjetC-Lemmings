@@ -9,9 +9,8 @@
 typedef struct board{
 	SDL_Renderer *render;
 	SDL_Texture *background;
-	Penguin **pinguins;
+	Penguin **penguins;
 	int nbPinguins;
-	//TODO : tout repasser en un seul tableau
 	GraphicComponent **graphics;
 	GraphicComponent **diggedBlocks;
 	GraphicComponent **bashedBlocks;
@@ -25,6 +24,7 @@ typedef struct board{
 	char lastSelection;
 }Board;
 
+/*Function creating a panel*/
 void board_createPanel(Board *board);
 
 /*Function creating a board*/
