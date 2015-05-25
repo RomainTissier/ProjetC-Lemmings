@@ -41,7 +41,7 @@ static void penguin_walkingUpdate(Penguin *p) {
 		p->sprite.h = 32;
 		p->sprite.w = 32 - SHIFT * 2;
 	}
-	if (p->counter >= 40) {
+	if (p->counter >= 50) {
 		p->state = KILLING;
 	} else {
 		p->counter = 0;
