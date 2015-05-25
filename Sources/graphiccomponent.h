@@ -15,8 +15,8 @@ typedef enum{
 	DECO,
 	ENTRY,
 	EXIT,
-	TRANS,
-	ORANGE,
+	DIGGEDBLOCK,
+	BASHEDBLOCK,
 	STOPP,
 	BRIDGEPART
 }Type;
@@ -37,4 +37,5 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 
 /*Function freeing memory*/
 void graphicComponent_destroy(GraphicComponent *comp);
+
 #endif

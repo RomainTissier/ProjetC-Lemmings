@@ -1,14 +1,14 @@
-board.d: ../board.c ../board.h ../pinguin.h ../collisiondetection.h \
- ../graphiccomponent.h ../button.h ../render.h
+board.d: ../board.c ../board.h ../graphiccomponent.h ../button.h \
+ ../penguin.h ../collisiondetection.h ../render.h
 
 ../board.h:
-
-../pinguin.h:
-
-../collisiondetection.h:
 
 ../graphiccomponent.h:
 
 ../button.h:
+
+../penguin.h:
+
+../collisiondetection.h:
 
 ../render.h:

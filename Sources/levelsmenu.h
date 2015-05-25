@@ -7,7 +7,7 @@
 #include "collisiondetection.h"
 
 #define NBLEVELS 6
-
+//TODO:  à commenter !
 typedef struct{
 	SDL_Texture *background;
 	Button **levelsButtons;
