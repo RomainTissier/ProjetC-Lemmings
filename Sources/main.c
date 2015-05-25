@@ -1,6 +1,5 @@
 //TODO: faire attention colision bombe entree
-//TODO: reprendre les notes d'hier
-//TODO: rapport: licences GNU
+//TODO: Ajouter nombre de pinguin dnas le bordel
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -55,7 +54,7 @@ int main() {
 							SDL_RenderClear(render);
 							renderLoop(board);
 							EndMenu *endmenu;
-							EndType endType=(board->nbSavedPenguins>=1)?WIN:LOOSE;
+							EndType endType=(board->nbSavedPenguins>=board->goal)?WIN:LOOSE;
 							SDL_RenderClear(render);
 							board_destroy(board);
 							endmenu=endmenu_create(render, endType);

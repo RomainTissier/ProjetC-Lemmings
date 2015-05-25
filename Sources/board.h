@@ -9,23 +9,22 @@
 typedef struct board{
 	SDL_Renderer *render;
 	SDL_Texture *background;
-	Penguin **pinguins;
+	Penguin **penguins;
 	int nbPinguins;
-	//TODO : tout repasser en un seul tableau
 	GraphicComponent **graphics;
 	GraphicComponent **diggedBlocks;
 	GraphicComponent **bashedBlocks;
 	int nbDiggedBlocks;
 	int nbBashedBlocks;
 	int nbSavedPenguins;
+	int goal;
 	Button **panel;
+	int nbPanelButton;
 	int nbGraphics;
 	unsigned char pause;
 	int moment;
 	char lastSelection;
 }Board;
-
-void board_createPanel(Board *board);
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
