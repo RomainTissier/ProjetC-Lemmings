@@ -1,9 +1,0 @@
-#####################################################
-######## Conseils pour la compilation ###############
-#####################################################
-
---------------------
---- Sous fedora ----
---------------------
-	-> Installation de la SDL : yum install SDL*
-	-> Pour compiler : gcc nomprog.c -o nomExecutable -lSDL22 

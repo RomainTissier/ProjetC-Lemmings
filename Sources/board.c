@@ -24,7 +24,7 @@ static void loadLevelFile(Board *board, char level[]) {
 		char typeName[15];
 		fgets(string, 100, file);
 		sscanf(string, "%s %d %d", typeName, &(board->nbPinguins), &(board->goal));
-		board->goalNumber=button_create(board->render,GOAL+board->goal,640,520+30,150,70-30);
+		board->goalButton=button_create(board->render,GOAL+board->goal,800-110,530,100,60);
 		while (fgets(string, 100, file) != NULL) {
 			int type = 0, arg1, arg2, arg3, arg4;
 			sscanf(string, "%s %d %d %d %d", typeName, &arg1, &arg2, &arg3,
@@ -52,12 +52,8 @@ static void loadLevelFile(Board *board, char level[]) {
 			} else {
 				board->graphics = realloc(board->graphics,
 						(board->nbGraphics + 1) * sizeof(GraphicComponent*));
-				if (!strcmp(typeName, "ICE_PEAK"))
-					type = ICE_PEAK;
-				else if (!strcmp(typeName, "STONE_FLOOR"))
+				if (!strcmp(typeName, "STONE_FLOOR"))
 					type = STONE_FLOOR;
-				else if (!strcmp(typeName, "STONE_WALL"))
-					type = STONE_WALL;
 				else if (!strcmp(typeName, "FLOOR"))
 					type = FLOOR;
 				else if (!strcmp(typeName, "WALL"))
@@ -105,7 +101,6 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 	board->panel = malloc(sizeof(Button*));
 	board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
 	board->nbPanelButton = 1;
-	board->goalButton=button_create(board->render,GOAL,400,520,50,70);
 	loadLevelFile(board, level);
 	return board;
 }
@@ -128,7 +123,7 @@ static void board_addRect(Board *board, SDL_Rect r, GraphicType type) {
 		board->graphics = realloc(board->graphics,
 				(board->nbGraphics + 1) * sizeof(GraphicComponent*));
 		board->graphics[board->nbGraphics] = graphicComponent_create(
-				board->render, BRIDGEPART, r.x - 2, r.y + r.h - 1, r.w + 4, 20);
+				board->render, BRIDGEPART, r.x - 2, r.y + r.h - 1, r.w + 4, 5);
 		board->nbGraphics++;
 	} else if (type == BASHEDBLOCK) {
 		board->bashedBlocks = realloc(board->bashedBlocks,
@@ -154,7 +149,6 @@ void board_destroy(Board * board) {
 	for (i = 0; i < board->nbPanelButton; i++)
 		button_destroy(board->panel[i]);
 	 button_destroy(board->goalButton);
-	 button_destroy(board->goalNumber);
 	free(board->penguins);
 	free(board->graphics);
 	free(board->diggedBlocks);
@@ -184,8 +178,6 @@ void board_refresh(Board *board) {
 				&(board->panel[i]->position));
 	SDL_RenderCopy(board->render, board->goalButton->background, NULL,
 			&(board->goalButton->position));
-	SDL_RenderCopy(board->render, board->goalNumber->background, NULL,
-			&(board->goalNumber->position));
 }
 
 /*Function computing component's position*/

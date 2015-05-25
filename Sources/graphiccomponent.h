@@ -18,10 +18,8 @@
 typedef enum {
 	FLOOR,
 	STONE_FLOOR,
-	ICE_PEAK,
 	WATER,
 	WALL,
-	STONE_WALL,
 	DECO,
 	ENTRY,
 	EXIT,

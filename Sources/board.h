@@ -26,7 +26,6 @@ typedef struct board {
 	GraphicComponent **diggedBlocks;
 	GraphicComponent **bashedBlocks;
 	Button *goalButton;
-	Button *goalNumber;
 	int nbDiggedBlocks;
 	int nbBashedBlocks;
 	int nbSavedPenguins;

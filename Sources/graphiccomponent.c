@@ -21,10 +21,6 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render,
 	newComp->position.h = h;
 	newComp->type = type;
 	switch (type) {
-	case ICE_PEAK:
-		newComp->collision = 1;
-		newComp->texture = IMG_LoadTexture(render, "img/icepeak.png");
-		break;
 	case FLOOR:
 		newComp->collision = 1;
 		newComp->texture = IMG_LoadTexture(render, "img/piece2.png");
@@ -36,10 +32,6 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render,
 	case STONE_FLOOR:
 		newComp->collision = 1;
 		newComp->texture = IMG_LoadTexture(render, "img/piece10.png");
-		break;
-	case STONE_WALL:
-		newComp->collision = 1;
-		newComp->texture = IMG_LoadTexture(render, "img/piece9.png");
 		break;
 	case STOPP:
 		newComp->collision = 1;
