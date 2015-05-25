@@ -9,12 +9,10 @@ Penguin* penguin_create(SDL_Renderer* render) {
 	penguin->position.y = 0;
 	penguin->position.w = 32 - SHIFT * 2;
 	penguin->position.h = 32;
-
 	penguin->sprite.x=0;
 	penguin->sprite.y=0;
 	penguin->sprite.w=0;
 	penguin->sprite.h=0;
-
 	penguin->state = INIT;
 	penguin->texture = IMG_LoadTexture(render, "img/faller.png");
 	penguin->previousState = INIT;

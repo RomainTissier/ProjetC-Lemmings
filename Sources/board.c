@@ -8,7 +8,6 @@
 //TODO: précond nombre de pinguin à sauver
 //TODO: précond on ne peut pas changer d'action une fois qu'une action est engagée !=> sauf si elle se termine
 //TODO: Précond :prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
-//TODO: récupérer fait par de yoni
 
 static void loadLevelFile(Board *board, char level[]) {
 	/*Loading graphic component from a configuration file*/
@@ -23,29 +22,51 @@ static void loadLevelFile(Board *board, char level[]) {
 			int type = 0, arg1, arg2, arg3, arg4;
 			sscanf(string, "%s %d %d %d %d", typeName, &arg1, &arg2, &arg3,
 					&arg4);
-			board->graphics = realloc(board->graphics,
-					(board->nbGraphics + 1) * sizeof(GraphicComponent*));
-			if (!strcmp(typeName, "ICE_PEAK"))
-				type = ICE_PEAK;
-			else if (!strcmp(typeName, "STONE_FLOOR"))
-				type = STONE_FLOOR;
-			else if (!strcmp(typeName, "STONE_WALL"))
-				type = STONE_WALL;
-			else if (!strcmp(typeName, "FLOOR"))
-				type = FLOOR;
-			else if (!strcmp(typeName, "WALL"))
-				type = WALL;
-			else if (!strcmp(typeName, "WATER"))
-				type = WATER;
-			else if (!strcmp(typeName, "DECO"))
-				type = DECO;
-			else if (!strcmp(typeName, "ENTRY"))
-				type = ENTRY;
-			else if (!strcmp(typeName, "EXIT"))
-				type = EXIT;
-			board->graphics[board->nbGraphics] = graphicComponent_create(
-					board->render, type, arg1, arg2, arg3, arg4);
-			board->nbGraphics++;
+			if (typeName[0] == 'B' && typeName[1] == 'T'
+					&& typeName[2] == 'N') {
+				board->panel = realloc(board->panel,
+						(board->nbPanelButton + 1) * sizeof(Button*));
+				if (!strcmp(typeName, "BTN_FLOATER"))
+					type = FLOATER;
+				else if (!strcmp(typeName, "BTN_BASHER"))
+					type = BASHER;
+				else if (!strcmp(typeName, "BTN_BLOCKER"))
+					type = BLOCKER;
+				else if (!strcmp(typeName, "BTN_BOMBER"))
+					type = BOMBER;
+				else if (!strcmp(typeName, "BTN_BRIDGER"))
+					type = BRIDGER;
+				else if (!strcmp(typeName, "BTN_DIGGER"))
+					type = DIGGER;
+				board->panel[board->nbPanelButton] = button_create(
+						board->render, type, 10 + board->nbPanelButton * 50,
+						520, 50, 70);
+				board->nbPanelButton++;
+			} else {
+				board->graphics = realloc(board->graphics,
+						(board->nbGraphics + 1) * sizeof(GraphicComponent*));
+				if (!strcmp(typeName, "ICE_PEAK"))
+					type = ICE_PEAK;
+				else if (!strcmp(typeName, "STONE_FLOOR"))
+					type = STONE_FLOOR;
+				else if (!strcmp(typeName, "STONE_WALL"))
+					type = STONE_WALL;
+				else if (!strcmp(typeName, "FLOOR"))
+					type = FLOOR;
+				else if (!strcmp(typeName, "WALL"))
+					type = WALL;
+				else if (!strcmp(typeName, "WATER"))
+					type = WATER;
+				else if (!strcmp(typeName, "DECO"))
+					type = DECO;
+				else if (!strcmp(typeName, "ENTRY"))
+					type = ENTRY;
+				else if (!strcmp(typeName, "EXIT"))
+					type = EXIT;
+				board->graphics[board->nbGraphics] = graphicComponent_create(
+						board->render, type, arg1, arg2, arg3, arg4);
+				board->nbGraphics++;
+			}
 		}
 		fclose(file);
 	}
@@ -66,13 +87,15 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 	board->pause = 0;
 	board->moment = 10;
 	board->nbSavedPenguins = 0;
-	board_createPanel(board);
 	board->lastSelection = -1;
 	board->nbDiggedBlocks = 0;
 	board->nbBashedBlocks = 0;
 	board->diggedBlocks = malloc(0);
 	board->graphics = malloc(0);
 	board->bashedBlocks = malloc(0);
+	board->panel = malloc(sizeof(Button*));
+	board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
+	board->nbPanelButton = 1;
 	loadLevelFile(board, level);
 	return board;
 }
@@ -118,7 +141,7 @@ void board_destroy(Board * board) {
 		graphicComponent_destroy(board->diggedBlocks[i]);
 	for (i = 0; i < board->nbBashedBlocks; i++)
 		graphicComponent_destroy(board->bashedBlocks[i]);
-	for (i = 0; i < NBBTN; i++)
+	for (i = 0; i < board->nbPanelButton; i++)
 		button_destroy(board->panel[i]);
 	free(board->penguins);
 	free(board->graphics);
@@ -144,13 +167,10 @@ void board_refresh(Board *board) {
 	for (i = 0; i < board->nbPinguins && (i < board->moment / ECART); i++)
 		SDL_RenderCopy(board->render, board->penguins[i]->texture,
 				&(board->penguins[i]->sprite), &(board->penguins[i]->position));
-	for (i = 0; i < NBBTN; i++)
+	for (i = 0; i < board->nbPanelButton; i++)
 		SDL_RenderCopy(board->render, board->panel[i]->background, NULL,
 				&(board->panel[i]->position));
-
 }
-
-//TODO : merger green et orange
 
 /*Function computing component's position*/
 int board_computePosition(Board *board) {
@@ -176,7 +196,6 @@ int board_computePosition(Board *board) {
 /*Function managing board's collision*/
 void board_manageCollision(Board *board) {
 	//TODO: falcult car board meurt prise en compte de la noyade
-	//TODO: prise en compte du prob de DESTRUCTABILITE
 	CollisionDirection nouvelEtatGraphic;
 	int ip;
 	for (ip = 0; ip < board->nbPinguins; ip++) {
@@ -229,9 +248,6 @@ void board_manageCollision(Board *board) {
 			}
 			//TODO: gestion Stop plusieur penguin
 			//TODO : detection des hautbas pour creuser en L
-			//TODO : marche pinguin dans les deux sens inclusion classe;
-			//TODO: précond: être INCLUT
-			//TODO: PRECONDITION : etre INCLU sinon test en boucle!
 			if (!(board->penguins[ip]->state == FLOATING
 					&& nouvelEtatGraphic != UPDOWN)) {
 				if (board->penguins[ip]->position.y < 0
@@ -309,91 +325,72 @@ void board_manageCollision(Board *board) {
 	}
 }
 //TODO: annimation STOPPER
-
-void board_createPanel(Board *board) {
-//TODO: coef avec constante
-	board->panel = malloc(sizeof(Button*) * NBBTN);
-	board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
-	board->panel[1] = button_create(board->render, FLOATER, 60, 520, 50, 70);
-	board->panel[2] = button_create(board->render, DIGGER, 110, 520, 50, 70);
-	board->panel[3] = button_create(board->render, BASHER, 160, 520, 50, 70);
-	board->panel[4] = button_create(board->render, BLOCKER, 210, 520, 50, 70);
-	board->panel[5] = button_create(board->render, BOMBER, 260, 520, 50, 70);
-	board->panel[6] = button_create(board->render, BRIDGER, 310, 520, 50, 70);
-//TODO: gestion dynamique
-	board->panel[7] = button_create(board->render, DIGGER, 360, 520, 50, 70);
-	board->panel[8] = button_create(board->render, DIGGER, 410, 520, 50, 70);
-}
 //TODO: board rennomer PINGUINS
 //TODO: on ne peut pas creuser en chute libre
 void board_manageEvent(Board *board, int x, int y) {
-	if (collisionDetectionCursorRect(x, y, board->panel[0]->position)
-			== POINT) {
-		board->pause = !(board->pause);
-	} else if (collisionDetectionCursorRect(x, y, board->panel[1]->position)
-			== POINT) {
-		board->lastSelection = FLOATER;
-	} else if (collisionDetectionCursorRect(x, y, board->panel[8]->position)
-			== POINT) {
-		board->lastSelection = DIGGER;
-	} else if (collisionDetectionCursorRect(x, y, board->panel[3]->position)
-			== POINT) {
-		board->lastSelection = BASHER;
-	} else if (collisionDetectionCursorRect(x, y, board->panel[4]->position)
-			== POINT) {
-		board->lastSelection = BLOCKER;
-	} else if (collisionDetectionCursorRect(x, y, board->panel[5]->position)
-			== POINT) {
-		board->lastSelection = BOMBER;
-	} else if (collisionDetectionCursorRect(x, y, board->panel[6]->position)
-			== POINT) {
-		board->lastSelection = BRIDGER;
-	} else if (board->lastSelection != -1) {
-		int i;
-		int breaktest = 0;
-		for (i = 0; i < board->nbPinguins; i++) {
-			if (board->penguins[i]->state != EXITING
-					&& board->penguins[i]->state != SAVED
-					&& board->penguins[i]->state != DEAD && board->penguins[i]->state!=KILLING) {
-				if (collisionDetectionCursorRect(x, y,
-						board->penguins[i]->position) == POINT) {
-					if (board->penguins[i]->state == FALLING
-							&& board->lastSelection == FLOATER) {
-						board->penguins[i]->state = FLOATING;
-						breaktest = 1;
-					} else if (board->lastSelection == BRIDGER) {
-						board->penguins[i]->state = BRIDGING;
-						breaktest = 1;
-					} else if (board->lastSelection == DIGGER
-							&& board->penguins[i]->state != FLOATING
-							&& board->penguins[i]->state != FALLING) {
-						board->penguins[i]->state = DIGGING;
-						breaktest = 1;
-					} else if (board->lastSelection == BASHER) {
-						board->penguins[i]->state = BASHING;
-						breaktest = 1;
-					} else if (board->lastSelection == BLOCKER) {
-						if (board->penguins[i]->state != FLOATING
+	int i;
+	for (i = 0; i < board->nbPanelButton; i++) {
+		if (collisionDetectionCursorRect(x, y, board->panel[i]->position)
+				== POINT) {
+			board->lastSelection = board->panel[i]->type;
+			break;
+		}
+	}
+	if (board->lastSelection != -1) {
+		if (board->lastSelection == PAUSE) {
+			board->pause = !(board->pause);
+			board->lastSelection = -1;
+		} else {
+			int i;
+			int breaktest = 0;
+			for (i = 0; i < board->nbPinguins; i++) {
+				if (board->penguins[i]->state != EXITING
+						&& board->penguins[i]->state != SAVED
+						&& board->penguins[i]->state != DEAD
+						&& board->penguins[i]->state != KILLING) {
+					if (collisionDetectionCursorRect(x, y,
+							board->penguins[i]->position) == POINT) {
+						if (board->penguins[i]->state == FALLING
+								&& board->lastSelection == FLOATER) {
+							board->penguins[i]->state = FLOATING;
+							breaktest = 1;
+						} else if (board->lastSelection == BRIDGER) {
+							board->penguins[i]->state = BRIDGING;
+							breaktest = 1;
+						} else if (board->lastSelection == DIGGER
+								&& board->penguins[i]->state != FLOATING
 								&& board->penguins[i]->state != FALLING) {
-							board->penguins[i]->state = DEAD;
-							board_addRect(board, board->penguins[i]->position,
-									STOPP);
+							board->penguins[i]->state = DIGGING;
+							breaktest = 1;
+						} else if (board->lastSelection == BASHER) {
+							board->penguins[i]->state = BASHING;
+							breaktest = 1;
+						} else if (board->lastSelection == BLOCKER) {
+							if (board->penguins[i]->state != FLOATING
+									&& board->penguins[i]->state != FALLING) {
+								board->penguins[i]->state = DEAD;
+								board_addRect(board,
+										board->penguins[i]->position, STOPP);
+							}
+						} else if (board->lastSelection == BOMBER) {
+							SDL_Rect projection;
+							projection.x = board->penguins[i]->position.x - 21;
+							projection.y = board->penguins[i]->position.y - 18;
+							projection.w = board->penguins[i]->position.w + 37;
+							projection.h = board->penguins[i]->position.h + 34;
+							if (collisionDetectionRectRect(projection,
+									board->graphics[0]->position) == NONE
+									&& collisionDetectionRectRect(
+											board->graphics[1]->position,
+											projection) == NONE
+									&& board->penguins[i]->state != BOMBING)
+								board->penguins[i]->state = BOMBING;
+							breaktest = 1;
 						}
-						breaktest = 1;
-					} else if (board->lastSelection == BOMBER) {
-						SDL_Rect projection;
-						 projection.x=board->penguins[i]->position.x-21;
-						 projection.y=board->penguins[i]->position.y-18;
-						 projection.w=board->penguins[i]->position.w+37;
-						 projection.h=board->penguins[i]->position.h+34;
-						 if(collisionDetectionRectRect(projection,board->graphics[0]->position)==NONE &&
-								 collisionDetectionRectRect(board->graphics[1]->position,projection)==NONE && board->penguins[i]->state!=BOMBING)
-							 board->penguins[i]->state = BOMBING;
-						breaktest = 1;
 					}
+					if (breaktest)
+						break;
 				}
-				if (breaktest)
-					break;
 			}
 		}
 	}
