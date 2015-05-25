@@ -22,7 +22,7 @@ ButtonType mainmenu_execute(MainMenu *menu) {
 	while (SDL_WaitEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
-			return -1;
+			return QUIT;
 			break;
 		case SDL_MOUSEBUTTONUP:
 			SDL_GetMouseState(&x, &y);
@@ -35,7 +35,7 @@ ButtonType mainmenu_execute(MainMenu *menu) {
 			break;
 		}
 	}
-	return -1;
+	return QUIT;
 }
 
 void mainmenu_destroy(MainMenu *m) {
