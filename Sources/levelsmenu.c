@@ -51,6 +51,7 @@ void levelsmenu_destroy(LevelsMenu *m) {
 	for(i=0;i<NBLEVELS;i++)
 		button_destroy(m->levelsButtons[i]);
 	free(m->levelsButtons);
+	free(m->returnButton);
 	free(m);
 }
 

@@ -43,6 +43,6 @@ ButtonType endmenu_execute(EndMenu *menu) {
 void endmenu_destroy(EndMenu *m) {
 	SDL_DestroyTexture(m->background);
 	button_destroy(m->continueButton);
-	button_destroy(m->cancelButton);
+	button_destroy(m->returnLevelsButton);
 }
 
