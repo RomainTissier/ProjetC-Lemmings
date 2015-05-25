@@ -4,7 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 //TODO: supprimmer image inutilisée dans IMG et renommer correctement les autres
-//TODO: commenter !
+
+/*Button type enumeration*/
 typedef enum {
 	FLOATER,
 	BASHER,
@@ -27,17 +28,18 @@ typedef enum {
 	LEVEL6
 } ButtonType;
 
+/*Button structure*/
 typedef struct {
 	SDL_Rect position;
 	SDL_Texture *background;
 	ButtonType type;
 } Button;
 
+/*Function creating the button*/
 Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 		int w, int h);
 
-Button * button_updateState(Button button);
-
+/*Function freeing the button*/
 void button_destroy(Button *b);
 
 #endif

@@ -1,5 +1,6 @@
 #include "button.h"
 
+/*Function creating the button*/
 Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 		int w, int h) {
 	Button *button = malloc(sizeof(Button));
@@ -71,6 +72,7 @@ Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 }
 //TODO: button_testColision
 
+/*Function freeing the button*/
 void button_destroy(Button *b) {
 	SDL_DestroyTexture(b->background);
 	free(b);
