@@ -60,11 +60,19 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, GraphicType type
 			//TODO:assembler ses deux derniers blocks
 		case DIGGEDBLOCK:
 			newComp->collision=1;
-			newComp->texture=IMG_LoadTexture(render, "img/select.png");
+			newComp->texture=IMG_LoadTexture(render, "img/empty.png");
+			newComp->sprite.x=x;
+			newComp->sprite.y=y;
+			newComp->sprite.w=w;
+			newComp->sprite.h=h;
 			break;
 		case BASHEDBLOCK:
 			newComp->collision=1;
-			newComp->texture=IMG_LoadTexture(render, "img/selectorange.png");
+			newComp->texture=IMG_LoadTexture(render, "img/empty.png");
+			newComp->sprite.x=x;
+			newComp->sprite.y=y;
+			newComp->sprite.w=w;
+			newComp->sprite.h=h;
 			break;
 	}
 	return newComp;

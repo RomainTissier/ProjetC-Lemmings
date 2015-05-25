@@ -17,6 +17,7 @@ typedef struct board{
 	int nbDiggedBlocks;
 	int nbBashedBlocks;
 	int nbSavedPenguins;
+	int goal;
 	Button **panel;
 	int nbPanelButton;
 	int nbGraphics;

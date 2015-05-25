@@ -5,7 +5,7 @@
 //TODO: DIGGER petite surface précond
 #define NBBTN 9
 #define ECART 40
-//TODO: précond nombre de pinguin à sauver
+//TODO: nombre de pinguin à sauver
 //TODO: précond on ne peut pas changer d'action une fois qu'une action est engagée !=> sauf si elle se termine
 //TODO: Précond :prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 
@@ -17,7 +17,7 @@ static void loadLevelFile(Board *board, char level[]) {
 		char string[100];
 		char typeName[15];
 		fgets(string, 100, file);
-		sscanf(string, "%s %d", typeName, &(board->nbPinguins));
+		sscanf(string, "%s %d %d", typeName, &(board->nbPinguins), &(board->goal));
 		while (fgets(string, 100, file) != NULL) {
 			int type = 0, arg1, arg2, arg3, arg4;
 			sscanf(string, "%s %d %d %d %d", typeName, &arg1, &arg2, &arg3,
@@ -86,6 +86,7 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 	board->background = IMG_LoadTexture(board->render, "img/background.jpg");
 	board->pause = 0;
 	board->moment = 10;
+	board->goal=0;
 	board->nbSavedPenguins = 0;
 	board->lastSelection = -1;
 	board->nbDiggedBlocks = 0;
@@ -159,10 +160,10 @@ void board_refresh(Board *board) {
 		SDL_RenderCopy(board->render, board->graphics[i]->texture, NULL,
 				&(board->graphics[i]->position));
 	for (i = 0; i < board->nbBashedBlocks; i++)
-		SDL_RenderCopy(board->render, board->bashedBlocks[i]->texture, NULL,
+		SDL_RenderCopy(board->render,board->background, &(board->bashedBlocks[i]->sprite),
 				&(board->bashedBlocks[i]->position));
 	for (i = 0; i < board->nbDiggedBlocks; i++)
-		SDL_RenderCopy(board->render, board->diggedBlocks[i]->texture, NULL,
+		SDL_RenderCopy(board->render, board->background, &(board->diggedBlocks[i]->sprite),
 				&(board->diggedBlocks[i]->position));
 	for (i = 0; i < board->nbPinguins && (i < board->moment / ECART); i++)
 		SDL_RenderCopy(board->render, board->penguins[i]->texture,
