@@ -17,15 +17,14 @@ typedef struct board{
 	int nbDiggedBlocks;
 	int nbBashedBlocks;
 	int nbSavedPenguins;
+	int goal;
 	Button **panel;
+	int nbPanelButton;
 	int nbGraphics;
 	unsigned char pause;
 	int moment;
 	char lastSelection;
 }Board;
-
-/*Function creating a panel*/
-void board_createPanel(Board *board);
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *rendu, char niveau[]);

@@ -19,7 +19,7 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, GraphicType type
 			break;
 		case FLOOR:
 			newComp->collision=1;
-			newComp->texture=IMG_LoadTexture(render,"img/floor.png");
+			newComp->texture=IMG_LoadTexture(render,"img/piece2.png");
 			break;
 		case WALL:
 			newComp->collision=1;
@@ -67,13 +67,19 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, GraphicType type
 			break;
 		case DIGGEDBLOCK:
 			newComp->collision=1;
-			newComp->drown=0;
-			newComp->texture=IMG_LoadTexture(render, "img/select.png");
+			newComp->texture=IMG_LoadTexture(render, "img/empty.png");
+			newComp->sprite.x=x;
+			newComp->sprite.y=y;
+			newComp->sprite.w=w;
+			newComp->sprite.h=h;
 			break;
 		case BASHEDBLOCK:
 			newComp->collision=1;
-			newComp->drown=0;
-			newComp->texture=IMG_LoadTexture(render, "img/selectorange.png");
+			newComp->texture=IMG_LoadTexture(render, "img/empty.png");
+			newComp->sprite.x=x;
+			newComp->sprite.y=y;
+			newComp->sprite.w=w;
+			newComp->sprite.h=h;
 			break;
 	}
 	return newComp;

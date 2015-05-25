@@ -26,6 +26,7 @@ typedef struct{
 	SDL_Renderer *render;
 	SDL_Rect position;
 	SDL_Texture *texture;
+	SDL_Rect sprite;
 	GraphicType type;
 	unsigned char collision;
 	int drown;
