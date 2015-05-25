@@ -17,6 +17,7 @@ typedef struct{
 	SDL_Texture *background;
 	Button *continueButton;
 	Button *cancelButton;
+	Button *returnLevelsButton;
 }EndMenu;
 
 /*Function creating the end menu*/

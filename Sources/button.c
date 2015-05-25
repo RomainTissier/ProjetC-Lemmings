@@ -42,6 +42,12 @@ Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 	case CONTINUE:
 		button->background = IMG_LoadTexture(render,"img/continuer_button.png");
 		break;
+	case RETURN:
+		button->background = IMG_LoadTexture(render,"img/retour_button.png");
+		break;
+	case RETURNLEVEL:
+		button->background = IMG_LoadTexture(render,"img/retourLevel_button.png");
+		break;
 	case LEVEL1:
 		button->background = IMG_LoadTexture(render, "img/level1_button.png");
 		break;

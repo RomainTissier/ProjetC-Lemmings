@@ -38,7 +38,7 @@ int main() {
 						LevelsMenu *levelsmenu = levelsmenu_create(render);
 						int level = levelsmenu_execute(levelsmenu);
 						levelsmenu_destroy(levelsmenu);
-						if (level != -1 && level != QUIT) {
+						if (level != -1 && level != RETURN) {
 							int choice=-1;
 							char levelstr[15] = "";
 							do{
@@ -60,7 +60,7 @@ int main() {
 							endmenu=endmenu_create(render, endType);
 							choice=endmenu_execute(endmenu);
 							endmenu_destroy(endmenu);
-							}while(choice!=-1 && choice!=QUIT);
+							}while(choice!=-1 && choice!=RETURNLEVEL);
 						} else
 							boolLevel = 0;
 					} while (boolLevel);

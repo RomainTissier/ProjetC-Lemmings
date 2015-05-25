@@ -11,10 +11,12 @@ LevelsMenu *levelsmenu_create(SDL_Renderer *render) {
 	menu->levelsButtons[3]=button_create(render, LEVEL4,170, 400, 60, 68);
 	menu->levelsButtons[4]=button_create(render, LEVEL5,370, 400, 60, 68);
 	menu->levelsButtons[5]=button_create(render, LEVEL6,570, 400, 60, 68);
+	menu->returnButton=button_create(render, RETURN, 300, 500, 200, 68);
 	SDL_RenderCopy(render, menu->background, NULL, NULL);
 	int i;
 	for(i=0;i<NBLEVELS;i++)
 		SDL_RenderCopy(render, menu->levelsButtons[i]->background, NULL,&(menu->levelsButtons[i]->position));
+	SDL_RenderCopy(render, menu->returnButton->background, NULL,&(menu->returnButton->position));
 	SDL_RenderPresent(render);
 	return menu;
 }
@@ -34,6 +36,8 @@ int levelsmenu_execute(LevelsMenu *menu) {
 				if(collisionDetectionCursorRect(x, y, menu->levelsButtons[i]->position)==POINT)
 					return menu->levelsButtons[i]->type-LEVEL1+1;
 			}
+			if(collisionDetectionCursorRect(x, y, menu->returnButton->position)==POINT)
+					return RETURN;
 			break;
 		}
 	}

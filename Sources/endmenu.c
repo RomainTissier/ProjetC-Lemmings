@@ -10,10 +10,10 @@ EndMenu *endmenu_create(SDL_Renderer *render, EndType type) {
 		menu->background = IMG_LoadTexture(render, "img/gameover.jpg");
 		menu->continueButton=button_create(render, RETRY, 300, 270, 200, 68);
 	}
-	menu->cancelButton=button_create(render, QUIT, 300, 400, 200, 68);
+	menu->returnLevelsButton=button_create(render, RETURNLEVEL, 300, 400, 200, 68);
 	SDL_RenderCopy(render, menu->background, NULL, NULL);
 	SDL_RenderCopy(render, menu->continueButton->background, NULL,&(menu->continueButton->position));
-	SDL_RenderCopy(render, menu->cancelButton->background, NULL,&(menu->cancelButton->position));
+	SDL_RenderCopy(render, menu->returnLevelsButton->background, NULL,&(menu->returnLevelsButton->position));
 	SDL_RenderPresent(render);
 	return menu;
 }
@@ -31,8 +31,8 @@ ButtonType endmenu_execute(EndMenu *menu) {
 			SDL_GetMouseState(&x, &y);
 				if(collisionDetectionCursorRect(x, y, menu->continueButton->position)==POINT)
 					return menu->continueButton->type;
-				else if(collisionDetectionCursorRect(x, y, menu->cancelButton->position)==POINT)
-					return QUIT;
+				else if(collisionDetectionCursorRect(x, y, menu->returnLevelsButton->position)==POINT)
+					return RETURNLEVEL;
 			break;
 		}
 	}

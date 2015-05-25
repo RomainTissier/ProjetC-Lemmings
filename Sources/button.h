@@ -15,6 +15,8 @@ typedef enum {
 	PAUSE,
 	LEVELS,
 	CONTINUE,
+	RETURN,
+	RETURNLEVEL,
 	RETRY,
 	QUIT,
 	LEVEL1,
