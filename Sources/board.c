@@ -1,14 +1,20 @@
+/**
+ * board.c :
+ * 		Modelize the board of the game
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #include "board.h"
 #include "collisiondetection.h"
 #include "render.h"
-//TODO: à optimiser
-//TODO: DIGGER petite surface précond
-#define NBBTN 9
-#define ECART 40
-//TODO: nombre de pinguin à sauver
-//TODO: précond on ne peut pas changer d'action une fois qu'une action est engagée !=> sauf si elle se termine
-//TODO: Précond :prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 
+#define ECART 40
+
+/*Function load level from a file*/
 static void loadLevelFile(Board *board, char level[]) {
 	/*Loading graphic component from a configuration file*/
 	FILE *file = fopen(level, "r");
@@ -18,6 +24,7 @@ static void loadLevelFile(Board *board, char level[]) {
 		char typeName[15];
 		fgets(string, 100, file);
 		sscanf(string, "%s %d %d", typeName, &(board->nbPinguins), &(board->goal));
+		board->goalNumber=button_create(board->render,GOAL+board->goal,640,520+30,150,70-30);
 		while (fgets(string, 100, file) != NULL) {
 			int type = 0, arg1, arg2, arg3, arg4;
 			sscanf(string, "%s %d %d %d %d", typeName, &arg1, &arg2, &arg3,
@@ -79,6 +86,7 @@ static void loadLevelFile(Board *board, char level[]) {
 		board->penguins[i]->position.y = board->graphics[0]->position.y + 10;
 	}
 }
+
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *render, char level[]) {
 	Board *board = malloc(sizeof(Board));
@@ -97,19 +105,20 @@ Board* board_create(SDL_Renderer *render, char level[]) {
 	board->panel = malloc(sizeof(Button*));
 	board->panel[0] = button_create(board->render, PAUSE, 10, 520, 50, 70);
 	board->nbPanelButton = 1;
+	board->goalButton=button_create(board->render,GOAL,400,520,50,70);
 	loadLevelFile(board, level);
 	return board;
 }
 
-void board_addRect(Board *board, SDL_Rect r, GraphicType type) {
+/*Function adding a box in the board.*/
+static void board_addRect(Board *board, SDL_Rect r, GraphicType type) {
 	if (type == DIGGEDBLOCK) {
 		board->diggedBlocks = realloc(board->diggedBlocks,
 				(board->nbDiggedBlocks + 1) * sizeof(GraphicComponent*));
 		board->diggedBlocks[board->nbDiggedBlocks] = graphicComponent_create(
-				board->render, DIGGEDBLOCK, r.x - 3, r.y - 3, r.w + 3, r.h + 3);
+				board->render, DIGGEDBLOCK, r.x - 3, r.y - 5, r.w + 3, r.h + 6);
 		board->nbDiggedBlocks++;
 	} else if (type == STOPP) {
-		//TODO: annimer le sprite &&  dans pinguin
 		board->graphics = realloc(board->graphics,
 				(board->nbGraphics + 1) * sizeof(GraphicComponent*));
 		board->graphics[board->nbGraphics] = graphicComponent_create(
@@ -144,6 +153,8 @@ void board_destroy(Board * board) {
 		graphicComponent_destroy(board->bashedBlocks[i]);
 	for (i = 0; i < board->nbPanelButton; i++)
 		button_destroy(board->panel[i]);
+	 button_destroy(board->goalButton);
+	 button_destroy(board->goalNumber);
 	free(board->penguins);
 	free(board->graphics);
 	free(board->diggedBlocks);
@@ -171,6 +182,10 @@ void board_refresh(Board *board) {
 	for (i = 0; i < board->nbPanelButton; i++)
 		SDL_RenderCopy(board->render, board->panel[i]->background, NULL,
 				&(board->panel[i]->position));
+	SDL_RenderCopy(board->render, board->goalButton->background, NULL,
+			&(board->goalButton->position));
+	SDL_RenderCopy(board->render, board->goalNumber->background, NULL,
+			&(board->goalNumber->position));
 }
 
 /*Function computing component's position*/
@@ -196,7 +211,6 @@ int board_computePosition(Board *board) {
 
 /*Function managing board's collision*/
 void board_manageCollision(Board *board) {
-	//TODO: falcult car board meurt prise en compte de la noyade
 	CollisionDirection nouvelEtatGraphic;
 	int ip;
 	for (ip = 0; ip < board->nbPinguins; ip++) {
@@ -247,8 +261,6 @@ void board_manageCollision(Board *board) {
 				if (nv == INCLUT)
 					nouvelEtatBashed = INCLUT;
 			}
-			//TODO: gestion Stop plusieur penguin
-			//TODO : detection des hautbas pour creuser en L
 			if (!(board->penguins[ip]->state == FLOATING
 					&& nouvelEtatGraphic != UPDOWN)) {
 				if (board->penguins[ip]->position.y < 0
@@ -276,11 +288,6 @@ void board_manageCollision(Board *board) {
 						}
 						board_addRect(board, board->penguins[ip]->position,
 								DIGGEDBLOCK);
-						printf("x:%d, y:%d, w:%d, h:%d\n",
-								board->penguins[ip]->position.x,
-								board->penguins[ip]->position.y,
-								board->penguins[ip]->position.w,
-								board->penguins[ip]->position.h);
 					}
 				} else if (board->penguins[ip]->state == DIGGING) {
 					board_addRect(board, board->penguins[ip]->position,
@@ -289,7 +296,10 @@ void board_manageCollision(Board *board) {
 							&& board->penguins[ip]->previousColision == INCLUT)
 						board->penguins[ip]->state = FALLING;
 				} else if (board->penguins[ip]->state == BASHING) {
-					board_addRect(board, board->penguins[ip]->position,
+					if(nouvelEtatGraphic==NONE)
+						board->penguins[ip]->state=FALLING;
+					else
+						board_addRect(board, board->penguins[ip]->position,
 							BASHEDBLOCK);
 					if (board->penguins[ip]->previousColision == INCLUT
 							&& nouvelEtatGraphic == LEFTRIGHT)
@@ -325,9 +335,8 @@ void board_manageCollision(Board *board) {
 		}
 	}
 }
-//TODO: annimation STOPPER
-//TODO: board rennomer PINGUINS
-//TODO: on ne peut pas creuser en chute libre
+
+/*Function managing events on a board*/
 void board_manageEvent(Board *board, int x, int y) {
 	int i;
 	for (i = 0; i < board->nbPanelButton; i++) {
@@ -345,17 +354,14 @@ void board_manageEvent(Board *board, int x, int y) {
 			int i;
 			int breaktest = 0;
 			for (i = 0; i < board->nbPinguins; i++) {
-				if (board->penguins[i]->state != EXITING
-						&& board->penguins[i]->state != SAVED
-						&& board->penguins[i]->state != DEAD
-						&& board->penguins[i]->state != KILLING) {
+				if (board->penguins[i]->state==WALKING || board->penguins[i]->state==FALLING) {
 					if (collisionDetectionCursorRect(x, y,
 							board->penguins[i]->position) == POINT) {
 						if (board->penguins[i]->state == FALLING
 								&& board->lastSelection == FLOATER) {
 							board->penguins[i]->state = FLOATING;
 							breaktest = 1;
-						} else if (board->lastSelection == BRIDGER) {
+						} else if (board->lastSelection == BRIDGER && board->penguins[i]->state==WALKING) {
 							board->penguins[i]->state = BRIDGING;
 							breaktest = 1;
 						} else if (board->lastSelection == DIGGER
@@ -363,7 +369,7 @@ void board_manageEvent(Board *board, int x, int y) {
 								&& board->penguins[i]->state != FALLING) {
 							board->penguins[i]->state = DIGGING;
 							breaktest = 1;
-						} else if (board->lastSelection == BASHER) {
+						} else if (board->lastSelection == BASHER && board->penguins[i]->state==WALKING) {
 							board->penguins[i]->state = BASHING;
 							breaktest = 1;
 						} else if (board->lastSelection == BLOCKER) {

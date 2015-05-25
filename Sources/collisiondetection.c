@@ -1,6 +1,16 @@
+/**
+ * collisiondetection.c :
+ *		Management of the collision between the cursor and a box or two boxes
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #include "collisiondetection.h"
 
-/*Function detecting a collision between a cursor and a box */
+/*Function detecting collision between a cursor and a box */
 CollisionDirection collisionDetectionCursorRect(int cursor_x, int cursor_y,
 		SDL_Rect zone) {
 	if (cursor_x >= zone.x && cursor_x < zone.x + zone.w && cursor_y >= zone.y
@@ -9,8 +19,7 @@ CollisionDirection collisionDetectionCursorRect(int cursor_x, int cursor_y,
 	return NONE;
 }
 
-//TODO: optimisation condition
-/*Function detecting a collision between two boxes*/
+/*Function detecting collision between two boxes*/
 CollisionDirection collisionDetectionRectRect(SDL_Rect zone1, SDL_Rect zone2) {
 	if (collisionInside(zone1, zone2) == INCLUT)
 		return INCLUT;
@@ -37,6 +46,7 @@ CollisionDirection collisionDetectionRectRect(SDL_Rect zone1, SDL_Rect zone2) {
 	return NONE;
 }
 
+/*Function detecting if a penguin is inside a box*/
 CollisionDirection collisionInside(SDL_Rect zone1, SDL_Rect pin) {
 	if (pin.x >= zone1.x && pin.y >= zone1.y
 			&& pin.w + pin.x <= zone1.w + zone1.x

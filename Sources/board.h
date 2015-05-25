@@ -1,12 +1,23 @@
+/**
+ * board.h :
+ *		Modelize the board of the game
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #ifndef BOARD_H
 #define BOARD_H
+
 #include <SDL2/SDL.h>
 #include "graphiccomponent.h"
 #include "button.h"
 #include "penguin.h"
 
 /*Game board structure*/
-typedef struct board{
+typedef struct board {
 	SDL_Renderer *render;
 	SDL_Texture *background;
 	Penguin **penguins;
@@ -14,6 +25,8 @@ typedef struct board{
 	GraphicComponent **graphics;
 	GraphicComponent **diggedBlocks;
 	GraphicComponent **bashedBlocks;
+	Button *goalButton;
+	Button *goalNumber;
 	int nbDiggedBlocks;
 	int nbBashedBlocks;
 	int nbSavedPenguins;
@@ -24,23 +37,24 @@ typedef struct board{
 	unsigned char pause;
 	int moment;
 	char lastSelection;
-}Board;
+} Board;
 
 /*Function creating a board*/
 Board* board_create(SDL_Renderer *rendu, char niveau[]);
 
-/*Function computing the board's component position*/
-int board_computePosition(Board *board);
-
 /*Function freeing memory*/
 void board_destroy(Board *board);
 
-/*Function refreshing a board*/
+/*Function refreshing board's display.*/
 void board_refresh(Board *board);
+
+/*Function computing component's position*/
+int board_computePosition(Board *board);
 
 /*Function managing collision on a board*/
 void board_manageCollision(Board *board);
 
-void board_manageEvent(Board *board,int x,int y);
+/*Function managing events on a board*/
+void board_manageEvent(Board *board, int x, int y);
 
 #endif

@@ -1,5 +1,16 @@
+/**
+ * button.c :
+ *		Creation and management of the game buttons
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #include "button.h"
 
+/*Function creating a button*/
 Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 		int w, int h) {
 	Button *button = malloc(sizeof(Button));
@@ -27,6 +38,9 @@ Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 	case DIGGER:
 		button->background = IMG_LoadTexture(render, "img/digger_button.png");
 		break;
+	case RETURN:
+		button->background = IMG_LoadTexture(render, "img/retour_button.png");
+		break;
 	case PAUSE:
 		button->background = IMG_LoadTexture(render, "img/pause.png");
 		break;
@@ -37,10 +51,12 @@ Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 		button->background = IMG_LoadTexture(render, "img/quit_button.png");
 		break;
 	case RETRY:
-		button->background = IMG_LoadTexture(render,"img/reessayer_button.png");
+		button->background = IMG_LoadTexture(render,
+				"img/reessayer_button.png");
 		break;
 	case CONTINUE:
-		button->background = IMG_LoadTexture(render,"img/continuer_button.png");
+		button->background = IMG_LoadTexture(render,
+				"img/continuer_button.png");
 		break;
 	case LEVEL1:
 		button->background = IMG_LoadTexture(render, "img/level1_button.png");
@@ -60,11 +76,44 @@ Button * button_create(SDL_Renderer *render, ButtonType type, int x, int y,
 	case LEVEL6:
 		button->background = IMG_LoadTexture(render, "img/level6_button.png");
 		break;
+	case GOAL:
+		button->background = IMG_LoadTexture(render, "img/savegoal.png");
+		break;
+	case GOAL1:
+		button->background = IMG_LoadTexture(render, "img/goal1.png");
+		break;
+	case GOAL2:
+		button->background = IMG_LoadTexture(render, "img/goal2.png");
+		break;
+	case GOAL3:
+		button->background = IMG_LoadTexture(render, "img/goal3.png");
+		break;
+	case GOAL4:
+		button->background = IMG_LoadTexture(render, "img/goal4.png");
+		break;
+	case GOAL5:
+		button->background = IMG_LoadTexture(render, "img/goal5.png");
+		break;
+	case GOAL6:
+		button->background = IMG_LoadTexture(render, "img/goal6.png");
+		break;
+	case GOAL7:
+		button->background = IMG_LoadTexture(render, "img/goal7.png");
+		break;
+	case GOAL8:
+		button->background = IMG_LoadTexture(render, "img/goal8.png");
+		break;
+	case GOAL9:
+		button->background = IMG_LoadTexture(render, "img/goal9.png");
+		break;
+	case GOAL10:
+		button->background = IMG_LoadTexture(render, "img/goal10.png");
+		break;
 	}
 	return button;
 }
-//TODO: button_testColision
 
+/*Function freeing a button*/
 void button_destroy(Button *b) {
 	SDL_DestroyTexture(b->background);
 	free(b);

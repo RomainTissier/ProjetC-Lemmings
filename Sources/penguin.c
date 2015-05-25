@@ -1,5 +1,14 @@
-#include "penguin.h"
+/**
+ * penguin.c :
+ *		Creation of a penguin and management of his state
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
 
+#include "penguin.h"
 
 /*Function creating a penguin*/
 Penguin* penguin_create(SDL_Renderer* render) {
@@ -9,10 +18,10 @@ Penguin* penguin_create(SDL_Renderer* render) {
 	penguin->position.y = 0;
 	penguin->position.w = 32 - SHIFT * 2;
 	penguin->position.h = 32;
-	penguin->sprite.x=0;
-	penguin->sprite.y=0;
-	penguin->sprite.w=0;
-	penguin->sprite.h=0;
+	penguin->sprite.x = 0;
+	penguin->sprite.y = 0;
+	penguin->sprite.w = 0;
+	penguin->sprite.h = 0;
 	penguin->state = INIT;
 	penguin->texture = IMG_LoadTexture(render, "img/faller.png");
 	penguin->previousState = INIT;
@@ -29,11 +38,12 @@ void pinguin_switchDirection(Penguin* pinguin) {
 	pinguin->sprite.x = SHIFT;
 }
 
+/*Function updating penguin -> walking*/
 static void penguin_walkingUpdate(Penguin *p) {
 	if (p->previousState != WALKING) {
-		if(p->previousState==BRIDGING){
-			p->position.x+=(p->sens)?1:-1;
-			p->counter=0;
+		if (p->previousState == BRIDGING) {
+			p->position.x += (p->sens) ? 1 : -1;
+			p->counter = 0;
 		}
 		p->texture = IMG_LoadTexture(p->render, "img/walker.png");
 		p->sprite.x = SHIFT;
@@ -52,6 +62,7 @@ static void penguin_walkingUpdate(Penguin *p) {
 	}
 }
 
+/*Function updating penguin -> bombing*/
 static void penguin_bombingUpdate(Penguin *p) {
 	if (p->previousState != BOMBING) {
 		p->texture = IMG_LoadTexture(p->render, "img/bomber.png");
@@ -74,6 +85,7 @@ static void penguin_bombingUpdate(Penguin *p) {
 	}
 }
 
+/*Function updating penguin -> bridging*/
 static void penguin_bridgingUpdate(Penguin *p) {
 	if (p->previousState != BRIDGING) {
 		p->texture = IMG_LoadTexture(p->render, "img/bridger.png");
@@ -95,6 +107,7 @@ static void penguin_bridgingUpdate(Penguin *p) {
 	}
 }
 
+/*Function updating penguin -> bashing*/
 static void penguin_bashingUpdate(Penguin *p) {
 	if (p->previousState != BASHING) {
 		p->texture = IMG_LoadTexture(p->render, "img/basher.png");
@@ -108,6 +121,8 @@ static void penguin_bashingUpdate(Penguin *p) {
 		p->sprite.x = SHIFT;
 	p->position.x += (p->sprite.y == 0) ? -1 : 1;
 }
+
+/*Function updating penguin -> falling*/
 static void penguin_fallingUpdate(Penguin *p) {
 	if (p->previousState != FALLING) {
 		p->texture = IMG_LoadTexture(p->render, "img/faller.png");
@@ -123,6 +138,7 @@ static void penguin_fallingUpdate(Penguin *p) {
 	p->counter += 1;
 }
 
+/*Function updating penguin -> floating*/
 static void penguin_floatingUpdate(Penguin *p) {
 	if (p->previousState != FLOATING) {
 		p->counter = 0;
@@ -137,6 +153,8 @@ static void penguin_floatingUpdate(Penguin *p) {
 		p->sprite.x = 0 + SHIFT;
 	p->position.y += 2;
 }
+
+/*Function updating penguin -> exiting*/
 static void penguin_exitingUpdate(Penguin *p) {
 	if (p->previousState != EXITING) {
 		p->texture = IMG_LoadTexture(p->render, "img/disappearence.png");
@@ -151,6 +169,7 @@ static void penguin_exitingUpdate(Penguin *p) {
 	}
 }
 
+/*Function updating penguin -> digging*/
 static void penguin_diggingUpdate(Penguin *p) {
 	if (p->previousState != DIGGING) {
 		p->texture = IMG_LoadTexture(p->render, "img/digger.png");
@@ -167,6 +186,7 @@ static void penguin_diggingUpdate(Penguin *p) {
 	p->position.y += 2;
 }
 
+/*Function updating penguin -> killing*/
 static void penguin_killingUpdate(Penguin *p) {
 	if (p->previousState != KILLING) {
 		p->texture = IMG_LoadTexture(p->render, "img/splash.png");
@@ -181,24 +201,25 @@ static void penguin_killingUpdate(Penguin *p) {
 		}
 	}
 }
-static void penguin_drowningUpdate(Penguin *p){
+
+/*Function updating penguin -> drowning*/
+static void penguin_drowningUpdate(Penguin *p) {
 	if (p->previousState != DROWNING) {
-			p->texture = IMG_LoadTexture(p->render, "img/drownfall.png");
-			p->sprite.x = SHIFT;
-			p->sprite.y = 0;
-			p->sprite.h = 32;
-			p->sprite.w = 32 - SHIFT * 2;
-		} else {
-			p->sprite.x += 32;
-			if (p->sprite.x >= 480) {
-				p->state = DEAD;
-			}
+		p->texture = IMG_LoadTexture(p->render, "img/drownfall.png");
+		p->sprite.x = SHIFT;
+		p->sprite.y = 0;
+		p->sprite.h = 32;
+		p->sprite.w = 32 - SHIFT * 2;
+	} else {
+		p->sprite.x += 32;
+		if (p->sprite.x >= 480) {
+			p->state = DEAD;
 		}
+	}
 }
 
 /*Function actualizing position and penguin sprite*/
 void penguin_computePosition(Penguin* penguin) {
-	//TODO: passer en switch
 	switch (penguin->state) {
 	case BOMBING:
 		penguin_bombingUpdate(penguin);
@@ -231,7 +252,7 @@ void penguin_computePosition(Penguin* penguin) {
 		penguin->sprite.h = 0;
 	else if (penguin->state == KILLING)
 		penguin_killingUpdate(penguin);
-	else if(penguin->state==DROWNING)
+	else if (penguin->state == DROWNING)
 		penguin_drowningUpdate(penguin);
 	penguin->previousState = penguin->state;
 }

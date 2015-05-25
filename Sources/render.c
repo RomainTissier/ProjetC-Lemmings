@@ -1,3 +1,13 @@
+/**
+ * render.c :
+ *		Refresh the board and manage clicks on the board
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #include "render.h"
 
 /*Function executing the render loop*/

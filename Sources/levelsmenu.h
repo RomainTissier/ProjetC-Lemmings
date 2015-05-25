@@ -1,3 +1,13 @@
+/**
+ * levelsmenu.h :
+ *		Creation and management of levels menu
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #ifndef LEVELSMENU_H
 #define LEVELSMENU_H
 
@@ -7,16 +17,21 @@
 #include "collisiondetection.h"
 
 #define NBLEVELS 6
-//TODO:  à commenter !
-typedef struct{
+
+/*Levels menu structure*/
+typedef struct {
 	SDL_Texture *background;
 	Button **levelsButtons;
-}LevelsMenu;
+	Button *returnButton;
+} LevelsMenu;
 
+/*Function creating the levels menu*/
 LevelsMenu *levelsmenu_create(SDL_Renderer *render);
 
+/*Function managing the buttons pressing*/
 int levelsmenu_execute(LevelsMenu *menu);
 
+/*Function freeing the levels menu*/
 void levelsmenu_destroy(LevelsMenu *menu);
 
 #endif

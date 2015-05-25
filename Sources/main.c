@@ -1,5 +1,13 @@
-//TODO: faire attention colision bombe entree
-//TODO: Ajouter nombre de pinguin dnas le bordel
+/**
+ * main.c :
+ *		Management of the game
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -39,28 +47,31 @@ int main() {
 						int level = levelsmenu_execute(levelsmenu);
 						levelsmenu_destroy(levelsmenu);
 						if (level != -1 && level != QUIT) {
-							int choice=-1;
+							int choice = -1;
 							char levelstr[15] = "";
-							do{
-								if(choice!=RETRY){
-									strcpy(levelstr,"levels/level-");
-									if(choice==CONTINUE)
+							do {
+								if (choice != RETRY) {
+									strcpy(levelstr, "levels/level-");
+									if (choice == CONTINUE)
 										level++;
 									levelstr[13] = level + '0';
 									levelstr[14] = '\0';
 								}
-							/*Start the game loop*/
-							Board *board = board_create(render, levelstr);
-							SDL_RenderClear(render);
-							renderLoop(board);
-							EndMenu *endmenu;
-							EndType endType=(board->nbSavedPenguins>=board->goal)?WIN:LOOSE;
-							SDL_RenderClear(render);
-							board_destroy(board);
-							endmenu=endmenu_create(render, endType);
-							choice=endmenu_execute(endmenu);
-							endmenu_destroy(endmenu);
-							}while(choice!=-1 && choice!=QUIT);
+								/*Start the game loop*/
+								Board *board = board_create(render, levelstr);
+								SDL_RenderClear(render);
+								renderLoop(board);
+								EndMenu *endmenu;
+								EndType endType =
+										(board->nbSavedPenguins >= board->goal) ?
+												WIN : LOOSE;
+								SDL_RenderClear(render);
+								board_destroy(board);
+								endmenu = endmenu_create(render, endType);
+								choice = endmenu_execute(endmenu);
+								endmenu_destroy(endmenu);
+							} while (choice != -1 && choice != QUIT
+									&& level < NBLEVELS);
 						} else
 							boolLevel = 0;
 					} while (boolLevel);

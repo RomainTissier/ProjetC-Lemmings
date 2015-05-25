@@ -1,3 +1,13 @@
+/**
+ * penguin.h :
+ *		Creation of a penguin and management of his state
+ * Authors :
+ * 		Delpech Marc
+ * 		Levy Yoni
+ * 		Rousselle Matthieu
+ * 		Tissier Romain
+ */
+
 #ifndef PENGUIN_H
 #define PENGUIN_H
 
@@ -7,7 +17,7 @@
 
 #define SHIFT 5
 
-/*Penguin's state structure*/
+/*Penguin states enumeration*/
 typedef enum {
 	INIT,
 	WALKING,
@@ -25,7 +35,7 @@ typedef enum {
 	DROWNING
 } PenguinState;
 
-/*Structure specifying a penguin*/
+/*Penguin structure*/
 typedef struct pinguin {
 	SDL_Renderer *render;
 	SDL_Texture *texture;
