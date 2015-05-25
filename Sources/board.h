@@ -1,29 +1,28 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <SDL2/SDL.h>
-#include "pinguin.h"
 #include "graphiccomponent.h"
 #include "button.h"
+#include "penguin.h"
 
 /*Game board structure*/
 typedef struct board{
 	SDL_Renderer *render;
 	SDL_Texture *background;
-	Pinguin **pinguins;
+	Penguin **pinguins;
 	int nbPinguins;
-	int nbPinguinsAlive;
 	//TODO : tout repasser en un seul tableau
 	GraphicComponent **graphics;
-	GraphicComponent **green;
-	GraphicComponent **orange;
-	int nbGreen;
-	int nbOrange;
+	GraphicComponent **diggedBlocks;
+	GraphicComponent **bashedBlocks;
+	int nbDiggedBlocks;
+	int nbBashedBlocks;
+	int nbSavedPenguins;
 	Button **panel;
 	int nbGraphics;
-	unsigned char speed;
 	unsigned char pause;
 	int moment;
-	char idS;
+	char lastSelection;
 }Board;
 
 void board_createPanel(Board *board);

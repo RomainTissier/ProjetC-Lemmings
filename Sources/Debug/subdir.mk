@@ -7,44 +7,48 @@ C_SRCS += \
 ../board.c \
 ../button.c \
 ../collisiondetection.c \
+../endmenu.c \
 ../graphiccomponent.c \
 ../levelsmenu.c \
 ../main.c \
 ../mainmenu.c \
-../pinguin.c \
+../penguin.c \
 ../render.c 
 
 O_SRCS += \
 ../board.o \
 ../button.o \
 ../collisiondetection.o \
+../endmenu.o \
 ../graphiccomponent.o \
 ../levelsmenu.o \
 ../main.o \
 ../mainmenu.o \
-../pinguin.o \
+../penguin.o \
 ../render.o 
 
 OBJS += \
 ./board.o \
 ./button.o \
 ./collisiondetection.o \
+./endmenu.o \
 ./graphiccomponent.o \
 ./levelsmenu.o \
 ./main.o \
 ./mainmenu.o \
-./pinguin.o \
+./penguin.o \
 ./render.o 
 
 C_DEPS += \
 ./board.d \
 ./button.d \
 ./collisiondetection.d \
+./endmenu.d \
 ./graphiccomponent.d \
 ./levelsmenu.d \
 ./main.d \
 ./mainmenu.d \
-./pinguin.d \
+./penguin.d \
 ./render.d 
 
 

@@ -1,5 +1,8 @@
 #include "graphiccomponent.h"
 
+//TODO: rename propre des images
+//TODO: enlever les couleurs de fond des testeurs
+
 /* Function creating a graphic component */
 GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x, int y, int w, int h){
 	GraphicComponent *newComp= malloc(sizeof(GraphicComponent));
@@ -18,7 +21,7 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 		case FLOOR:
 			newComp->destructible=1;
 			newComp->collision=1;
-			newComp->texture=IMG_LoadTexture(render,"img/piece2.png");
+			newComp->texture=IMG_LoadTexture(render,"img/floor.png");
 			break;
 		case WALL:
 			newComp->destructible=1;
@@ -35,6 +38,7 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render, "img/piece9.png");
 			break;
+		//TODO: le repasser dans penguins
 		case STOPP:
 			newComp->destructible=1;
 			newComp->collision=1;
@@ -46,10 +50,10 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->texture=IMG_LoadTexture(render, "img/water.png");
 			break;
 		case BRIDGEPART:
-					newComp->destructible=0;
-					newComp->collision=1;
-					newComp->texture=IMG_LoadTexture(render, "img/bridgepart.png");
-					break;
+				newComp->destructible=1;
+				newComp->collision=1;
+				newComp->texture=IMG_LoadTexture(render, "img/bridgepart.png");
+				break;
 		case DECO:
 			newComp->destructible=0;
 			newComp->collision=0;
@@ -65,12 +69,13 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x
 			newComp->collision=0;
 			newComp->texture=IMG_LoadTexture(render, "img/exit.png");
 			break;
-		case TRANS:
+			//TODO:assembler ses deux derniers blocks
+		case DIGGEDBLOCK:
 			newComp->destructible=0;
 			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render, "img/select.png");
 			break;
-		case ORANGE:
+		case BASHEDBLOCK:
 			newComp->destructible=0;
 			newComp->collision=1;
 			newComp->texture=IMG_LoadTexture(render, "img/selectorange.png");

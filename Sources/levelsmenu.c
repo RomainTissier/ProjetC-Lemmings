@@ -1,7 +1,7 @@
 #include "levelsmenu.h"
-
+//TODO: A commenter !
 LevelsMenu *levelsmenu_create(SDL_Renderer *render) {
-	LevelsMenu *menu = malloc(sizeof(LevelsMenu));
+	LevelsMenu *menu =malloc(sizeof(LevelsMenu));
 	menu->background=IMG_LoadTexture(render,"img/background_levels.jpg");
 	menu->levelsButtons=malloc(sizeof(Button*)*NBLEVELS);
 	menu->levelsButtons[0]=button_create(render, LEVEL1,170, 270, 60, 68);
@@ -31,7 +31,6 @@ int levelsmenu_execute(LevelsMenu *menu) {
 			for(i=0;i<NBLEVELS;i++ ){
 				if(collisionDetectionCursorRect(x, y, menu->levelsButtons[i]->position)==POINT)
 					return menu->levelsButtons[i]->type-LEVEL1+1;
-
 			}
 			break;
 		}
@@ -40,10 +39,11 @@ int levelsmenu_execute(LevelsMenu *menu) {
 }
 
 void levelsmenu_destroy(LevelsMenu *m) {
-	free(m);
-/*	button_destroy(m->startButton);
-	button_destroy(m->quitButton);
 	SDL_DestroyTexture(m->background);
-	free(m);*/
+	int i;
+	for(i=0;i<NBLEVELS;i++)
+		button_destroy(m->levelsButtons[i]);
+	free(m->levelsButtons);
+	free(m);
 }
 
