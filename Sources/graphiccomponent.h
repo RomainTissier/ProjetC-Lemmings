@@ -19,21 +19,20 @@ typedef enum{
 	BASHEDBLOCK,
 	STOPP,
 	BRIDGEPART
-}Type;
+}GraphicType;
 
 /* Graphic component structure */
 typedef struct{
 	SDL_Renderer *render;
 	SDL_Rect position;
 	SDL_Texture *texture;
-	int destructible;
-	Type type;
+	GraphicType type;
 	unsigned char collision;
 	int drown;
 }GraphicComponent;
 
 /* Function creating a graphic component */
-GraphicComponent* graphicComponent_create(SDL_Renderer* render, Type type, int x, int y, int w, int h);
+GraphicComponent* graphicComponent_create(SDL_Renderer* render, GraphicType type, int x, int y, int w, int h);
 
 /*Function freeing memory*/
 void graphicComponent_destroy(GraphicComponent *comp);
