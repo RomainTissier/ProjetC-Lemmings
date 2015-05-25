@@ -65,7 +65,6 @@ GraphicComponent* graphicComponent_create(SDL_Renderer* render, GraphicType type
 			newComp->drown=0;
 			newComp->texture=IMG_LoadTexture(render, "img/exit.png");
 			break;
-			//TODO:assembler ses deux derniers blocks
 		case DIGGEDBLOCK:
 			newComp->collision=1;
 			newComp->drown=0;

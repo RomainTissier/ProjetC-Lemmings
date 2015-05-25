@@ -1,6 +1,6 @@
 #include "mainmenu.h"
-//TODO: commenter
 
+/*Function creating the main menu*/
 MainMenu *mainmenu_create(SDL_Renderer *render) {
 	MainMenu *menu = malloc(sizeof(MainMenu));
 	menu->background = IMG_LoadTexture(render, "img/background_menu.jpg");
@@ -16,6 +16,7 @@ MainMenu *mainmenu_create(SDL_Renderer *render) {
 	return menu;
 }
 
+/*Function managing the buttons pressing*/
 ButtonType mainmenu_execute(MainMenu *menu) {
 	SDL_Event event;
 	int x, y;
@@ -38,6 +39,7 @@ ButtonType mainmenu_execute(MainMenu *menu) {
 	return QUIT;
 }
 
+/*Function freeing the main menu*/
 void mainmenu_destroy(MainMenu *m) {
 	button_destroy(m->startButton);
 	button_destroy(m->quitButton);

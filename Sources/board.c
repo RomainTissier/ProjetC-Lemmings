@@ -1,14 +1,15 @@
 #include "board.h"
 #include "collisiondetection.h"
 #include "render.h"
-//TODO: à optimiser
-//TODO: DIGGER petite surface précond
+
 #define NBBTN 9
 #define ECART 40
+//TODO: DIGGER petite surface précond
 //TODO: précond nombre de pinguin à sauver
 //TODO: précond on ne peut pas changer d'action une fois qu'une action est engagée !=> sauf si elle se termine
 //TODO: Précond :prendre en compte la sortie de orange ou vert pour stop falling et changement de sens
 //TODO: récupérer fait par de yoni
+//TODO: Enlever les images deguelasses
 
 static void loadLevelFile(Board *board, char level[]) {
 	/*Loading graphic component from a configuration file*/

@@ -1,5 +1,6 @@
 #include "levelsmenu.h"
-//TODO: A commenter !
+
+/*Function creating the levels menu*/
 LevelsMenu *levelsmenu_create(SDL_Renderer *render) {
 	LevelsMenu *menu =malloc(sizeof(LevelsMenu));
 	menu->background=IMG_LoadTexture(render,"img/background_levels.jpg");
@@ -18,6 +19,7 @@ LevelsMenu *levelsmenu_create(SDL_Renderer *render) {
 	return menu;
 }
 
+/*Function managing the buttons pressing*/
 int levelsmenu_execute(LevelsMenu *menu) {
 	SDL_Event event;
 	int x, y,i;
@@ -38,6 +40,7 @@ int levelsmenu_execute(LevelsMenu *menu) {
 	return -1;
 }
 
+/*Function freeing the levels menu*/
 void levelsmenu_destroy(LevelsMenu *m) {
 	SDL_DestroyTexture(m->background);
 	int i;

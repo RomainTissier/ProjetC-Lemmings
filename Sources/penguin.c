@@ -200,7 +200,6 @@ static void penguin_drowningUpdate(Penguin *p){
 
 /*Function actualizing position and penguin sprite*/
 void penguin_computePosition(Penguin* penguin) {
-	//TODO: passer en switch
 	switch (penguin->state) {
 	case BOMBING:
 		penguin_bombingUpdate(penguin);

@@ -1,5 +1,6 @@
 #include "endmenu.h"
-//TODO: A commenter
+
+/*Function creating the end menu*/
 EndMenu *endmenu_create(SDL_Renderer *render, EndType type) {
 	EndMenu *menu = malloc(sizeof(EndMenu));
 	if(type==WIN){
@@ -17,6 +18,7 @@ EndMenu *endmenu_create(SDL_Renderer *render, EndType type) {
 	return menu;
 }
 
+/*Function managing the buttons pressing*/
 ButtonType endmenu_execute(EndMenu *menu) {
 	SDL_Event event;
 	int x, y;
@@ -37,6 +39,7 @@ ButtonType endmenu_execute(EndMenu *menu) {
 	return QUIT;
 }
 
+/*Function freeing the end menu*/
 void endmenu_destroy(EndMenu *m) {
 	SDL_DestroyTexture(m->background);
 	button_destroy(m->continueButton);

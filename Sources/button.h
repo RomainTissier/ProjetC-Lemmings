@@ -25,7 +25,6 @@ typedef enum {
 	LEVEL6
 } ButtonType;
 
-//TODO: bouton clické/non clické
 typedef struct {
 	SDL_Rect position;
 	SDL_Texture *background;
